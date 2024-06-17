@@ -1,6 +1,7 @@
 import { Roboto } from "next/font/google";
 import "../styles/globals.css";
 import Navbar from "@/components/navbar";
+import FooterPage from "@/components/footer";
 
 const inter = Roboto({
   subsets: ["latin"],
@@ -20,7 +21,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
-        <div className="min-h-screen">{children}</div>
+        <div className="bg-[#f8f8f8]">{children}</div>
+        <FooterPage />
       </body>
     </html>
   );
