@@ -12,6 +12,7 @@ import {
 } from "react-icons/hi2";
 import clsx from "clsx";
 import { useState } from "react";
+import Link from "next/link";
 export default function Home() {
   const [more, setMore] = useState(false);
   const handleChangeMore = () => {
@@ -75,43 +76,51 @@ export default function Home() {
             -- DANH SÁCH SẢN PHẨM --
           </h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <IoMdMailOpen className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">Email</h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Gmail, yahoo mail, hot mail... và nhiều hơn thế nữa
-                </p>
-              </div>
-            </li>
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <HiMiniServerStack className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">Phần mềm</h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Các phần mềm chuyên dụng cho kiếm tiền online từ những coder
-                  uy tín
-                </p>
-              </div>
-            </li>
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <FaCircleUser className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">Tài khoản</h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Fb, BM, key window, kaspersky....
-                </p>
-              </div>
-            </li>
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <FaWindowRestore className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">Khác</h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Các sản phẩm số khác
-                </p>
-              </div>
-            </li>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <IoMdMailOpen className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">Email</h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Gmail, yahoo mail, hot mail... và nhiều hơn thế nữa
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <HiMiniServerStack className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">Phần mềm</h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Các phần mềm chuyên dụng cho kiếm tiền online từ những coder
+                    uy tín
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <FaCircleUser className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">Tài khoản</h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Fb, BM, key window, kaspersky....
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <FaWindowRestore className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">Khác</h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Các sản phẩm số khác
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
           </ul>
         </div>
         <div className="space-y-4 px-4 md:px-0">
@@ -123,50 +132,60 @@ export default function Home() {
               "transition-max-height grid grid-cols-1 gap-4 overflow-hidden duration-300 ease-in-out md:grid-cols-2 lg:gap-6 xl:grid-cols-4",
             )}
           >
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <HiMiniChartBarSquare className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">
-                  Tăng tương tác
-                </h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Tăng like, view.share, comment... cho sản phẩm của bạn
-                </p>
-              </div>
-            </li>
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <HiMiniServerStack className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">
-                  Dịch vụ phần mềm
-                </h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Dịch vụ code tool MMO, đồ họa, video... và các dịch vụ liên
-                  quan
-                </p>
-              </div>
-            </li>
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <HiMiniSquare3Stack3D className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">Blockchain</h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Dịch vụ tiền ảo, NFT, coinlist... và các dịch vụ blockchain
-                  khác
-                </p>
-              </div>
-            </li>
-            <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
-              <div className="flex flex-col items-center justify-center">
-                <HiMiniRocketLaunch className="h-20 w-20 font-medium" />
-                <h2 className="text-center text-xl font-medium">
-                  Dịch vụ khác
-                </h2>
-                <p className="text-md px-10 text-center font-medium text-gray-500">
-                  Các dịch vụ MMO phổ biến khác hiện nay
-                </p>
-              </div>
-            </li>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <HiMiniChartBarSquare className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">
+                    Tăng tương tác
+                  </h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Tăng like, view.share, comment... cho sản phẩm của bạn
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <HiMiniServerStack className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">
+                    Dịch vụ phần mềm
+                  </h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Dịch vụ code tool MMO, đồ họa, video... và các dịch vụ liên
+                    quan
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <HiMiniSquare3Stack3D className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">
+                    Blockchain
+                  </h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Dịch vụ tiền ảo, NFT, coinlist... và các dịch vụ blockchain
+                    khác
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
+            <Link href="/danh-muc">
+              <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
+                <div className="flex flex-col items-center justify-center">
+                  <HiMiniRocketLaunch className="h-20 w-20 font-medium" />
+                  <h2 className="text-center text-xl font-medium">
+                    Dịch vụ khác
+                  </h2>
+                  <p className="text-md px-10 text-center font-medium text-gray-500">
+                    Các dịch vụ MMO phổ biến khác hiện nay
+                  </p>
+                </div>
+              </li>{" "}
+            </Link>
           </ul>
         </div>
         <div className="relative space-y-3 rounded-md border border-blue-600 bg-background p-2 shadow-md transition-all">
