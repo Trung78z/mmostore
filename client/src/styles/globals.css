@@ -94,6 +94,9 @@ body::-webkit-scrollbar-track {
   ul {
     @apply mb-4 list-disc;
   }
+  .card {
+    @apply rounded-lg border bg-background p-4;
+  }
 }
 .transition-max-height {
   transition: max-height 0.3s ease-in-out;

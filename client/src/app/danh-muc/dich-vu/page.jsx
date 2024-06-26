@@ -26,7 +26,7 @@ const CardDanhMuc = () => {
           </div>
         </div>
         <div className="flex flex-col gap-1">
-          <div className="">
+          <div className="flex">
             <Button className="inline-flex items-center rounded-md bg-primary px-1 text-background hover:bg-primary/80">
               Sản phẩm
             </Button>

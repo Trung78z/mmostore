@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import {
   Disclosure,
@@ -14,16 +13,29 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import Link from "next/link";
 
-import Image from "next/image";
 import HeaderBar from "./header";
 import { usePathname } from "next/navigation";
+import Logo from "./Logo";
+import { convertToSlug } from "@/lib/utils";
 const navigation = [
   { name: "Trang chủ", href: "/" },
-  { name: "Sản phẩm", href: "/danh-muc" },
-  { name: "Dịch vụ", href: "/dich-vu" },
+  { name: "Sản phẩm", href: "/danh-muc/san-pham" },
+  { name: "Dịch vụ", href: "/danh-muc/dich-vu" },
   { name: "Liên hệ", href: "/lien-he" },
+  { name: "Chia sẻ", href: "/chia-se" },
+  { name: "FAQs", href: "/faqs" },
+  { name: "Nạp tiền", href: "/nap-tien" },
 ];
-
+const user = [
+  { name: "Trang cá nhân" },
+  { name: "Đơn hàng đã mua" },
+  { name: "Gian hàng yêu thích" },
+  { name: "Lịch sử thanh toán" },
+  { name: "Quản lí nội dung" },
+  { name: "Đổi mật khẩu" },
+  { name: "Quản lí cửa hàng" },
+  { name: "Đăng xuất" },
+];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -58,19 +70,14 @@ export default function Navbar() {
                   </div>
                   <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                     <Link href="/" className="flex flex-shrink-0 items-center">
-                      <div className="relative flex h-8 w-10 flex-shrink-0 items-center shadow-sm">
-                        <Image
-                          className=""
-                          src="./icons/zaloapp.svg"
-                          alt="Your Company"
-                          fill="true"
-                        />
+                      <div className="relative mr-2 flex h-10 w-10 flex-shrink-0 items-center rounded-full border-2 border-white">
+                        <Logo />
                       </div>
                       <span className="text-lg font-medium text-[#f8f8f8]">
                         Tạp hóa zalo
                       </span>
                     </Link>
-                    <div className="hidden sm:ml-6 sm:block">
+                    <div className="hidden items-center md:ml-6 md:flex">
                       <div className="flex space-x-4">
                         {navigation.map((item) => (
                           <Link
@@ -80,7 +87,7 @@ export default function Navbar() {
                               item.href === pathname
                                 ? "rounded-3xl bg-blue-800 text-white"
                                 : "rounded-3xl text-white hover:bg-primary hover:text-white",
-                              "rounded-md px-3 py-1 text-sm font-medium",
+                              "flex-shrink-0 rounded-md px-1 py-1 text-sm font-medium md:px-3",
                             )}
                             aria-current={item.href ? "page" : undefined}
                           >
@@ -91,13 +98,22 @@ export default function Navbar() {
                     </div>
                   </div>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <div className="mr-2 font-medium text-white">
+                      <h4>Số dư: {(2000).toLocaleString("vi-VN")}k</h4>
+                    </div>
                     <button
                       type="button"
-                      className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400"
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">View notifications</span>
-                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                      <BellIcon
+                        className="h-6 w-6 text-white"
+                        aria-hidden="true"
+                      />
+                      <span className="absolute left-0 top-0 flex min-h-5 min-w-5 translate-y-5 items-center justify-center rounded-full bg-white p-0 text-[12px] font-semibold text-red-500">
+                        3
+                      </span>
                     </button>
 
                     <Menu as="div" className="relative ml-3">
@@ -121,52 +137,33 @@ export default function Navbar() {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <MenuItem>
-                            {({ focus }) => (
-                              <Link
-                                href="#"
-                                className={classNames(
-                                  focus ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                Your Profile
-                              </Link>
-                            )}
-                          </MenuItem>
-                          <MenuItem>
-                            {({ focus }) => (
-                              <Link
-                                href="#"
-                                className={classNames(
-                                  focus ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                Settings
-                              </Link>
-                            )}
-                          </MenuItem>
-                          <MenuItem>
-                            {({ focus }) => (
-                              <Link
-                                href="#"
-                                className={classNames(
-                                  focus ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                Sign out
-                              </Link>
-                            )}
-                          </MenuItem>
+                          {user.map((item, index) => (
+                            <MenuItem key={index}>
+                              {({ focus }) => (
+                                <>
+                                  <Link
+                                    href={"/user/" + convertToSlug(item.name)}
+                                    className={classNames(
+                                      focus ? "bg-gray-100" : "",
+                                      "relative block px-4 py-2 text-sm text-gray-700",
+                                      (item.name === "Đăng xuất" ||
+                                        item.name === "Quản lí cửa hàng") &&
+                                        "border-t",
+                                    )}
+                                  >
+                                    <> {item.name}</>
+                                  </Link>
+                                </>
+                              )}
+                            </MenuItem>
+                          ))}
                         </MenuItems>
                       </Transition>
                     </Menu>
                   </div>
                 </div>
               </div>
-              <DisclosurePanel className="sm:hidden">
+              <DisclosurePanel className="md:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2">
                   {navigation.map((item) => (
                     <DisclosureButton
@@ -183,7 +180,6 @@ export default function Navbar() {
                         )}
                         aria-current={item.href ? "page" : undefined}
                       >
-                        {" "}
                         {item.name}
                       </Link>
                     </DisclosureButton>

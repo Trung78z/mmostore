@@ -9,7 +9,7 @@ export default function LienHe() {
       <div className="py-10">
         <div className="box mx-2 rounded-md bg-background p-2 shadow-lg md:mx-40 md:p-10">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <ul className="space-y-4">
+            <ul className="list-none space-y-4">
               <h2 className="pb-4 text-xl font-semibold text-blue-700">
                 Liên hệ hỗ trợ
               </h2>

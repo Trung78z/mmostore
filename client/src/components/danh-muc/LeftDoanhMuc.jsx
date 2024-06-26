@@ -98,7 +98,7 @@ export default function LeftDoanhMuc() {
         <h2 className="text-lg font-medium">Bộ lọc</h2>
         <ul className="list-none">
           <hr />
-          <h3 className="mb-2 text-[16px] font-medium">
+          <h3 className="mb-2 text-[16px] font-medium leading-tight">
             Chọn 1 hoặc nhiều sản phẩm
           </h3>
           <li>

@@ -76,7 +76,7 @@ export default function Home() {
             -- DANH SÁCH SẢN PHẨM --
           </h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <IoMdMailOpen className="h-20 w-20 font-medium" />
@@ -85,9 +85,9 @@ export default function Home() {
                     Gmail, yahoo mail, hot mail... và nhiều hơn thế nữa
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniServerStack className="h-20 w-20 font-medium" />
@@ -97,9 +97,9 @@ export default function Home() {
                     uy tín
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <FaCircleUser className="h-20 w-20 font-medium" />
@@ -108,9 +108,9 @@ export default function Home() {
                     Fb, BM, key window, kaspersky....
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <FaWindowRestore className="h-20 w-20 font-medium" />
@@ -119,7 +119,7 @@ export default function Home() {
                     Các sản phẩm số khác
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
           </ul>
         </div>
@@ -132,7 +132,7 @@ export default function Home() {
               "transition-max-height grid grid-cols-1 gap-4 overflow-hidden duration-300 ease-in-out md:grid-cols-2 lg:gap-6 xl:grid-cols-4",
             )}
           >
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniChartBarSquare className="h-20 w-20 font-medium" />
@@ -143,9 +143,9 @@ export default function Home() {
                     Tăng like, view.share, comment... cho sản phẩm của bạn
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniServerStack className="h-20 w-20 font-medium" />
@@ -157,9 +157,9 @@ export default function Home() {
                     quan
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniSquare3Stack3D className="h-20 w-20 font-medium" />
@@ -171,9 +171,9 @@ export default function Home() {
                     khác
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
-            <Link href="/danh-muc">
+            <Link href="/danh-muc/dich-vu">
               <li className="flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniRocketLaunch className="h-20 w-20 font-medium" />
@@ -184,7 +184,7 @@ export default function Home() {
                     Các dịch vụ MMO phổ biến khác hiện nay
                   </p>
                 </div>
-              </li>{" "}
+              </li>
             </Link>
           </ul>
         </div>

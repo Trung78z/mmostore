@@ -1,4 +1,3 @@
-import React from "react";
 import { IoIosChatbubbles } from "react-icons/io";
 import { FaFacebook } from "react-icons/fa";
 import { IoMdMailOpen } from "react-icons/io";
@@ -7,12 +6,13 @@ import { Button } from "@headlessui/react";
 import Link from "next/link";
 import { IoLogoInstagram } from "react-icons/io";
 import Image from "next/image";
+import Logo from "./Logo";
 export default function FooterPage() {
   return (
     <>
       <div className="space-y-4 border-t px-2 pb-2 pt-10 lg:px-32">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-10 lg:grid-cols-3">
-          <ul className="space-y-2">
+          <ul className="list-none space-y-2">
             <h2 className="pb-2 text-lg font-semibold">Liên hệ</h2>
             <li className="text-md font-medium text-gray-600 hover:text-gray-800">
               Liên hệ ngay nếu bạn có khó khăn khi sử dụng dịch vụ hoặc cần hợp
@@ -35,7 +35,7 @@ export default function FooterPage() {
               <span>Mon-Sat 08:00am - 10:00pm</span>
             </li>
           </ul>
-          <ul className="space-y-2">
+          <ul className="list-none space-y-2">
             <h2 className="pb-2 text-lg font-semibold">Thông tin</h2>
             <li className="text-md font-medium text-gray-600 hover:text-gray-800">
               Một ứng dụng nhằm kết nối, trao đổi, mua bán trong cộng đồng kiếm
@@ -51,7 +51,7 @@ export default function FooterPage() {
               <span>Điều khoản sử dụng</span>
             </li>
           </ul>
-          <ul className="space-y-2">
+          <ul className="list-none space-y-2">
             <h2 className="pb-2 text-lg font-semibold">Đăng ký bán hàng</h2>
             <li className="text-md font-medium text-gray-600 hover:text-gray-800">
               Tạo một gian hàng của bạn trên trang của chúng tôi. Đội ngũ hỗ trợ
@@ -79,14 +79,9 @@ export default function FooterPage() {
               <Link
                 href="https://zalo.me"
                 target="_blank"
-                className="relative min-h-10 min-w-10 pl-2"
+                className="relative max-h-10 min-h-10 min-w-10 max-w-10 rounded-full pl-2"
               >
-                <Image
-                  src="./icons/zaloapp.svg"
-                  alt="Zalo link"
-                  fill="true"
-                  className="rounded-full"
-                />
+                <Logo />
               </Link>
             </li>
           </ul>
