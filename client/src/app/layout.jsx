@@ -2,7 +2,7 @@ import { Roboto } from "next/font/google";
 import "../styles/globals.css";
 import Navbar from "@/components/navbar";
 import FooterPage from "@/components/footer";
-
+import { ToastContainer } from "react-toastify";
 const inter = Roboto({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <div className="bg-[#f8f8f8]">{children}</div>
         <FooterPage />
+        <ToastContainer />
       </body>
     </html>
   );
