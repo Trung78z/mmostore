@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "react-toastify/dist/ReactToastify.css";
+
+
+
 
 body::-webkit-scrollbar {
   width: 10px;
@@ -61,7 +63,6 @@ body::-webkit-scrollbar-track {
   }
 }
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -98,7 +99,7 @@ body::-webkit-scrollbar-track {
   .card {
     @apply rounded-lg border bg-background p-4;
   }
-}
+
 .transition-max-height {
   transition: max-height 0.3s ease-in-out;
 }
