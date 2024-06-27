@@ -97,12 +97,12 @@ export default function TrangCaNhan() {
                   Telegram nếu có kết nối)
                 </p>
               </h6>
-            </li>{" "}
+            </li>
             <hr />
             <li className="flex flex-1 items-center justify-center gap-x-2">
               <Button className="rounded-lg bg-primary/90 px-4 py-2 text-white">
                 Chỉnh Sửa
-              </Button>{" "}
+              </Button>
               <Button className="rounded-lg bg-green-500 px-4 py-2 text-white">
                 Xem tất cả gian hàng
               </Button>

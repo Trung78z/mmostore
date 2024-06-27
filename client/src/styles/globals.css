@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "react-toastify/dist/ReactToastify.css";
+
 body::-webkit-scrollbar {
   width: 10px;
 }
@@ -108,4 +109,15 @@ body::-webkit-scrollbar-track {
 
 .max-h-full {
   max-height: 1000px; /* Điều chỉnh giá trị này cho phù hợp với nội dung của bạn */
+}
+.animate-text{
+  animation: text 0.3s infinite ;
+}
+@keyframes text {
+  0%{
+    color: aquamarine;
+  }
+  100%{
+    color: yellow;
+  }
 }

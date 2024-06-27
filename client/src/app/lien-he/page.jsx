@@ -77,7 +77,7 @@ export default function LienHe() {
                       className="min-h-8 rounded-md border pl-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
                     />
                   </div>
-                </li>{" "}
+                </li>
                 <li className="text-md flex items-center gap-x-2 font-medium">
                   <div className="flex flex-1 flex-col">
                     <label htmlFor="description" className="cursor-pointer">

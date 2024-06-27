@@ -15,8 +15,8 @@ export default function DoiMatKhau() {
     toast("Update thành công!");
   }
   return (
-    <div>
-      <h3>DoiMatKhau</h3>
+    <div className="relative max-w-full px-2">
+      <h3>Đổi mật khẩu</h3>
       <Fieldset className="mt-10 space-y-8">
         <Field>
           <Label className="block">
@@ -27,22 +27,22 @@ export default function DoiMatKhau() {
             placeholder="Nhập mật khẩu cũ..."
           ></Input>
         </Field>
-        <Field className="flex items-center gap-x-2">
-          <div className="flex-1">
-            <Label className="block">
+        <Field className="relative grid grid-cols-2 gap-x-2">
+          <div className="md:flex-1">
+            <Label>
               Mật khẩu mới<span className="text-red-500">*</span>
             </Label>
             <Input
-              className="min-h-10 min-w-full flex-1 rounded-lg border px-2"
+              className="min-h-10 min-w-full rounded-lg border px-2"
               placeholder="Nhập mật khẩu mới..."
             ></Input>
-          </div>{" "}
-          <div className="flex-1">
-            <Label className="block">
+          </div>
+          <div className="md:flex-1">
+            <Label>
               Mật khẩu mới<span className="text-red-500">*</span>
             </Label>
             <Input
-              className="min-h-10 min-w-full flex-1 rounded-lg border px-2"
+              className="min-h-10 min-w-[90%] rounded-lg border px-2"
               placeholder="Nhập lại mật khẩu mới..."
             ></Input>
           </div>

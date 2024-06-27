@@ -25,7 +25,7 @@ export default function CardPost(props) {
 
     // Find all <a> tags and replace them with <span> tags
     const links = tempElement.getElementsByTagName("a");
-    console.log(links);
+
     for (let i = links.length - 1; i >= 0; i--) {
       const link = links[i];
       const span = document.createElement("span");
@@ -44,7 +44,7 @@ export default function CardPost(props) {
           href={`/chia-se/` + convertToSlug(product.name)}
           className="group"
         >
-          <div className="aspect-h-1 aspect-w-1 xl:aspect-h-5 xl:aspect-w-7 relative w-full overflow-hidden rounded-lg bg-gray-200">
+          <div className="aspect-h-1 aspect-w-1 relative w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-5 xl:aspect-w-7">
             <Image
               src={product.imageSrc}
               alt={product.imageAlt}

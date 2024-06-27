@@ -21,13 +21,13 @@ export default function QuanLiNoiDung() {
           <div className="absolute right-2 top-0 translate-y-1/2">
             <IoSearch className="h-6 w-6 text-gray-400" />
           </div>
-        </div>{" "}
+        </div>
         <Select className="block rounded-sm border p-2" name="country">
           <option>Tất cả</option>
           <option>Hoạt động</option>
           <option>Khóa</option>
           <option>Chờ duyệt</option>
-        </Select>{" "}
+        </Select>
         <Button
           className="rounded-md bg-green-500 px-4 py-2 text-white hover:border-primary/80"
           onClick={handleDirectTaoBai}

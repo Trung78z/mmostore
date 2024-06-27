@@ -21,7 +21,7 @@ export default function SidebarPost(props) {
         <Link href="/quan-li-bai-viet" className="">
           <h4>Quản lí bài viết</h4>
         </Link>
-      </div>{" "}
+      </div>
       <div className="min-w-full rounded-lg bg-background p-4">
         <h5>Thể loại</h5>
         <ul className="mt-2 list-none">

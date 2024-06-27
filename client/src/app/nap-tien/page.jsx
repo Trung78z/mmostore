@@ -30,10 +30,10 @@ export default function NapTienUser() {
                 </div>
                 <ul>
                   <li>
-                    STK: <span className="font-semibold"> 08642421421421</span>{" "}
+                    STK: <span className="font-semibold"> 08642421421421</span>
                   </li>
                   <li>
-                    Người nhận:{" "}
+                    Người nhận:
                     <span className="font-semibold">Nguyen Van A</span>
                   </li>
                   <li>
