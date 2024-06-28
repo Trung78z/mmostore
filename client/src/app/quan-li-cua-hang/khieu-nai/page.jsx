@@ -35,7 +35,7 @@ export default function DonHangSanPham() {
               nại trên và chủ động chuyển sang trạng thái 2 bên tranh chấp.
             </li>
             <li className="text-sm font-normal text-green-500">
-              Khi đơn hàng ở trạng thái "Khiếu nại", nếu trong vòng 72h, khách
+              Khi đơn hàng ở trạng thái {"Khiếu nại"}, nếu trong vòng 72h, khách
               không hủy khiếu nại, hoặc bạn không chủ động chuyển sang tranh
               chấp, thì đơn hàng sẽ tự động hoàn tiền.
             </li>

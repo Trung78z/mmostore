@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+
 import {
   Button,
   Field,
@@ -8,24 +8,11 @@ import {
   Label,
   Select,
 } from "@headlessui/react";
-import { PhotoIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+
 import "react-quill/dist/quill.snow.css";
-import ReactQuill from "react-quill";
 import Link from "next/link";
 
 export default function Themmoi() {
-  const [image, setImage] = useState();
-  const [imageUrl, setImageUrl] = useState("");
-  const [value, setValue] = useState("");
-  const [checked, setchecked] = useState(true);
-  const [checked1, setchecked1] = useState(true);
-  const [checked2, setchecked2] = useState();
-  const handleChangeImage = (e) => {
-    setImage(e.target.files[0]);
-    const url = URL.createObjectURL(e.target.files[0]);
-    setImageUrl(url);
-  };
   return (
     <div className="space-y-2 px-2 py-4">
       <div className="card p-2 md:p-10">

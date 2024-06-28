@@ -18,6 +18,10 @@ import HeaderBar from "./header";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { convertToSlug } from "@/lib/utils";
+import Image from "next/image";
+import { toast } from "react-toastify";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/hooks/AuthProvider";
 const navigation = [
   { name: "Trang chủ", href: "/" },
   { name: "Sản phẩm", href: "/danh-muc/san-pham" },
@@ -41,6 +45,14 @@ function classNames(...classes) {
 }
 export default function Navbar() {
   const pathname = usePathname();
+
+  const { authState, setAuthState } = useContext(AuthContext);
+  function handleLogout() {
+    toast("Bạn đã đăng xuất thành công!");
+    localStorage.setItem("status", "0");
+    setAuthState({ status: false });
+  }
+  console.log(authState);
   return (
     <>
       {!pathname.startsWith("/quan-li-cua-hang") && (
@@ -102,83 +114,98 @@ export default function Navbar() {
                           </div>
                         </div>
                       </div>
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                        <div className="mr-2 hidden font-medium text-white lg:flex">
-                          <h4>Số dư: {(2000).toLocaleString("vi-VN")}k</h4>
-                        </div>
-                        <button
-                          type="button"
-                          className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400"
-                        >
-                          <span className="absolute -inset-1.5" />
-                          <span className="sr-only">View notifications</span>
-                          <BellIcon
-                            className="h-6 w-6 text-white"
-                            aria-hidden="true"
-                          />
-                          <span className="absolute left-0 top-0 flex min-h-5 min-w-5 translate-y-5 items-center justify-center rounded-full bg-white p-0 text-[12px] font-semibold text-red-500">
-                            3
-                          </span>
-                        </button>
-
-                        <Menu as="div" className="relative ml-3">
-                          <div>
-                            <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                              <span className="absolute -inset-1.5" />
-                              <span className="sr-only">Open user menu</span>
-                              <img
-                                className="h-8 w-8 rounded-full"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt=""
-                              />
-                            </MenuButton>
+                      {authState.status ? (
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                          <div className="mr-2 hidden font-medium text-white lg:flex">
+                            <h4>Số dư: {(2000).toLocaleString("vi-VN")}k</h4>
                           </div>
-                          <Transition
-                            enter="transition ease-out duration-100"
-                            enterFrom="transform opacity-0 scale-95"
-                            enterTo="transform opacity-100 scale-100"
-                            leave="transition ease-in duration-75"
-                            leaveFrom="transform opacity-100 scale-100"
-                            leaveTo="transform opacity-0 scale-95"
+                          <button
+                            type="button"
+                            className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400"
                           >
-                            <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                              <div className="mr-2 block px-4 font-medium text-green-500 lg:hidden">
-                                <h5>
-                                  Số dư: {(2000).toLocaleString("vi-VN")}k
-                                </h5>
-                              </div>
-                              {user.map((item, index) => (
-                                <MenuItem key={index}>
-                                  {({ focus }) => (
-                                    <Link
-                                      href={
-                                        item.name === "Quản lí cửa hàng"
-                                          ? "/" +
-                                            convertToSlug(item.name) +
-                                            "/sales"
-                                          : "/user/" + convertToSlug(item.name)
-                                      }
-                                      className={classNames(
-                                        focus ? "bg-gray-100" : "",
-                                        "relative block px-4 py-2 text-sm text-gray-700",
-                                        (item.name === "Đăng xuất" ||
-                                          item.name === "Quản lí cửa hàng") &&
-                                          "border-t",
-                                      )}
-                                    >
-                                      <> {item.name}</>
-                                    </Link>
-                                  )}
-                                </MenuItem>
-                              ))}
-                              <hr />
-                              <Button className="w-full bg-blue-500 px-4 pb-1 pt-2 text-white">
-                                Đăng xuất
-                              </Button>
-                            </MenuItems>
-                          </Transition>
-                        </Menu>
-                      </div>
+                            <span className="absolute -inset-1.5" />
+                            <span className="sr-only">View notifications</span>
+                            <BellIcon
+                              className="h-6 w-6 text-white"
+                              aria-hidden="true"
+                            />
+                            <span className="absolute left-0 top-0 flex min-h-5 min-w-5 translate-y-5 items-center justify-center rounded-full bg-white p-0 text-[12px] font-semibold text-red-500">
+                              3
+                            </span>
+                          </button>
+
+                          <Menu as="div" className="relative ml-3">
+                            <div>
+                              <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <span className="absolute -inset-1.5" />
+                                <span className="sr-only">Open user menu</span>
+                                <Image
+                                  width={8}
+                                  height={8}
+                                  className="h-8 w-8 rounded-full"
+                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  alt=""
+                                />
+                              </MenuButton>
+                            </div>
+                            <Transition
+                              enter="transition ease-out duration-100"
+                              enterFrom="transform opacity-0 scale-95"
+                              enterTo="transform opacity-100 scale-100"
+                              leave="transition ease-in duration-75"
+                              leaveFrom="transform opacity-100 scale-100"
+                              leaveTo="transform opacity-0 scale-95"
+                            >
+                              <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <div className="mr-2 block px-4 font-medium text-green-500 lg:hidden">
+                                  <h5>
+                                    Số dư: {(2000).toLocaleString("vi-VN")}k
+                                  </h5>
+                                </div>
+                                {user.map((item, index) => (
+                                  <MenuItem key={index}>
+                                    {({ focus }) => (
+                                      <Link
+                                        href={
+                                          item.name === "Quản lí cửa hàng"
+                                            ? "/" +
+                                              convertToSlug(item.name) +
+                                              "/sales"
+                                            : "/user/" +
+                                              convertToSlug(item.name)
+                                        }
+                                        className={classNames(
+                                          focus ? "bg-gray-100" : "",
+                                          "relative block px-4 py-2 text-sm text-gray-700",
+                                          (item.name === "Đăng xuất" ||
+                                            item.name === "Quản lí cửa hàng") &&
+                                            "border-t",
+                                        )}
+                                      >
+                                        <> {item.name}</>
+                                      </Link>
+                                    )}
+                                  </MenuItem>
+                                ))}
+                                <hr />
+                                <Button
+                                  className="w-full bg-blue-500 px-4 pb-1 pt-2 text-white"
+                                  onClick={handleLogout}
+                                >
+                                  Đăng xuất
+                                </Button>
+                              </MenuItems>
+                            </Transition>
+                          </Menu>
+                        </div>
+                      ) : (
+                        <Link
+                          href="/dang-nhap"
+                          className="bg-primary/80 px-2 py-1 text-xl font-semibold text-white"
+                        >
+                          Đăng nhập
+                        </Link>
+                      )}
                     </div>
                   </div>
                   <DisclosurePanel className="md:hidden">

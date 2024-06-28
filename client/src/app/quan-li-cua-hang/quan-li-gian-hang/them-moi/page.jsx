@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
 import {
   Button,
   Field,
@@ -10,10 +11,9 @@ import {
 } from "@headlessui/react";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
-import "react-quill/dist/quill.snow.css";
-import ReactQuill from "react-quill";
-import Link from "next/link";
 
+import Link from "next/link";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function Themmoi() {
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState("");
@@ -130,8 +130,8 @@ export default function Themmoi() {
           </Field>
           <div className="space-y-2">
             <h4>
-              Đánh giá hoàn tiền(%) - "0":tắt | Khuyến khích khách hàng đánh giá
-              bằng cách hoàn lại một khoản tiền (từ 0.1% - tối đa 5%)
+              Đánh giá hoàn tiền(%) - {"0"}:tắt | Khuyến khích khách hàng đánh
+              giá bằng cách hoàn lại một khoản tiền (từ 0.1% - tối đa 5%)
             </h4>
             <Input className="min-w-full rounded-sm border px-2 py-1"></Input>
             <ul className="list-none space-y-4">
@@ -180,7 +180,6 @@ export default function Themmoi() {
                   value={value}
                   onChange={setValue}
                 />
-                ;
               </li>
             </ul>
           </div>

@@ -7,9 +7,13 @@ import { Button } from "@headlessui/react";
 import Link from "next/link";
 import { IoLogoInstagram } from "react-icons/io";
 import Logo from "./Logo";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 export default function FooterPage() {
   const pathname = usePathname();
+  const router = useRouter();
+  function handleDangKi() {
+    router.push("/dang-ki");
+  }
   return (
     <>
       {!pathname.startsWith("/quan-li-cua-hang") && (
@@ -61,7 +65,10 @@ export default function FooterPage() {
                 trợ sẽ liên lạc để giúp bạn tối ưu khả năng bán hàng.
               </li>
               <li>
-                <Button className="rounded bg-primary px-4 py-2 text-sm text-white data-[hover]:bg-primary/80 data-[hover]:data-[active]:bg-primary/90">
+                <Button
+                  className="rounded bg-primary px-4 py-2 text-sm text-white data-[hover]:bg-primary/80 data-[hover]:data-[active]:bg-primary/90"
+                  onClick={handleDangKi}
+                >
                   Tham gia
                 </Button>
               </li>

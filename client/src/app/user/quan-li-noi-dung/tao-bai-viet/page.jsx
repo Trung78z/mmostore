@@ -103,15 +103,15 @@ export default function TaoBaiViet() {
           <li className="text-green-500">
             <p>
               Lưu ý khi viết bài: Những nội dung được duyệt chỉ gói gọn trong
-              các chia sẻ về "nghề" MMO, kiến thức, kinh nghiệm, trải nghiệm về
-              mọi mảng trong cách kiếm tiền online! Các nội dung về chính trị,
-              tôn giáo, kích động... sẽ không được duyệt! Không đăng các bài
-              viết quảng cáo, tuyển ref, giới thiệu dự án, lùa gà... (không cần
-              biết dự án có lừa đảo hay không) Không đăng nội dung vi phạm quyền
-              sở hữu trí tuệ của người khác, bao gồm vi phạm nhãn hiệu hàng hóa
-              và bản quyền. Những bài viết chất lượng sẽ được lựa chọn để làm
-              điểm tuần và nhận thưởng từ sàn. Tiền donate sẽ được nhận sau 3
-              ngày.
+              các chia sẻ về {"nghề"} MMO, kiến thức, kinh nghiệm, trải nghiệm
+              về mọi mảng trong cách kiếm tiền online! Các nội dung về chính
+              trị, tôn giáo, kích động... sẽ không được duyệt! Không đăng các
+              bài viết quảng cáo, tuyển ref, giới thiệu dự án, lùa gà... (không
+              cần biết dự án có lừa đảo hay không) Không đăng nội dung vi phạm
+              quyền sở hữu trí tuệ của người khác, bao gồm vi phạm nhãn hiệu
+              hàng hóa và bản quyền. Những bài viết chất lượng sẽ được lựa chọn
+              để làm điểm tuần và nhận thưởng từ sàn. Tiền donate sẽ được nhận
+              sau 3 ngày.
             </p>
           </li>
           <li className="text-green-500">

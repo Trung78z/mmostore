@@ -3,13 +3,17 @@ import "../styles/globals.css";
 import Navbar from "@/components/navbar";
 import FooterPage from "@/components/footer";
 import { ToastContainer } from "react-toastify";
+import AuthProvider from "@/hooks/AuthProvider";
 const inter = Roboto({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
 });
 
 export const metadata = {
-  title: "Tạp hóa MMO",
+  title: {
+    template: "%s | Tạp hóa Zalo",
+    default: "Tạp hóa Zalo", // a default is required when creating a template
+  },
   description: "Tạp hóa MMO chuyên cung cấp các dịch vụ về thị trường web",
   icons: {
     icon: "/favicon.ico",
@@ -26,10 +30,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        <div className="bg-[#f8f8f8]">{children}</div>
-        <FooterPage />
-        <ToastContainer />
+        <AuthProvider>
+          <Navbar />
+          <div className="bg-[#f8f8f8]">{children}</div>
+          <FooterPage />
+          <ToastContainer />
+        </AuthProvider>
       </body>
     </html>
   );
