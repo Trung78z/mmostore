@@ -12,6 +12,7 @@
 **/*.dbmdl
 **/*.jfm
 **/charts
+**/.next
 **/docker-compose*
 **/compose*
 **/Dockerfile*

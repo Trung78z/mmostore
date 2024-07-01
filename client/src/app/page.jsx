@@ -11,13 +11,15 @@ import {
   HiMiniSquare3Stack3D,
 } from "react-icons/hi2";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+
 export default function Home() {
   const [more, setMore] = useState(false);
   const handleChangeMore = () => {
     setMore(!more);
   };
+
   return (
     <>
       <div className="mx-auto max-w-screen-xl space-y-4 p-2 md:p-10 lg:space-y-10 lg:p-20">
@@ -129,7 +131,7 @@ export default function Home() {
           </h2>
           <ul
             className={clsx(
-              "transition-max-height grid grid-cols-1 gap-4 overflow-hidden duration-300 ease-in-out md:grid-cols-2 lg:gap-6 xl:grid-cols-4"
+              "transition-max-height grid grid-cols-1 gap-4 overflow-hidden duration-300 ease-in-out md:grid-cols-2 lg:gap-6 xl:grid-cols-4",
             )}
           >
             <Link href="/danh-muc/dich-vu">
@@ -197,7 +199,7 @@ export default function Home() {
             <li
               className={clsx(
                 "text-center text-sm text-gray-600",
-                more ? "block" : "hidden"
+                more ? "block" : "hidden",
               )}
             >
               Một sản phẩm ra đời với mục đích thuận tiện và an toàn hơn trong
@@ -206,7 +208,7 @@ export default function Home() {
             <li
               className={clsx(
                 "text-sm text-gray-600",
-                more ? "block" : "hidden"
+                more ? "block" : "hidden",
               )}
             >
               Như các bạn đã biết, tình trạng lừ.a đảo trên mạng xã hội kéo dài
@@ -224,7 +226,7 @@ export default function Home() {
           <ul
             className={clsx(
               "list-inside list-disc space-y-2 px-4 text-start md:px-10",
-              more ? "block" : "hidden"
+              more ? "block" : "hidden",
             )}
           >
             <h2 className="text-center text-lg font-semibold">
@@ -256,7 +258,7 @@ export default function Home() {
           <ul
             className={clsx(
               "list-inside list-disc space-y-2 px-10 text-start md:px-20",
-              more ? "block" : "hidden"
+              more ? "block" : "hidden",
             )}
           >
             <h2 className="text-center text-lg font-semibold">

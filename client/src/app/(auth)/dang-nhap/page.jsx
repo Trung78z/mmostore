@@ -6,15 +6,59 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import axios from "@/configs/api";
+const schema = z.object({
+  email: z
+    .string()
+    .email({ message: "Email không đúng định dạng" })
+    .min(1, { message: "Vui lòng nhập email của bạn!" }),
+  password: z
+    .string()
+    .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
+    .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" })
+    .regex(/[a-z]/, {
+      message: "Vui lòng nhập ít nhất 1 chữ số viết thường!",
+    })
+    .regex(/[A-Z]/, {
+      message: "Vui lòng nhập ít nhất 1 chữ số viết hoa!",
+    })
+    .regex(/[0-9]/, { message: "Vui lòng nhập ít nhất 1 chữ số!" })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Vui lòng nhập ít nhất 1 kí tự đặc biệt!",
+    }),
+});
+
 export default function Example() {
   const { setAuthState } = useContext(AuthContext);
   const router = useRouter();
-  function handleLogin() {
-    setAuthState({ status: true });
-    localStorage.setItem("status", "1");
-    toast("Đăng nhập thành công!");
-    router.push("/");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(schema) });
+
+  async function handleLogin(data) {
+    try {
+      const user = await axios.post("/user/login", data, {
+        withCredentials: true,
+      });
+      console.log(user);
+      if (user.success === false) {
+        return toast(user.data.msg);
+      }
+      setAuthState({ status: true });
+      sessionStorage.setItem("token", user.data.msg);
+      toast("Đăng nhập thành công!", { autoClose: 700 });
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data.msg);
+    }
   }
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -35,7 +79,10 @@ export default function Example() {
           </h2>
         </div>
 
-        <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form
+          className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm"
+          onSubmit={handleSubmit(handleLogin)}
+        >
           <div className="space-y-6">
             <div>
               <label
@@ -49,10 +96,14 @@ export default function Example() {
                   id="email"
                   name="email"
                   type="email"
+                  {...register("email")}
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                />{" "}
+                {errors.email && (
+                  <p className="text-red-600">{errors.email.message}</p>
+                )}
               </div>
             </div>
 
@@ -78,17 +129,21 @@ export default function Example() {
                   id="password"
                   name="password"
                   type="password"
+                  {...register("password")}
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                />{" "}
+                {errors.password && (
+                  <p className="text-red-600">{errors.password.message}</p>
+                )}
               </div>
             </div>
 
             <div>
               <button
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={handleLogin}
+                type="submit"
               >
                 Đăng Nhập
               </button>
@@ -101,7 +156,7 @@ export default function Example() {
               Đăng kí
             </Link>
           </p>
-        </div>
+        </form>
       </div>
     </>
   );

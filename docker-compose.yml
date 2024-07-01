@@ -1,17 +1,12 @@
 version: '3.4'
 
 services:
-  client:
-    image: client
+  next:
+    image: next
     build:
-      context: .
+      context: next
       dockerfile: ./Dockerfile
-    volumes:
-      - ./:/app
-      - /app/node_modules
     environment:
       NODE_ENV: production
     ports:
       - 3000:3000
-    # env_file:
-    #   - ./.env

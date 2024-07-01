@@ -65,7 +65,7 @@ export default function TrangCaNhan() {
               <h6 className="text-center">Mua bằng API </h6>
               <h6 className="flex gap-x-2 text-center">
                 <span className="text-green-500"> Đang bật</span>
-                <Input type="radio" checked></Input>
+                <Input type="radio" defaultChecked={true}></Input>
               </h6>
             </li>
             <hr />
@@ -74,7 +74,7 @@ export default function TrangCaNhan() {
               <div className="flex flex-col items-end">
                 <h6 className="flex items-center justify-end gap-x-2">
                   <span className="text-green-500"> Đang bật</span>
-                  <Input type="radio" checked></Input>
+                  <Input type="radio" defaultChecked={true}></Input>
                 </h6>
                 <p className="text-center font-medium text-green-500">
                   (Hãy bảo mật tài khoản bằng mật khẩu 2 lớp!)

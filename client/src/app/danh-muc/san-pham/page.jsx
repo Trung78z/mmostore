@@ -8,6 +8,53 @@ import { FaRegStarHalfStroke } from "react-icons/fa6";
 import LeftDoanhMuc from "@/components/danh-muc/LeftDoanhMuc";
 import Link from "next/link";
 import { convertToSlug } from "@/lib/utils";
+
+export default function LienHe() {
+  return (
+    <div className="grid max-w-screen-2xl grid-cols-1 py-4 lg:grid-cols-7">
+      <div className="col-span-1 hidden lg:block">
+        <LeftDoanhMuc />
+      </div>
+      <div className="col-span-1 lg:col-span-6">
+        <div className="space-y-6 px-2 md:px-4 lg:px-10">
+          <div className="flex items-center gap-x-4">
+            <h3>Gian hàng email</h3>
+            <p>Tổng 300 gian hàng</p>
+          </div>
+          <div className="flex w-full flex-wrap rounded-md border border-primary p-2">
+            <h5>
+              Đối với gian hàng không trùng, chúng tôi cam kết sản phẩm được bán
+              ra 1 lần duy nhất trên hệ thống, tránh trường hợp sản phẩm đó được
+              bán nhiều lần.
+            </h5>
+          </div>
+          <Tabs defaultValue="pho-bien" className="w-full">
+            <TabsList>
+              <TabsTrigger value="pho-bien">Phổ biến</TabsTrigger>
+              <TabsTrigger value="priceT">Giá tăng dần</TabsTrigger>
+              <TabsTrigger value="priceL">Giá giảm dần</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="pho-bien" className="w-full space-y-2">
+              <div className="grid w-full grid-cols-1">
+                <CardDanhMuc />
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {Array.from({ length: 16 }).map((_, index) => (
+                  <div key={index}>
+                    <CardDanhMucS />
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+            <TabsContent value="priceT">Change your password here.</TabsContent>
+            <TabsContent value="priceL">Change your password here.</TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </div>
+  );
+}
 const CardDanhMuc = () => {
   return (
     <>
@@ -158,49 +205,3 @@ const CardDanhMucS = () => {
     </>
   );
 };
-export default function LienHe() {
-  return (
-    <div className="grid max-w-screen-2xl grid-cols-1 py-4 lg:grid-cols-7">
-      <div className="col-span-1 hidden lg:block">
-        <LeftDoanhMuc />
-      </div>
-      <div className="col-span-1 lg:col-span-6">
-        <div className="space-y-6 px-2 md:px-4 lg:px-10">
-          <div className="flex items-center gap-x-4">
-            <h3>Gian hàng email</h3>
-            <p>Tổng 300 gian hàng</p>
-          </div>
-          <div className="flex w-full flex-wrap rounded-md border border-primary p-2">
-            <h5>
-              Đối với gian hàng không trùng, chúng tôi cam kết sản phẩm được bán
-              ra 1 lần duy nhất trên hệ thống, tránh trường hợp sản phẩm đó được
-              bán nhiều lần.
-            </h5>
-          </div>
-          <Tabs defaultValue="pho-bien" className="w-full">
-            <TabsList>
-              <TabsTrigger value="pho-bien">Phổ biến</TabsTrigger>
-              <TabsTrigger value="priceT">Giá tăng dần</TabsTrigger>
-              <TabsTrigger value="priceL">Giá giảm dần</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="pho-bien" className="w-full space-y-2">
-              <div className="grid w-full grid-cols-1">
-                <CardDanhMuc />
-              </div>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {Array.from({ length: 16 }).map((_, index) => (
-                  <div key={index}>
-                    <CardDanhMucS />
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-            <TabsContent value="priceT">Change your password here.</TabsContent>
-            <TabsContent value="priceL">Change your password here.</TabsContent>
-          </Tabs>
-        </div>
-      </div>
-    </div>
-  );
-}

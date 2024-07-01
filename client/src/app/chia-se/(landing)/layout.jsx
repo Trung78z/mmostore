@@ -44,7 +44,7 @@ const subCategory = [
 ];
 export default function LayoutPost({ children }) {
   return (
-    <div className="mx-auto w-full max-w-screen-xl">
+    <div className="mx-auto w-full max-w-screen-xl pt-4">
       <div className="px-4">
         <h1>Kinh nghiệm MMO</h1>
         <p>

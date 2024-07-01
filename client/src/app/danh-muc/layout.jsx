@@ -5,7 +5,7 @@ export const metadata = {
 export default function DoanhmucLayout({ children }) {
   return (
     <>
-      <div className="">{children}</div>
+      <div className="mx-auto max-w-screen-2xl">{children}</div>
     </>
   );
 }

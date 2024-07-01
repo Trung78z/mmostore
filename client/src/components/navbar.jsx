@@ -1,6 +1,7 @@
 "use client";
 import {
   Button,
+  CloseButton,
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
@@ -9,6 +10,7 @@ import {
   MenuItem,
   MenuItems,
   Transition,
+  useClose,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -48,11 +50,11 @@ export default function Navbar() {
 
   const { authState, setAuthState } = useContext(AuthContext);
   function handleLogout() {
-    toast("Bạn đã đăng xuất thành công!");
+    toast("Bạn đã đăng xuất thành công!", { autoClose: 700 });
     localStorage.setItem("status", "0");
     setAuthState({ status: false });
   }
-  console.log(authState);
+
   return (
     <>
       {!pathname.startsWith("/quan-li-cua-hang") && (
@@ -65,7 +67,6 @@ export default function Navbar() {
                   <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                     <div className="relative flex h-14 items-center justify-between">
                       <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                        {/* Mobile menu button*/}
                         <DisclosureButton className="relative items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                           <span className="absolute -inset-0.5" />
                           <span className="sr-only">Open main menu</span>
@@ -182,7 +183,7 @@ export default function Navbar() {
                                             "border-t",
                                         )}
                                       >
-                                        <> {item.name}</>
+                                        {item.name}
                                       </Link>
                                     )}
                                   </MenuItem>
@@ -208,28 +209,28 @@ export default function Navbar() {
                       )}
                     </div>
                   </div>
-                  <DisclosurePanel className="md:hidden">
-                    <div className="space-y-1 px-2 pb-3 pt-2">
-                      {navigation.map((item) => (
-                        <DisclosureButton
-                          className="flex w-full flex-col items-start"
-                          key={item.name}
-                        >
-                          <Link
-                            href={item.href}
-                            className={classNames(
-                              item.href
-                                ? "rounded-3xl bg-blue-800 text-white"
-                                : "text-white hover:bg-primary hover:text-white",
-                              "block w-full flex-1 rounded-md px-3 py-1 text-start text-sm font-medium",
-                            )}
-                            aria-current={item.href ? "page" : undefined}
-                          >
-                            {item.name}
-                          </Link>
-                        </DisclosureButton>
-                      ))}
-                    </div>
+                  <DisclosurePanel
+                    className="space-y-1 px-2 pb-3 pt-2 md:hidden"
+                    unmount={(e) => console.log(e)}
+                    onChange={(e) => console.log(e)}
+                  >
+                    {navigation.map((item) => (
+                      <Link
+                        href={item.href}
+                        key={item.name}
+                        className={classNames(
+                          item.href
+                            ? "rounded-3xl text-white"
+                            : "text-white hover:bg-primary hover:text-white",
+                          "flex w-full flex-1 flex-col items-start rounded-md border px-3 py-1 text-start text-sm font-medium hover:bg-blue-900/90",
+                        )}
+                        aria-current={item.href ? "page" : undefined}
+                      >
+                        <CloseButton className="min-h-full min-w-full text-start">
+                          {item.name}
+                        </CloseButton>
+                      </Link>
+                    ))}
                   </DisclosurePanel>
                 </>
               )}
