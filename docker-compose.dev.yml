@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  server:
+    image: server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 8080:8080
+    volumes:
+      - ./server:/usr/src/server
+      - /usr/src/server/node_modules
+    depends_on:
+      - mysql
+  # client:
+  #   image: client
+  #   build:
+  #     context: client
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     - NODE_ENV=development
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - server
+  #   volumes:
+  #     - ./client:/usr/src/client
+  #     - /usr/src/client/node_modules
+  # admin:
+  #   image: admin
+  #   build:
+  #     context: admin
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     - NODE_ENV=development
+  #   ports:
+  #     - 3001:3001
+  #   depends_on:
+  #     - server
+  #   volumes:
+  #     - ./admin:/usr/src/admin
+  #     - /usr/src/admin/node_modules
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: taphoazalo
+      MYSQL_DATABASE: taphoazalo
+    ports:
+      - 3307:3306
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:

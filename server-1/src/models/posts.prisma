@@ -1,0 +1,61 @@
+model postscategorys {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     posts[]
+}
+
+model posts {
+  id               Int             @id @default(autoincrement())
+  title            String
+  content          String          @db.Text
+  image            String?
+  slug             String          @unique
+  published        Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  user             users           @relation(fields: [userId], references: [id])
+  userId           String
+  likesPosts       likesPosts[]
+  viewPosts        viewPosts[]
+  chatPosts        chatPosts[]
+  dotnates         dotnates[]
+  postscategorys   postscategorys? @relation(fields: [postscategorysId], references: [id])
+  postscategorysId Int?
+}
+
+model likesPosts {
+  id      Int    @id @default(autoincrement())
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}
+
+model viewPosts {
+  id      Int    @id @default(autoincrement())
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}
+
+model chatPosts {
+  id      Int    @id @default(autoincrement())
+  content String @unique
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}
+
+model dotnates {
+  id      Int    @id @default(autoincrement())
+  content String @unique
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}

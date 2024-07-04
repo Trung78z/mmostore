@@ -1,0 +1,4 @@
+model homepages {
+  id      Int    @unique @default(autoincrement())
+  content String @db.Text
+}

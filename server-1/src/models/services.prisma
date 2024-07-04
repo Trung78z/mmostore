@@ -1,0 +1,26 @@
+model services {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  image     String?
+  slug      String   @unique
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      users    @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model servicescategorys {
+  id            Int             @id @default(autoincrement())
+  name          String
+  servicesPosts servicesPosts[]
+}
+
+model servicesPosts {
+  id                  Int                @id @default(autoincrement())
+  user                users              @relation(fields: [userId], references: [id])
+  userId              String
+  servicescategorys   servicescategorys? @relation(fields: [servicescategorysId], references: [id])
+  servicescategorysId Int?
+}

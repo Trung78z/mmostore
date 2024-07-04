@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:8080/api
+
+
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpspy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+### create post
+POST {{baseUrl}}/post/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzNTZlM2U3LTA5OTQtNGYzMC05NWZmLTg1YTNjMjAyMjk4MyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTQzNzkwLCJleHAiOjE3MjAxMTY1OTB9.WH1lqysWE0EZRJzf-wjdEb8r8hKYDzBFDeMbd7UYoQE
+
+{
+  "title": "stridsadsaaaaaaaaaaaaaaang",
+  "content": "strindssssssssg",
+  "image": "http://example.com/image.png"
+}
+
+### get all post
+GET {{baseUrl}}/post
+Content-Type: application/json
+###
+GET {{baseUrl}}/user/findAll/users
+Content-Type: application/json
+### get all post
+GET {{baseUrl}}/post/user/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMjNhMTk2LTFjYjAtNDg4NC05ZDBmLTUxNzk0YjA3ZGNiMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTU4MjY3LCJleHAiOjE3MjAxMzEwNjd9.6vzKe78aZWGhuU4EjsS6EK7_imtBE35x-Nd8XwFvkvU
+
+### get by id post
+GET {{baseUrl}}/post/tai-sao-nen-ban-hang-tren-instagram
+Content-Type: application/json
+
+### delete by id post
+DELETE  {{baseUrl}}/post/6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzNTZlM2U3LTA5OTQtNGYzMC05NWZmLTg1YTNjMjAyMjk4MyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTQzNzkwLCJleHAiOjE3MjAxMTY1OTB9.WH1lqysWE0EZRJzf-wjdEb8r8hKYDzBFDeMbd7UYoQE
+
+
+### edit by id post
+PUT  {{baseUrl}}/post/7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzNTZlM2U3LTA5OTQtNGYzMC05NWZmLTg1YTNjMjAyMjk4MyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTQzNzkwLCJleHAiOjE3MjAxMTY1OTB9.WH1lqysWE0EZRJzf-wjdEb8r8hKYDzBFDeMbd7UYoQE
+
+{
+  "title": "stridsadsaaaaaaaasdadsaaaaaaaang",
+  "content": "strindssssdadsadsadsadsssssg",
+  "image": "http://exampledsadsa.com/image.png"
+}

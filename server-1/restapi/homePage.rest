@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:8080/api
+
+
+### Register a new user
+POST {{baseUrl}}/home
+Content-Type: application/json
+
+
+{
+"content":
+}

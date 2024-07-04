@@ -1,0 +1,63 @@
+@baseUrl = https://trungdev.com:8080/api
+
+### Register a new user
+POST {{baseUrl}}/user/register
+Content-Type: application/json
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTk3MzY3MjQsImV4cCI6MTcyMDM0MTUyNH0.PRuOlPeCHT3bhQIkH-N53Im3zLDdT4ziSechb3i55ME
+
+{
+  "email":"trungpspy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpspy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+
+### Get user profile
+GET {{baseUrl}}/admin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NzM3NTcxLCJleHAiOjE3MTk3Mzg0NzF9.GnBLu7vAH7LF0noW9mayWSCQmLe5nfZ3MQjaAJp1rxw
+
+
+### Get user update
+PUT {{baseUrl}}/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTk3MzczOTcsImV4cCI6MTcxOTczODI5N30.o_EMvlGWB0CBYoHTdGMaiLeeAzJUgLO-J0KkCgSFzuc
+
+{
+  "username": "trungpspy",
+  "password": "Trungpy78",
+  "role": "admin"
+}
+
+
+### Get user update
+GET {{baseUrl}}/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTk3Mzc4NjksImV4cCI6MTcxOTczODc2OX0.f5OacIvCr74Y1emtmjRf0EX7aBHldpSUDskWXxQh8LQ
+
+{
+  "username": "trungpspy",
+  "password": "Trungpy78",
+  "role": "admin"
+}
+
+
+### refrest Token a new user
+POST {{baseUrl}}/user/refresh-token
+Content-Type: application/json
+
+{
+  "username": "trungpspy1",
+  "password": "Trungpy78",
+  "role": "user"
+}

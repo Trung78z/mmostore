@@ -1,0 +1,26 @@
+model users {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  username  String?
+  password  String    @unique
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profiles  profiles?
+  posts     posts[]
+}
+
+model profiles {
+  id             Int    @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  accountBalance String
+  user           users  @relation(fields: [userId], references: [id])
+  userId         Int    @unique
+}
+
+enum Role {
+  USER
+  CUSTOMER
+  ADMIN
+}
