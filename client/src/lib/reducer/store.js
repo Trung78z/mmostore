@@ -3,14 +3,15 @@ import {
   combineSlices,
   configureStore,
 } from "@reduxjs/toolkit";
-import { counterSlice } from "../features/zcountersssssssssssssssssssssssssssss/counterSlice";
-import { postSliceByUser } from "../features/post/postUserSlice";
-import { postSlice } from "../features/post/postSlice";
+
+import { postSliceByUser } from "../features/posts/postUserSlice";
+import { postSlice } from "../features/posts/postSlice";
+import { productSlice } from "../features/products/productSlice";
 
 const rootReducer = combineReducers({
-  counter: counterSlice.reducer,
   postsUser: postSliceByUser.reducer,
   posts: postSlice.reducer,
+  products: productSlice.reducer,
 });
 export const makeStore = () => {
   return configureStore({

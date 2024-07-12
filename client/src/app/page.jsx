@@ -1,6 +1,5 @@
 "use client";
 import { Button, Input, Select } from "@headlessui/react";
-import Image from "next/image";
 import { FaWindowRestore } from "react-icons/fa";
 import { IoMdMailOpen } from "react-icons/io";
 import { FaCircleUser } from "react-icons/fa6";
@@ -14,6 +13,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "@/configs/api";
+
 export default function Home() {
   const [more, setMore] = useState(false);
   const handleChangeMore = () => {
@@ -31,6 +31,7 @@ export default function Home() {
     setLoading(true);
     try {
       const data = await axios.get("/home");
+
       setContent(data.data.content.content);
       setLoading(false);
       setFullContent(data.data.content.content);
@@ -41,7 +42,6 @@ export default function Home() {
       setLoading(false);
     }
   };
-
   return (
     <>
       <div className="mx-auto max-w-screen-xl space-y-4 p-2 md:p-10 lg:space-y-10 lg:p-20">
@@ -76,6 +76,7 @@ export default function Home() {
                 <option value="canceled">Khác</option> */}
               </Select>
             </li>
+
             <li className="text-md ml-0 flex items-center gap-x-2 font-medium">
               <div className="flex flex-1 flex-col">
                 <Input
@@ -95,12 +96,13 @@ export default function Home() {
             </li>
           </ul>
         </div>
+
         <div className="space-y-4 px-4 md:px-0">
           <h2 className="text-center text-xl font-medium text-emerald-500">
             -- DANH SÁCH SẢN PHẨM --
           </h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-4">
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/san-pham/email">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <IoMdMailOpen className="h-20 w-20 font-medium" />
@@ -111,7 +113,7 @@ export default function Home() {
                 </div>
               </li>
             </Link>
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/san-pham/phan-mem">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniServerStack className="h-20 w-20 font-medium" />
@@ -123,7 +125,7 @@ export default function Home() {
                 </div>
               </li>
             </Link>
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/san-pham/tai-khoan">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <FaCircleUser className="h-20 w-20 font-medium" />
@@ -134,7 +136,7 @@ export default function Home() {
                 </div>
               </li>
             </Link>
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/san-pham/khac">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <FaWindowRestore className="h-20 w-20 font-medium" />
@@ -156,7 +158,7 @@ export default function Home() {
               "transition-max-height grid grid-cols-1 gap-4 overflow-hidden duration-300 ease-in-out md:grid-cols-2 lg:gap-6 xl:grid-cols-4",
             )}
           >
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/dich-vu/tang-tuong-tac">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniChartBarSquare className="h-20 w-20 font-medium" />
@@ -169,7 +171,7 @@ export default function Home() {
                 </div>
               </li>
             </Link>
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/dich-vu/dich-vu-phan-mem">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniServerStack className="h-20 w-20 font-medium" />
@@ -183,7 +185,7 @@ export default function Home() {
                 </div>
               </li>
             </Link>
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/dich-vu/blockchain">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniSquare3Stack3D className="h-20 w-20 font-medium" />
@@ -197,7 +199,7 @@ export default function Home() {
                 </div>
               </li>
             </Link>
-            <Link href="/danh-muc/dich-vu">
+            <Link href="/danh-muc/dich-vu/dich-vu-khac">
               <li className="ml-0 flex min-h-60 items-center justify-center rounded-md border border-blue-600 text-blue-700 shadow-md hover:text-blue-700/80">
                 <div className="flex flex-col items-center justify-center">
                   <HiMiniRocketLaunch className="h-20 w-20 font-medium" />

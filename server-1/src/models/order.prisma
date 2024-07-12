@@ -1,0 +1,26 @@
+model orders {
+  id             String        @id
+  amount         Int
+  unitPrice      Int
+  sale           Int
+  total          Int
+  refund         Int
+  status         Status        @default(create)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  users          users?        @relation(fields: [usersId], references: [id])
+  usersId        String?
+  services       services?     @relation(fields: [servicesId], references: [id])
+  servicesId     Int?
+  products       products?     @relation(fields: [productsId], references: [id])
+  productsId     Int?
+  serviceSales   serviceSales? @relation(fields: [serviceSalesId], references: [id])
+  serviceSalesId Int?
+}
+
+enum Status {
+  create
+  success
+  refund
+  cancel
+}

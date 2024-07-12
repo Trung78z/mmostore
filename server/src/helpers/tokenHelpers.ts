@@ -1,12 +1,16 @@
 import jwt from "jsonwebtoken";
-
+import { configDotenv } from "dotenv";
+configDotenv();
 interface UserPayload {
-  id: number;
+  id: string;
   role: string;
 }
 
+const expiresIn = process.env.NODE_ENV === "develoment" ? "2d" : "15m";
 export const generateAccessToken = (user: UserPayload) => {
-  return jwt.sign(user, process.env.JWT_SECRET as string, { expiresIn: "15m" });
+  return jwt.sign(user, process.env.JWT_SECRET as string, {
+    expiresIn: expiresIn,
+  });
 };
 
 export const generateRefreshToken = (user: UserPayload) => {

@@ -1,0 +1,23 @@
+@baseUrl = http://localhost:8080/api
+
+GET {{baseUrl}}/services/dich-vu-twttier-x-buff-follow-sieu-re
+Content-Type: application/json
+
+###
+GET {{baseUrl}}/services
+Content-Type: application/json
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpyy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+### get all post
+GET {{baseUrl}}/services/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA5YThkMjhmLTAxY2ItNDczZC04YTdiLTRkODdiMzU3ZjljOCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwNTUwOTk2LCJleHAiOjE3MjA3MjM3OTZ9.7Zqi-kMiAY1SUGX6ShuGd_ttyo6gjtLiYQP-cx2JFJY

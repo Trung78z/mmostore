@@ -27,7 +27,7 @@ export const createPost = async (req: Request, res: Response) => {
   const { title, content } = req.body;
   const filename = req.file?.filename;
   const url = filename
-    ? `${process.env.HOST}/api/post/uploads/${filename}`
+    ? `${process.env.HOST}/api/image/uploads/posts/${filename}`
     : "";
 
   try {
@@ -89,7 +89,7 @@ export const updatePostById = async (req: Request, res: Response) => {
   const { title, content } = req.body;
   const filename = req.file?.filename;
   const url = filename
-    ? `${process.env.HOST}/api/post/uploads/${filename}`
+    ? `${process.env.HOST}/api/image/uploads/posts/${filename}`
     : "";
   const { id } = req.params;
 

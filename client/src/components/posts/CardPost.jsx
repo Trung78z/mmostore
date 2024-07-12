@@ -6,7 +6,7 @@ import { BiSolidLike } from "react-icons/bi";
 import { IoIosChatbubbles } from "react-icons/io";
 import Link from "next/link";
 import { Button } from "@headlessui/react";
-import { deletePostByUser } from "@/lib/features/post/actions/postUserActions";
+import { deletePostByUser } from "@/lib/features/posts/actions/postUserActions";
 import { useAppDispatch } from "@/lib/reducer/hooks";
 import { useRouter } from "next/navigation";
 const truncateDescription = (description, maxLength) => {
@@ -32,7 +32,7 @@ export default function CardPost(props) {
           <Image
             src={
               product.image ||
-              "http://localhost:8080/api/post/uploads/avatar-1720006653091-730369529"
+              "https://taphoammo.net/img/post/tai-sao-nen-ban-hang-tren-instagram_396113.png"
             }
             alt={product.title}
             fill={true}

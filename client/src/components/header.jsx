@@ -5,15 +5,15 @@ import { IoMdMailOpen } from "react-icons/io";
 import { Fragment, useEffect, useState } from "react";
 import dayjs from "dayjs";
 export default function HeaderBar() {
-  const [currentTime, setCurrentTime] = useState(dayjs());
+  // const [currentTime, setCurrentTime] = useState(dayjs());
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(dayjs()); // Update currentTime every second
-    }, 1000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setCurrentTime(dayjs()); // Update currentTime every second
+  //   }, 1000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
     <>
@@ -35,11 +35,10 @@ export default function HeaderBar() {
           <span className="mr-auto rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
             Thời gian hoạt động từ: 08:00-16:00
           </span>
-          {/* {currentTime && (
-            <span className="mr-auto rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-              {currentTime.format("YYYY-MM-DD HH:mm:ss")}
-            </span>
-          )} */}
+
+          {/* <span className="mr-auto rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+              {new Date().toUTCString("vi-VN")}
+            </span> */}
         </span>
       </div>
     </>

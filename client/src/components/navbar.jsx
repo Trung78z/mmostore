@@ -12,28 +12,36 @@ import {
   Transition,
   useClose,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { RiArrowDropUpFill } from "react-icons/ri";
 import Link from "next/link";
 
 import HeaderBar from "./header";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "./Logo";
-import { convertToSlug } from "@/lib/utils";
+import { cn, convertToSlug } from "@/lib/utils";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/lib/hooks/AuthProvider";
 import axios from "@/configs/api";
-const navigation = [
-  { name: "Trang chủ", href: "/" },
-  { name: "Sản phẩm", href: "/danh-muc/san-pham" },
-  { name: "Dịch vụ", href: "/danh-muc/dich-vu" },
-  { name: "Liên hệ", href: "/lien-he" },
-  { name: "Chia sẻ", href: "/chia-se" },
-  { name: "FAQs", href: "/faqs" },
-  { name: "Nạp tiền", href: "/nap-tien" },
-];
+import { navigation } from "@/lib/data/nav";
+import { ChevronDownIcon } from "lucide-react";
+
 const user = [
   { name: "Trang cá nhân" },
   { name: "Đơn hàng đã mua" },
@@ -60,13 +68,23 @@ export default function Navbar() {
       });
       sessionStorage.removeItem("token");
       toast("Bạn đã đăng xuất thành công!", { autoClose: 700 });
-      setAuthState({ status: false, id: null });
+      setAuthState({ status: false, id: null, role: "", accountBalance: 0 });
       pathname.startsWith("/user") && router.push("/");
     } catch (error) {
       console.log(error);
     }
   }
+  const [isHovered, setIsHovered] = useState(false);
 
+  const handleMouseEnter = (e) => {
+    e.preventDefault();
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = (e) => {
+    e.preventDefault();
+    setIsHovered(false);
+  };
   return (
     <>
       {!pathname.startsWith("/quan-li-cua-hang") && (
@@ -76,152 +94,220 @@ export default function Navbar() {
             <Disclosure as="nav" className="bg-primary">
               {({ open }) => (
                 <>
-                  <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                    <div className="relative flex h-14 items-center justify-between">
-                      <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                        <DisclosureButton className="relative items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                          <span className="absolute -inset-0.5" />
-                          <span className="sr-only">Open main menu</span>
-                          {open ? (
-                            <XMarkIcon
-                              className="block h-6 w-6"
-                              aria-hidden="true"
-                            />
-                          ) : (
-                            <Bars3Icon
-                              className="block h-6 w-6"
-                              aria-hidden="true"
-                            />
-                          )}
-                        </DisclosureButton>
-                      </div>
-                      <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <Link
-                          href="/"
-                          className="flex flex-shrink-0 items-center"
-                        >
-                          <div className="relative mr-2 flex h-10 w-10 flex-shrink-0 animate-spin items-center rounded-full border-2 border-white">
-                            <Logo />
-                          </div>
-                          <span className="animate-text text-xl font-medium text-[#f8f8f8]">
-                            Tạp hóa zalo
-                          </span>
-                        </Link>
-                        <div className="hidden items-center md:ml-6 md:flex">
-                          <div className="flex space-x-4">
-                            {navigation.map((item) => (
-                              <Link
-                                key={item.name}
-                                href={item.href}
-                                className={classNames(
-                                  item.href === pathname
-                                    ? "rounded-3xl bg-blue-800 text-white"
-                                    : "rounded-3xl text-white hover:bg-primary hover:text-white",
-                                  "flex-shrink-0 rounded-md px-1 py-1 text-sm font-medium md:px-3",
-                                )}
-                                aria-current={item.href ? "page" : undefined}
-                              >
-                                {item.name}
-                              </Link>
-                            ))}
-                          </div>
+                  <Sheet key="left">
+                    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+                      <div className="relative flex h-14 items-center justify-between">
+                        <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                          <SheetTrigger className="relative items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                            <span className="absolute -inset-0.5" />
+                            <span className="sr-only">Open main menu</span>
+                            {open ? (
+                              <XMarkIcon
+                                className="block h-6 w-6"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <Bars3Icon
+                                className="block h-6 w-6"
+                                aria-hidden="true"
+                              />
+                            )}
+                          </SheetTrigger>
                         </div>
-                      </div>
-                      {authState.status ? (
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                          <div className="mr-2 hidden font-medium text-white lg:flex">
-                            <h4>Số dư: {(2000).toLocaleString("vi-VN")}k</h4>
-                          </div>
-                          <button
-                            type="button"
-                            className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400"
+                        <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                          <Link
+                            href="/"
+                            className="flex flex-shrink-0 items-center"
                           >
-                            <span className="absolute -inset-1.5" />
-                            <span className="sr-only">View notifications</span>
-                            <BellIcon
-                              className="h-6 w-6 text-white"
-                              aria-hidden="true"
-                            />
-                            <span className="absolute left-0 top-0 flex min-h-5 min-w-5 translate-y-5 items-center justify-center rounded-full bg-white p-0 text-[12px] font-semibold text-red-500">
-                              3
-                            </span>
-                          </button>
-
-                          <Menu as="div" className="relative ml-3">
-                            <div>
-                              <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                <span className="absolute -inset-1.5" />
-                                <span className="sr-only">Open user menu</span>
-                                <Image
-                                  width={8}
-                                  height={8}
-                                  className="h-8 w-8 rounded-full"
-                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                  alt=""
-                                />
-                              </MenuButton>
+                            <div className="relative mr-2 flex h-10 w-10 flex-shrink-0 animate-spin items-center rounded-full border-2 border-white">
+                              <Logo />
                             </div>
-                            <Transition
-                              enter="transition ease-out duration-100"
-                              enterFrom="transform opacity-0 scale-95"
-                              enterTo="transform opacity-100 scale-100"
-                              leave="transition ease-in duration-75"
-                              leaveFrom="transform opacity-100 scale-100"
-                              leaveTo="transform opacity-0 scale-95"
-                            >
-                              <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                <div className="mr-2 block px-4 font-medium text-green-500 lg:hidden">
-                                  <h5>
-                                    Số dư: {(2000).toLocaleString("vi-VN")}k
-                                  </h5>
-                                </div>
-                                {user.map((item, index) => (
-                                  <MenuItem key={index}>
-                                    {({ focus }) => (
-                                      <Link
-                                        href={
-                                          item.name === "Quản lí cửa hàng"
-                                            ? "/" +
-                                              convertToSlug(item.name) +
-                                              "/sales"
-                                            : "/user/" +
-                                              convertToSlug(item.name)
-                                        }
+                            <span className="animate-text text-xl font-medium text-[#f8f8f8]">
+                              Tạp hóa zalo
+                            </span>
+                          </Link>
+                          <div className="hidden items-center md:ml-6 md:flex">
+                            <div className="flex space-x-3">
+                              {navigation.map((item) => (
+                                <div key={item.name}>
+                                  {item.href === "/danh-muc/dich-vu" ||
+                                  item.href === "/danh-muc/san-pham" ? (
+                                    <HoverCard openDelay={300} closeDelay={200}>
+                                      <HoverCardTrigger
                                         className={classNames(
-                                          focus ? "bg-gray-100" : "",
-                                          "relative block px-4 py-2 text-sm text-gray-700",
-                                          (item.name === "Đăng xuất" ||
-                                            item.name === "Quản lí cửa hàng") &&
-                                            "border-t",
+                                          pathname.includes(item.href)
+                                            ? "rounded-3xl bg-blue-800 text-white"
+                                            : "rounded-3xl text-white hover:bg-primary hover:text-white",
+                                          "relative flex flex-shrink-0 cursor-pointer items-center rounded-md px-1 py-1 text-sm font-medium md:px-4",
                                         )}
+                                        onMouseEnter={handleMouseEnter}
+                                        onMouseLeave={handleMouseLeave}
+                                        data-state={
+                                          isHovered ? "open" : "closed"
+                                        }
                                       >
                                         {item.name}
-                                      </Link>
-                                    )}
-                                  </MenuItem>
-                                ))}
-                                <hr />
-                                <Button
-                                  className="w-full bg-blue-500 px-4 pb-1 pt-2 text-white"
-                                  onClick={handleLogout}
-                                >
-                                  Đăng xuất
-                                </Button>
-                              </MenuItems>
-                            </Transition>
-                          </Menu>
+                                        <RiArrowDropUpFill
+                                          className={cn(
+                                            "absolute right-0 h-6 w-6 translate-x-1 transition-all",
+                                            isHovered && item.href
+                                              ? "rotate-180"
+                                              : "rotate-0",
+                                          )}
+                                        />
+                                      </HoverCardTrigger>
+                                      <HoverCardContent className="grid w-max grid-cols-2 items-center justify-center gap-2">
+                                        {item.data.map((row) => (
+                                          <Link href={row.href} key={row.href}>
+                                            {row.subCategory}
+                                          </Link>
+                                        ))}
+                                      </HoverCardContent>
+                                    </HoverCard>
+                                  ) : (
+                                    <Link
+                                      href={item.href}
+                                      className={classNames(
+                                        item.href === pathname
+                                          ? "rounded-3xl bg-blue-800 text-white"
+                                          : "rounded-3xl text-white hover:bg-primary hover:text-white",
+                                        "flex flex-shrink-0 items-center rounded-md px-1 py-1 text-sm font-medium md:px-3",
+                                        item.href === "/nap-tien" &&
+                                          !authState.status &&
+                                          "hidden",
+                                      )}
+                                      aria-current={
+                                        item.href ? "page" : undefined
+                                      }
+                                    >
+                                      {item.name}
+                                    </Link>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                      ) : (
-                        <Link
-                          href="/dang-nhap"
-                          className="bg-primary/80 px-2 py-1 text-xl font-semibold text-white"
-                        >
-                          Đăng nhập
-                        </Link>
-                      )}
+                        {authState.status ? (
+                          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                            <div className="mr-2 hidden font-medium text-white lg:flex">
+                              <h4>
+                                Số dư:<> </>
+                                {authState.accountBalance.toLocaleString(
+                                  "vi-VN",
+                                ) || 0}
+                                Vnđ
+                              </h4>
+                            </div>
+                            <button
+                              type="button"
+                              className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400"
+                            >
+                              <span className="absolute -inset-1.5" />
+                              <span className="sr-only">
+                                View notifications
+                              </span>
+                              <BellIcon
+                                className="h-6 w-6 text-white"
+                                aria-hidden="true"
+                              />
+                              <span className="absolute left-0 top-0 flex min-h-5 min-w-5 translate-y-5 items-center justify-center rounded-full bg-white p-0 text-[12px] font-semibold text-red-500">
+                                3
+                              </span>
+                            </button>
+
+                            <Menu as="div" className="relative ml-3">
+                              <div>
+                                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                  <span className="absolute -inset-1.5" />
+                                  <span className="sr-only">
+                                    Open user menu
+                                  </span>
+                                  <Image
+                                    width={8}
+                                    height={8}
+                                    className="h-8 w-8 rounded-full"
+                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    alt=""
+                                  />
+                                </MenuButton>
+                              </div>
+                              <Transition
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                              >
+                                <MenuItems className="absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-md bg-white py-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                  <div className="block px-2 font-medium text-green-500 lg:hidden">
+                                    <h5>
+                                      Số dư: <> </>
+                                      {authState.accountBalance.toLocaleString(
+                                        "vi-VN",
+                                      ) || 0}
+                                      Vnđ
+                                    </h5>
+                                  </div>
+                                  <hr />
+                                  {user
+                                    .filter(
+                                      (item) =>
+                                        !(
+                                          authState.role === "USER" &&
+                                          item.name === "Quản lí cửa hàng"
+                                        ),
+                                    )
+                                    .map((item, index) => (
+                                      <MenuItem key={index}>
+                                        {({ focus }) => (
+                                          <Link
+                                            href={
+                                              item.name === "Quản lí cửa hàng"
+                                                ? "/" +
+                                                  convertToSlug(item.name) +
+                                                  "/sales"
+                                                : "/user/" +
+                                                  convertToSlug(item.name)
+                                            }
+                                            className={classNames(
+                                              focus ? "bg-gray-100" : "",
+                                              "relative block px-4 py-2 text-sm text-gray-700",
+                                              (item.name === "Đăng xuất" ||
+                                                item.name ===
+                                                  "Quản lí cửa hàng") &&
+                                                "border-t",
+                                            )}
+                                          >
+                                            {item.name}
+                                          </Link>
+                                        )}
+                                      </MenuItem>
+                                    ))}
+
+                                  <hr />
+                                  <Button
+                                    className="w-full bg-blue-500 px-4 pb-1 pt-2 text-white"
+                                    onClick={handleLogout}
+                                  >
+                                    Đăng xuất
+                                  </Button>
+                                </MenuItems>
+                              </Transition>
+                            </Menu>
+                          </div>
+                        ) : (
+                          <Link
+                            href="/dang-nhap"
+                            className="bg-primary/80 px-2 py-1 text-xl font-semibold text-white"
+                          >
+                            Đăng nhập
+                          </Link>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <DisclosurePanel className="space-y-1 px-2 pb-3 pt-2 md:hidden">
+                    {/* <DisclosurePanel className="space-y-1 px-2 pb-3 pt-2 md:hidden">
                     {navigation.map((item) => (
                       <Link
                         href={item.href}
@@ -239,7 +325,78 @@ export default function Navbar() {
                         </CloseButton>
                       </Link>
                     ))}
-                  </DisclosurePanel>
+                  </DisclosurePanel> */}
+
+                    <SheetContent
+                      side="left"
+                      className="max-w-60 bg-primary px-0"
+                    >
+                      <SheetHeader className="px-0">
+                        <SheetTitle className="flex justify-center">
+                          <Link
+                            href="/"
+                            className="flex flex-shrink-0 items-center"
+                          >
+                            <div className="relative mr-2 flex h-10 w-10 flex-shrink-0 animate-spin items-center rounded-full border-2 border-white">
+                              <Logo />
+                            </div>
+                            <span className="animate-text text-xl font-medium text-[#f8f8f8]">
+                              Tạp hóa zalo
+                            </span>
+                          </Link>
+                        </SheetTitle>
+                        <SheetDescription className="space-y-2">
+                          {navigation.map((item) => (
+                            <div key={item.href}>
+                              {item.href === "/danh-muc/dich-vu" ||
+                              item.href === "/danh-muc/san-pham" ? (
+                                <Disclosure
+                                  as="div"
+                                  className={classNames(
+                                    item.href === pathname
+                                      ? "text-white"
+                                      : "text-white hover:bg-primary hover:text-white",
+                                    "flex w-full flex-1 flex-col items-start border-b py-1 text-start text-sm font-medium hover:bg-blue-900/90",
+                                  )}
+                                >
+                                  <DisclosureButton className="flex w-full items-center justify-between px-3">
+                                    <span className="text-sm/6 font-medium text-white group-data-[hover]:text-white/80">
+                                      {item.name}
+                                    </span>
+                                    <ChevronDownIcon className="size-5 fill-white/60 group-data-[open]:rotate-180 group-data-[hover]:fill-white/50" />
+                                  </DisclosureButton>
+                                  <DisclosurePanel className="mt-2 grid w-full grid-cols-2 gap-2 bg-blue-700 px-3">
+                                    {item.data.map((row) => (
+                                      <Link href={row.href} key={row.href}>
+                                        <SheetTrigger className="min-h-full min-w-full text-start">
+                                          {row.subCategory}
+                                        </SheetTrigger>
+                                      </Link>
+                                    ))}
+                                  </DisclosurePanel>
+                                </Disclosure>
+                              ) : (
+                                <Link
+                                  href={item.href}
+                                  className={classNames(
+                                    item.href === pathname
+                                      ? "text-white"
+                                      : "text-white hover:bg-primary hover:text-white",
+                                    "flex w-full flex-1 flex-col items-start border-b px-3 py-1 text-start text-sm font-medium hover:bg-blue-900/90",
+                                  )}
+                                  aria-current={item.href ? "page" : undefined}
+                                >
+                                  <SheetTrigger className="min-h-full min-w-full text-start">
+                                    {item.name}
+                                  </SheetTrigger>
+                                </Link>
+                              )}
+                            </div>
+                          ))}
+                        </SheetDescription>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
                 </>
               )}
             </Disclosure>

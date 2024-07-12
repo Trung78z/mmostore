@@ -3,9 +3,5 @@ export const metadata = {
   title: "Doanh mục",
 };
 export default function DoanhmucLayout({ children }) {
-  return (
-    <>
-      <div className="mx-auto max-w-screen-2xl">{children}</div>
-    </>
-  );
+  return <div className="max-w-screen-3xl mx-auto">{children}</div>;
 }

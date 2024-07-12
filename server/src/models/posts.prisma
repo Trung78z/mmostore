@@ -1,0 +1,67 @@
+model postCategory {
+  id       Int     @id @default(autoincrement())
+  category String
+  slug     String?
+  posts    posts[]
+}
+
+model posts {
+  id             Int            @id @default(autoincrement())
+  title          String
+  content        String         @db.Text
+  image          String?
+  slug           String         @unique
+  status         RolePost       @default(ide)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           users          @relation(fields: [userId], references: [id])
+  userId         String
+  postLikes      postLikes[]
+  postViews      postViews[]
+  postPomments   postPomments[]
+  postDonates    postDonates[]
+  postCategory   postCategory?  @relation(fields: [postCategoryId], references: [id])
+  postCategoryId Int?
+}
+
+model postLikes {
+  id      Int    @id @default(autoincrement())
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}
+
+model postViews {
+  id      Int    @id @default(autoincrement())
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}
+
+model postPomments {
+  id      Int    @id @default(autoincrement())
+  content String @unique
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}
+
+model postDonates {
+  id      Int    @id @default(autoincrement())
+  content String @unique
+  user    users  @relation(fields: [userId], references: [id])
+  userId  String
+
+  posts   posts? @relation(fields: [postsId], references: [id])
+  postsId Int?
+}
+
+enum RolePost {
+  cancel
+  success
+  ide
+  error
+}

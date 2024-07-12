@@ -10,56 +10,74 @@ import {
 } from "@/components/ui/table";
 
 import { MdDelete } from "react-icons/md";
-import { FaCheckCircle } from "react-icons/fa";
-
+import { FaCheckCircle, FaEye } from "react-icons/fa";
+import { MdModeEditOutline } from "react-icons/md";
 import { Button, Input } from "@headlessui/react";
 import ViewBaiviet from "@/components/kiemduyet/ViewBaiviet";
-import { payment } from "@/lib/placeholder";
 import ViewPricing from "@/components/thanhtoan/ViewPricing";
-
+import axios from "@/configs/api";
+import ViewImage from "@/components/thanhtoan/ViewImage";
+import { formatDatePost } from "@/lib/utils";
+import { toast } from "react-toastify";
 export default function DonHangSanPham() {
   const [data, setData] = useState([]);
-  const [dataOld, setDataOld] = useState(payment);
+  const [dataOld, setDataOld] = useState([]);
   useEffect(() => {
-    const update = payment.filter(
-      (item) => item.status === "Đang chờ thanh toán",
-    );
-    setData(update);
+    fetch();
   }, []);
-  const handleDelete = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Từ chối thanh toán" };
-      }
-      return item;
-    });
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Từ chối thanh toán" };
-      }
-      return item;
-    });
-    setDataOld(updateData1);
-    setData(updateData);
+
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/payment/admin", {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      setDataOld(response.data.payment);
+      const filter = response.data.payment.filter(
+        (item) => item.status === "ide",
+      );
+      setData(filter);
+    } catch (error) {}
   };
-  const handleActive = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã thanh toán" };
-      }
-      return item;
-    });
-    setData(updateData);
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã thanh toán" };
-      }
-      return item;
-    });
-    setDataOld(updateData1);
+
+  const handleActive = async (id) => {
+    try {
+      const res = await axios.put("/payment/admin/success/" + id, null, {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      toast("Update thành công!");
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "success";
+        }
+        return value;
+      });
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
   };
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete("/payment/" + id, {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      toast("Update thành công!");
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "error";
+        }
+        return value;
+      });
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
+  };
+
   const handleFilterStatus = (e) => {
-    console.log(e.target.value);
     const update = dataOld.filter((item) => item.status === e.target.value);
     setData(update);
   };
@@ -80,9 +98,9 @@ export default function DonHangSanPham() {
               className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-max"
               onChange={handleFilterStatus}
             >
-              <option value="Đang chờ thanh toán">Đang chờ thanh toán</option>
-              <option value="Đã thanh toán">Đã thanh toán</option>
-              <option value="Từ chối thanh toán">Từ chối thanh toán</option>
+              <option value="ide">Đang chờ thanh toán</option>
+              <option value="success">Đã thanh toán</option>
+              <option value="error">Từ chối thanh toán</option>
             </select>
           </div>
         </div>
@@ -92,22 +110,38 @@ export default function DonHangSanPham() {
               <TableRow>
                 <TableHead className="text-center">Mã đơn hàng</TableHead>
                 <TableHead className="text-center">Tên khách hàng</TableHead>
+                <TableHead className="text-center">Tiền đã nạp</TableHead>
                 <TableHead className="text-center">Ngày thanh toán</TableHead>
                 <TableHead className="text-center">Trạng thái</TableHead>
+                <TableHead className="text-center">Hình ảnh</TableHead>
                 <TableHead className="text-center">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-center">{item.maDH}</TableCell>
-                  <TableCell className="text-center">{item.user}</TableCell>
+                  <TableCell className="text-center">{item.id}</TableCell>
                   <TableCell className="text-center">
-                    {item.dateBanking}
+                    {item.users.profiles.firstName}
+                    <> </>
+                    {item.users.profiles.lastName}
+                  </TableCell>
+                  <TableCell className="text-center">{item.total}</TableCell>
+                  <TableCell className="text-center">
+                    {formatDatePost(item.createdAt)}
                   </TableCell>{" "}
                   <TableCell className="text-center">{item.status}</TableCell>
                   <TableCell className="text-center">
-                    <ViewPricing item={item} />
+                    <ViewImage item={item} />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <ViewPricing
+                      item={item}
+                      setData={setData}
+                      dataOld={dataOld}
+                      setDataOld={setDataOld}
+                    />
+                    {/* <MdModeEditOutline item={item} /> */}
                     <Button
                       className="text-xl text-red-500"
                       onClick={() => handleDelete(item.id)}

@@ -97,7 +97,7 @@ export default function SidebarGiaoDich(props) {
           </Link>
           <ul className="mt-4 list-none space-y-6 leading-3">
             {navigate.map((item, key) => (
-              <div key={key} className="space-y-1">
+              <div key={item.gruop} className="space-y-1">
                 <p className="px-2 font-medium text-gray-300">{item.gruop}</p>
                 {item.titles.map((row, index) => (
                   <li
@@ -125,7 +125,7 @@ export default function SidebarGiaoDich(props) {
       </div>
       <Sheet className="block md:hidden" key="left">
         <div className="card flex items-center justify-between rounded-none py-3 md:hidden">
-          <SheetTrigger asChild className="cursor-pointer">
+          <SheetTrigger className="cursor-pointer">
             <IoMdMenu className="h-8 w-8" />
           </SheetTrigger>
           <div className="flex items-center gap-x-4">

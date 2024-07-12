@@ -39,14 +39,9 @@ export default function ViewBaiviet({ item }) {
               </DialogTitle>
               <p
                 className="mt-2 text-sm/6"
-                dangerouslySetInnerHTML={{ __html: item.description }}
+                dangerouslySetInnerHTML={{ __html: item.content }}
               />
-              <Image
-                src={item.imageSrc}
-                width={200}
-                height={200}
-                alt=""
-              ></Image>
+              <Image src={item.image} width={200} height={200} alt=""></Image>
               <div className="mt-4">
                 <Button
                   className="ml-auto flex items-center justify-end gap-2 rounded-md bg-gray-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"

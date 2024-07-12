@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import axios from "@/configs/api";
 import { toast } from "react-toastify";
-import { selectPostsByUser } from "@/lib/features/post/postUserSlice";
+import { selectPostsByUser } from "@/lib/features/posts/postUserSlice";
 import { useAppSelector } from "@/lib/reducer/hooks";
 import { useParams } from "next/navigation";
 import FormPostEdit from "@/components/posts/FormPostEdit";
@@ -31,7 +31,7 @@ export default function EditBaiViet() {
   //   const formData = new FormData();
   //   formData.append("title", title);
   //   formData.append("content", content);
-  //   formData.append("avatar", image);
+  //  formData.append("post", image);
   //   try {
   //     const msg = await axios.put("/post"+postId, formData, {
   //       headers: {

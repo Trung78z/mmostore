@@ -42,9 +42,9 @@ export default function TaoBaiViet() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("avatar", image);
+    formData.append("post", image);
     try {
-      const msg = await axios.post("/post/create", formData, {
+      const msg = await axios.post("/posts/create", formData, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
@@ -142,7 +142,7 @@ export default function TaoBaiViet() {
                 </div>
               </div>
             </Field>
-          </Field>{" "}
+          </Field>
           <label htmlFor="mota">
             Mô tải chi tiết <span className="text-red-500">*</span>
           </label>
@@ -164,7 +164,7 @@ export default function TaoBaiViet() {
               Tạo bài mới
             </Button>
           </div>
-        </Fieldset>{" "}
+        </Fieldset>
       </form>
       <hr />
       <p className="text-red-500">Lưu ý khi viết bài:</p>

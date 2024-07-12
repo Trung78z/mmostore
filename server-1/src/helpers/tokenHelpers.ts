@@ -5,7 +5,6 @@ interface UserPayload {
   id: string;
   role: string;
 }
-console.log(process.env.NODE_ENV);
 
 const expiresIn = process.env.NODE_ENV === "develoment" ? "2d" : "15m";
 export const generateAccessToken = (user: UserPayload) => {

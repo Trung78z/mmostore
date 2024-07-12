@@ -1,9 +1,26 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import _ from "lodash";
+import { Fragment } from "react";
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
+
+export function getMinMaxPrice(row) {
+  let min = Infinity;
+  let max = -Infinity;
+
+  row.forEach((rows) => {
+    if (rows.price < min) {
+      min = rows.price;
+    }
+    if (rows.price > max) {
+      max = rows.price;
+    }
+  });
+  return `${min} - ${max}`;
+}
+
 export function convertToSlug(title) {
   const a =
     "àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;";
@@ -54,6 +71,24 @@ export function formatContent(data, length) {
   return data;
 }
 
+export function formatContentVietNamese(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+export function formatDate(date) {
+  const dateObj = new Date(date);
+  const day = dateObj.getDate().toString().padStart(2, "0");
+  const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+  const year = dateObj.getFullYear();
+
+  return `${day}-${month}-${year}`;
+}
+export function formatTime(date) {
+  const dateObj = new Date(date);
+  const hour = dateObj.getHours().toString().padStart(2, "0"); // Get hours and pad with leading zero if necessary
+  const minutes = dateObj.getMinutes().toString().padStart(2, "0"); // Get minutes and pad with leading zero if necessary
+
+  return `${minutes}-${hour}`;
+}
 export function formatDatePost(date) {
   return (
     <>
@@ -62,26 +97,18 @@ export function formatDatePost(date) {
     </>
   );
 }
-// export const formatContent = (description, maxLength) => {
-//   // Truncate the description if it's longer than the maxLength
-//   let truncatedDescription =
-//     description.length > maxLength
-//       ? description.substring(0, maxLength) + "..."
-//       : description;
 
-//   // Create a temporary element to parse the HTML string
-//   const tempElement = document.createElement("div");
-//   tempElement.innerHTML = truncatedDescription;
-
-//   // Find all <a> tags and replace them with <span> tags
-//   const links = tempElement.getElementsByTagName("a");
-//   for (let i = links.length - 1; i >= 0; i--) {
-//     const link = links[i];
-//     const span = document.createElement("span");
-//     span.innerHTML = link.innerHTML;
-//     link.parentNode.replaceChild(span, link);
-//   }
-
-//   // Return the modified HTML as a string
-//   return tempElement.innerHTML;
-// };
+export const renderContentWithLineBreaks = (contents, length = 70) => {
+  return (
+    <ul className="mb-0">
+      {contents &&
+        contents.split("\n").map((line, index) => {
+          return (
+            <Fragment key={index}>
+              <li className="ml-2 list-disc"> {formatContent(line, length)}</li>
+            </Fragment>
+          );
+        })}
+    </ul>
+  );
+};

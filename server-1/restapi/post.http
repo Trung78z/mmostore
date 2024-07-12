@@ -1,38 +1,26 @@
 @baseUrl = http://localhost:8080/api
 
-
-
 ### Login user
 POST {{baseUrl}}/user/login
 Content-Type: application/json
 
 {
-  "email":"trungpspy@gmail.com",
+  "email":"trungpyy@gmail.com",
   "username": "trungpspy1",
   "password": "Trungpy78@",
   "role": "user"
 }
-### create post
-POST {{baseUrl}}/post/create
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzNTZlM2U3LTA5OTQtNGYzMC05NWZmLTg1YTNjMjAyMjk4MyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTQzNzkwLCJleHAiOjE3MjAxMTY1OTB9.WH1lqysWE0EZRJzf-wjdEb8r8hKYDzBFDeMbd7UYoQE
-
-{
-  "title": "stridsadsaaaaaaaaaaaaaaang",
-  "content": "strindssssssssg",
-  "image": "http://example.com/image.png"
-}
 
 ### get all post
-GET {{baseUrl}}/post
+GET {{baseUrl}}/posts
 Content-Type: application/json
 ###
 GET {{baseUrl}}/user/findAll/users
 Content-Type: application/json
 ### get all post
-GET {{baseUrl}}/post/user/posts
+GET {{baseUrl}}/posts/user/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMjNhMTk2LTFjYjAtNDg4NC05ZDBmLTUxNzk0YjA3ZGNiMyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTU4MjY3LCJleHAiOjE3MjAxMzEwNjd9.6vzKe78aZWGhuU4EjsS6EK7_imtBE35x-Nd8XwFvkvU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlZmI0MTU1LTA3MzItNGRkYi05ZDIzLWVlNTMzYjNiNDAxNCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwMzc1ODU4LCJleHAiOjE3MjA1NDg2NTh9.R0I7P620Fey0baTc8xrBzXTtBoxFcgmcqr_ZaqXk6DY
 
 ### get by id post
 GET {{baseUrl}}/post/tai-sao-nen-ban-hang-tren-instagram

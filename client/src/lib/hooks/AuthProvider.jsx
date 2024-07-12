@@ -9,6 +9,8 @@ function AuthProvider({ children }) {
   const [authState, setAuthState] = useState({
     status: false,
     id: null,
+    role: "",
+    accountBalance: 0,
   });
   useEffect(() => {
     fetch();
@@ -19,9 +21,19 @@ function AuthProvider({ children }) {
         withCredentials: true,
       });
       if (result.data.success) {
-        setAuthState({ status: true, id: result.data.id });
+        setAuthState({
+          status: true,
+          id: result.data.id,
+          role: result.data.role,
+          accountBalance: result.data.profile.accountBalance,
+        });
       } else {
-        setAuthState({ status: false, id: null });
+        setAuthState({
+          status: false,
+          id: 0,
+          role: "",
+          accountBalance: 0,
+        });
       }
     } catch (error) {
       console.log(error);

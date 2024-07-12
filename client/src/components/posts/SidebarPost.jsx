@@ -6,6 +6,7 @@ import { IoSearch } from "react-icons/io5";
 
 export default function SidebarPost(props) {
   const { subCategory } = props;
+
   return (
     <div className="h-full w-full space-y-6 rounded-lg p-4">
       <div className="relative bg-background">
@@ -25,13 +26,14 @@ export default function SidebarPost(props) {
       <div className="min-w-full rounded-lg bg-background p-4">
         <h5>Thể loại</h5>
         <ul className="mt-2 list-none">
-          {subCategory.map((item, index) => (
-            <li key={index} className="ml-2">
+          {subCategory.msg.map((item) => (
+            <li key={item.id} className="ml-2">
               <Link
-                href={`/the-loai/${convertToSlug(item.title)}`}
+                href={`/chia-se/the-loai/${item.slug}`}
                 className="hover:text-primary/65"
               >
-                {item.title} - ({item.length})
+                {item.category} -
+                <span className=""> ({item._count?.posts})</span>
               </Link>
             </li>
           ))}

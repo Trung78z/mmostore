@@ -59,7 +59,6 @@ export default function DonHangSanPham() {
     setDataOld(updateData1);
   };
   const handleFilterStatus = (e) => {
-    console.log(e.target.value);
     const update = dataOld.filter((item) => item.status === e.target.value);
     setData(update);
   };

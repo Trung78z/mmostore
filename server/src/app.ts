@@ -10,6 +10,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
+      "http://admin.localhost:3000",
+      "http://localhost:3001",
       "http://localhost:8080",
       "https://trungdev.com:3000",
       "http://trungdev.com:3000",
@@ -19,13 +21,10 @@ app.use(
     credentials: true,
   })
 );
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api", RootRouter);
 
-app.get("/", (req, res) => {
-  console.log(req.headers);
-});
 export default app;

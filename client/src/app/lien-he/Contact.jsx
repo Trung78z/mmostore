@@ -1,6 +1,7 @@
 import { FaFacebook } from "react-icons/fa";
 import { Input, Textarea } from "@headlessui/react";
 import { IoIosChatbubbles, IoIosTime, IoMdMailOpen } from "react-icons/io";
+import { Button } from "@/components/ui/button";
 export default function Contact() {
   return (
     <div className="py-10">
@@ -10,22 +11,22 @@ export default function Contact() {
             <h2 className="pb-4 text-xl font-semibold text-blue-700">
               Liên hệ hỗ trợ
             </h2>
-            <li className="text-md font-medium text-emerald-800 hover:text-gray-600/80">
+            <li className="text-md ml-0 font-medium text-emerald-800 hover:text-gray-600/80">
               Câu hỏi thường gặp
             </li>
-            <li className="text-md flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
+            <li className="text-md ml-0 flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
               <FaFacebook className="h-6 w-6" />
               <span> Tạp hóa Zalo</span>
             </li>
-            <li className="text-md flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
+            <li className="text-md ml-0 flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
               <IoIosChatbubbles className="h-6 w-6" />
               <span>Chat với hỗ trợ viên</span>
             </li>
-            <li className="text-md flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
+            <li className="text-md ml-0 flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
               <IoMdMailOpen className="h-6 w-6" />
               <span>Support@taphoammo.net</span>
             </li>
-            <li className="text-md flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
+            <li className="text-md ml-0 flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
               <IoIosTime className="h-6 w-6" />
               <span>Mon-Sat 08:00am - 10:00pm</span>
             </li>
@@ -35,7 +36,7 @@ export default function Contact() {
               <h2 className="pb-4 text-xl font-semibold text-blue-700">
                 Tin nhắn
               </h2>
-              <li className="text-md grid max-w-full grid-cols-1 items-center gap-x-2 font-medium lg:grid-cols-2">
+              <li className="text-md ml-0 grid max-w-full grid-cols-1 items-center gap-x-2 font-medium lg:grid-cols-2">
                 <div className="flex flex-1 flex-col">
                   <label htmlFor="Email" className="cursor-pointer">
                     Email:
@@ -61,7 +62,7 @@ export default function Contact() {
                   />
                 </div>
               </li>
-              <li className="text-md flex items-center gap-x-2 font-medium">
+              <li className="text-md ml-0 flex items-center gap-x-2 font-medium">
                 <div className="flex flex-1 flex-col">
                   <label htmlFor="title" className="cursor-pointer">
                     Chủ đề:
@@ -75,7 +76,7 @@ export default function Contact() {
                   />
                 </div>
               </li>
-              <li className="text-md flex items-center gap-x-2 font-medium">
+              <li className="text-md ml-0 flex items-center gap-x-2 font-medium">
                 <div className="flex flex-1 flex-col">
                   <label htmlFor="description" className="cursor-pointer">
                     Nội dung:
@@ -87,6 +88,9 @@ export default function Contact() {
                 </div>
               </li>
             </ul>
+            <div className="text-right">
+              <Button type="submit">Liên hệ</Button>
+            </div>
           </form>
         </div>
       </div>

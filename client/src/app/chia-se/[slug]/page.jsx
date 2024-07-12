@@ -20,7 +20,7 @@ export default function SlugShare({ params }) {
 
   const fetch = async () => {
     try {
-      const data = await axios.get("/post/" + slug);
+      const data = await axios.get("/posts/" + slug);
       if (data.data.success === null) {
         setData({});
       }

@@ -45,14 +45,20 @@ export default function Example() {
       const user = await axios.post("/user/login", data, {
         withCredentials: true,
       });
-
+      console.log(user);
       if (user.data.success === false) {
         return toast(user.data.msg);
       }
-      setAuthState({ status: true });
-      sessionStorage.setItem("token", user.data.msg);
+
+      setAuthState({
+        status: true,
+        id: user.data.id,
+        role: user.data.role,
+        accountBalance: user.data.accountBalance || 0,
+      });
+      sessionStorage.setItem("token", user.data.accessToken);
       toast("Đăng nhập thành công!", { autoClose: 700 });
-      router.push("/");
+      router.back();
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data.msg);
@@ -100,7 +106,7 @@ export default function Example() {
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />{" "}
+                />
                 {errors.email && (
                   <p className="text-red-600">{errors.email.message}</p>
                 )}
@@ -133,7 +139,7 @@ export default function Example() {
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />{" "}
+                />
                 {errors.password && (
                   <p className="text-red-600">{errors.password.message}</p>
                 )}

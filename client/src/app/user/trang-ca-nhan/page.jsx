@@ -1,10 +1,28 @@
 "use client";
+import { AuthContext } from "@/lib/hooks/AuthProvider";
 import { Button, Input } from "@headlessui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import axios from "@/configs/api";
+import { formatDate, formatDatePost, formatTime } from "@/lib/utils";
+import { format } from "date-fns";
 export default function TrangCaNhan() {
+  const { authState, setAuthState } = useContext(AuthContext);
+  const [item, setItem] = useState({});
+  useEffect(() => {
+    fetch();
+  }, []);
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/user/by/id", {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      setItem(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const router = useRouter();
   return (
     <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
@@ -26,42 +44,47 @@ export default function TrangCaNhan() {
           </div>
           <ul className="list-none space-y-3 px-2 md:px-20">
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center"> Tài khoản</h6>
-              <h6 className="text-center">@hoangvuong15</h6>
+              <h6 className="text-center">@{item.username}</h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center"> Họ tên</h6>
-              <h6 className="text-center">Hoàng Vương</h6>
+              <h6 className="text-center">
+                {item.profiles?.firstName} {item.profiles?.lastName}{" "}
+              </h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center">Số dư</h6>
-              <h6 className="text-center">000k</h6>
+              <h6 className="text-center">
+                {(authState?.accountBalance).toLocaleString("vi-VN") || 0}
+                Vnđ
+              </h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center"> Ngày đăng kí</h6>
-              <h6 className="text-center">{new Date().toLocaleDateString()}</h6>
+              <h6 className="text-center">{formatDatePost(item.createdAt)}</h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center"> Số gian hàng</h6>
-              <h6 className="text-center">0 Gian hàng</h6>
+              <h6 className="text-center">{item._count?.services} Gian hàng</h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center"> Số bán</h6>
-              <h6 className="text-center">0 Sản phẩm</h6>
+              <h6 className="text-center">{item._count?.orders} Sản phẩm</h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center"> Số bài viết</h6>
-              <h6 className="text-center">0 Bài viết</h6>
+              <h6 className="text-center">{item._count?.posts} Bài viết</h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center">Mua bằng API </h6>
               <h6 className="flex gap-x-2 text-center">
                 <span className="text-green-500"> Đang bật</span>
@@ -69,7 +92,7 @@ export default function TrangCaNhan() {
               </h6>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="text-center">Bảo mật 2 lớp</h6>
               <div className="flex flex-col items-end">
                 <h6 className="flex items-center justify-end gap-x-2">
@@ -82,7 +105,7 @@ export default function TrangCaNhan() {
               </div>
             </li>
             <hr />
-            <li className="flex items-center justify-between px-2 font-semibold">
+            <li className="ml-0 flex items-center justify-between px-2 font-semibold">
               <h6 className="flex-shrink-0 text-center">Kết nối telegram</h6>
               <h6 className="flex flex-col gap-x-2 text-center">
                 <div className="flex items-center justify-end gap-x-2">
@@ -132,7 +155,7 @@ export default function TrangCaNhan() {
             <p>----</p>
             <li className="flex flex-col items-center gap-1">
               <span className="rounded-md bg-primary/70 p-1 text-sm">
-                {new Date().toISOString()}
+                {new Date().toDateString()}
               </span>
               <p className="rounded-md bg-yellow-500/70 p-1 text-sm">
                 Devices: Chrome

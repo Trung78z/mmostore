@@ -116,12 +116,12 @@ export default function RegisterPage() {
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />{" "}
+                />
                 {errors.email && (
                   <p className="text-red-600">{errors.email.message}</p>
                 )}
               </div>
-            </div>{" "}
+            </div>
             <div>
               <label
                 htmlFor="email"
@@ -137,7 +137,7 @@ export default function RegisterPage() {
                   {...register("username")}
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />{" "}
+                />
                 {errors.username && (
                   <p className="text-red-600">{errors.username.message}</p>
                 )}
@@ -161,12 +161,12 @@ export default function RegisterPage() {
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />{" "}
+                />
                 {errors.password && (
                   <p className="text-red-600"> {errors.password.message}</p>
                 )}
               </div>
-            </div>{" "}
+            </div>
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -193,7 +193,7 @@ export default function RegisterPage() {
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />{" "}
+                />
                 {errors.confirmPassword && (
                   <p className="text-red-600">
                     {errors.confirmPassword.message}

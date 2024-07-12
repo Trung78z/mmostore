@@ -1,0 +1,72 @@
+model productCategory {
+  id          Int                  @id @default(autoincrement())
+  category    String
+  subCategory productSubCategory[]
+  products    products[]
+}
+
+model productSubCategory {
+  id                Int              @id @default(autoincrement())
+  subCategory       String
+  products          products[]
+  productCategory   productCategory? @relation(fields: [productCategoryId], references: [id])
+  productCategoryId Int?
+}
+
+model products {
+  id                   Int                 @id @default(autoincrement())
+  title                String
+  content              String              @db.Text
+  description          String?             @db.Text
+  image                String?
+  slug                 String              @unique
+  published            Boolean             @default(false)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  user                 users               @relation(fields: [userId], references: [id])
+  userId               String
+  productLikes         productLikes[]
+  productViews         productViews[]
+  orders               orders[]
+  productPomments      productComments[]
+  productReviews       productReviews[]
+  productCategory      productCategory?    @relation(fields: [productCategoryId], references: [id])
+  productCategoryId    Int?
+  productSubCategory   productSubCategory? @relation(fields: [productSubCategoryId], references: [id])
+  productSubCategoryId Int?
+}
+
+model productLikes {
+  id         Int       @id @default(autoincrement())
+  user       users     @relation(fields: [userId], references: [id])
+  userId     String
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId Int?
+}
+
+model productViews {
+  id         Int       @id @default(autoincrement())
+  user       users     @relation(fields: [userId], references: [id])
+  userId     String
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId Int?
+}
+
+model productComments {
+  id         Int       @id @default(autoincrement())
+  content    String    @unique
+  user       users     @relation(fields: [userId], references: [id])
+  userId     String
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId Int?
+}
+
+model productReviews {
+  id         Int       @id @default(autoincrement())
+  content    String    @unique
+  level      Int
+  user       users     @relation(fields: [userId], references: [id])
+  userId     String
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId Int?
+}

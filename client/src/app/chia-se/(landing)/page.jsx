@@ -4,15 +4,18 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
 import CardPost from "@/components/posts/CardPost";
-import { selectPosts, selectStatus } from "@/lib/features/post/postSlice";
+import { selectPosts, selectStatus } from "@/lib/features/posts/postSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/reducer/hooks";
 import { useRouter } from "next/navigation";
-import { fetchPosts } from "@/lib/features/post/actions/postActions";
+import {
+  fetchPostCategory,
+  fetchPosts,
+} from "@/lib/features/posts/actions/postActions";
+
 export default function PostPage() {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
-  const router = useRouter();
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -38,7 +41,7 @@ export default function PostPage() {
         </section>
       )}
 
-      <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 sm:px-6">
+      {/* <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">
           <Link
             href="#"
@@ -73,7 +76,7 @@ export default function PostPage() {
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </Link>
-              {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+
               <Link
                 href="#"
                 aria-current="page"
@@ -124,7 +127,7 @@ export default function PostPage() {
             </nav>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,6 +1,7 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@headlessui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,7 +11,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import axios from "@/configs/api";
+import { FaS } from "react-icons/fa6";
 export default function DonHangDaMua() {
+  const [row, setRow] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  const fetch = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("/orders/user", {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      });
+      if (response.data.success === false) {
+        setRow([]);
+      }
+      setLoading(false);
+      setRow(response.data.order);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="space-y-2">
@@ -60,30 +87,54 @@ export default function DonHangDaMua() {
             </li>
           </ul>
           <Table>
-            <TableCaption>A list of your recent .</TableCaption>
+            <TableCaption>
+              {row.length < 1
+                ? "Bạn chưa mua đơn hàng nào!"
+                : "Danh sách đơn hàng của bạn!"}
+            </TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Thao tác</TableHead>
                 <TableHead>Mã đơn hàng</TableHead>
                 <TableHead>Ngày mua</TableHead>
-                <TableHead className="text-right">Gian hàng</TableHead>
-                <TableHead className="text-right">Mặt hàng</TableHead>
-                <TableHead className="text-right">Người bán</TableHead>
-                <TableHead className="text-right">Số lượng</TableHead>
-                <TableHead className="text-right">Đơn giá</TableHead>
-                <TableHead className="text-right">Giảm</TableHead>
-                <TableHead className="text-right">Tổng tiền</TableHead>
-                <TableHead className="text-right">Hoàn tiền</TableHead>
-                <TableHead className="text-right">Trạng thái</TableHead>
+                <TableHead className="text-center">Gian hàng</TableHead>
+                <TableHead className="text-center">Mặt hàng</TableHead>
+                <TableHead className="text-center">Người bán</TableHead>
+                <TableHead className="text-center">Số lượng</TableHead>
+                <TableHead className="text-center">Đơn giá</TableHead>
+                <TableHead className="text-center">Giảm</TableHead>
+                <TableHead className="text-center">Tổng tiền</TableHead>
+                <TableHead className="text-center">Hoàn tiền</TableHead>
+                <TableHead className="text-center">Trạng thái</TableHead>
+                <TableHead className="text-center">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>
+              {row.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.id}</TableCell>
+                  <TableCell className="font-medium">
+                    {item.createdAt}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {item.services.serviceSubCategory.subCategory}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {item.serviceSales.title}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {item.services.user.username}
+                  </TableCell>
+                  <TableCell className="font-medium">{item.amount}</TableCell>
+                  <TableCell className="font-medium">
+                    {item.unitPrice}
+                  </TableCell>
+                  <TableCell className="font-medium">{item.sale}</TableCell>
+                  <TableCell className="font-medium">{item.total}</TableCell>
+                  <TableCell className="font-medium">{item.refund}</TableCell>
+                  <TableCell className="font-medium">{item.status}</TableCell>
+                  <TableCell className="font-medium">{item.sale}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>

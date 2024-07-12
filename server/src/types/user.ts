@@ -1,15 +1,30 @@
+// src/types/user.ts
+
+import { Role } from "./enums/enums"; // Import Role enum from enums file or define it here
+
 export interface User {
   id: number;
   email: string;
   username: string | null;
   password: string;
-  role: Role; // Ensure Role type is correctly referenced
-  createdAt?: Date;
-  updatedAt?: Date;
+  role: Role;
+  createdAt: Date;
+  updatedAt: Date;
+  profiles?: Profile;
 }
 
-export enum Role {
-  USER = "USER",
-  ADMIN = "ADMIN",
-  CUSTOMER = "CUSTOMER",
+export interface Profile {
+  id: number;
+  firstName: string;
+  lastName: string;
+  accountBalance: string;
+  user: User;
+  userId: number;
+}
+
+export interface RegistrationData {
+  email: string;
+  username?: string;
+  password: string;
+  role: Role;
 }

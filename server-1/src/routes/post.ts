@@ -11,7 +11,7 @@ import {
 } from "../controllers/postController";
 import authMiddleware from "../middlewares/authMiddleware";
 
-import { upload } from "../helpers/multer";
+import { upload } from "../helpers/multerPost";
 
 const router = Router();
 

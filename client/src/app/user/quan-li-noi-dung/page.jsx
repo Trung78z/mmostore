@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/reducer/hooks";
 import {
   selectStatusByUser,
   selectPostsByUser,
-} from "@/lib/features/post/postUserSlice";
-import { fetchPostsByUser } from "@/lib/features/post/actions/postUserActions";
+} from "@/lib/features/posts/postUserSlice";
+import { fetchPostsByUser } from "@/lib/features/posts/actions/postUserActions";
 
 export default function QuanLiNoiDung() {
   const dispatch = useAppDispatch();
@@ -59,7 +59,7 @@ export default function QuanLiNoiDung() {
           >
             Tạo bài mới
           </Button>
-        </div>{" "}
+        </div>
         <div className="grid h-full w-full grid-cols-1 gap-x-4 gap-y-10 p-4 sm:grid-cols-2 md:p-10 lg:grid-cols-4 xl:gap-x-4">
           {posts.length > 0 ? (
             posts.map((product) => (

@@ -8,6 +8,7 @@
     "build": "rm -r dist && tsc",
     "start": "npm run build && node dist/index",
     "drop:db": "npx prisma migrate reset --force",
+    "db": "npx prisma migrate dev --name init --schema=src/models",
     "reset:db": "rm -r src/migrations && npx prisma migrate dev --name init --schema=src/models  && npm run drop:db"
   },
   "prisma": {
@@ -39,6 +40,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
+    "@types/uuid": "^10.0.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -49,6 +51,7 @@
     "lodash": "^4.17.21",
     "multer": "^1.4.5-lts.1",
     "mysql2": "3.10.1",
-    "pm2": "^5.4.1"
+    "pm2": "^5.4.1",
+    "uuid": "^10.0.0"
   }
 }

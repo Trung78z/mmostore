@@ -16,9 +16,9 @@ import { useRouter } from "next/navigation";
 import {
   editPostAsync,
   editPostAsyncByUser,
-} from "@/lib/features/post/actions/postUserActions";
+} from "@/lib/features/posts/actions/postUserActions";
 import { toast } from "react-toastify";
-import { selectPostsByUser } from "@/lib/features/post/postUserSlice";
+import { selectPostsByUser } from "@/lib/features/posts/postUserSlice";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function FormPostEdit({ post }) {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function FormPostEdit({ post }) {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState(post.title);
   const value = useAppSelector(selectPostsByUser);
-  console.log(value);
+
   const handleChangeImage = (e) => {
     setImage(e.target.files[0]);
     const url = URL.createObjectURL(e.target.files[0]);
@@ -54,7 +54,7 @@ export default function FormPostEdit({ post }) {
     formData.append("title", title);
     formData.append("content", content);
     if (image) {
-      formData.append("avatar", image);
+      formData.append("post", image);
     }
 
     dispatch(

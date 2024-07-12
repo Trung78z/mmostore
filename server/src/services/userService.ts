@@ -1,55 +1,108 @@
 import bcrypt from "bcrypt";
-import {
-  createUser as createUserModel,
-  findUserByUsername as findUserByUsernameModel,
-  findUserById as findUserByIdModel,
-  updateUserById as updateUserByIdModel,
-  deleteUserById as deleteUserByIdModel,
-  findUserByEmail as findUserByEmailModel,
-} from "../models/userModel";
-import { User } from "../types/user";
+import prisma from "../configs/dbs";
+import { Role } from "../types/enums/enums";
 
-// Register a new user
 export const registerUser = async (
   email: string,
   username: string,
   password: string,
   role: string
-): Promise<{ id: number; email: string; username: string; role: string }> => {
+) => {
   const hashedPassword = bcrypt.hashSync(password, 10);
-  const insertId = await createUserModel(email, username, hashedPassword, role);
-  return { id: insertId, email, username, role };
+  const insertId = await prisma.users.create({
+    data: {
+      email: email,
+      username: username,
+      password: hashedPassword,
+    },
+  });
+  return insertId || null;
 };
 
-// Find a user by email
-export const findUserByEmail = async (email: string): Promise<User | null> => {
-  return findUserByEmailModel(email);
+export const findUserByEmail = async (email: string) => {
+  return await prisma.users.findUnique({
+    where: { email },
+    include: { profiles: { select: { accountBalance: true } } },
+  });
 };
 
-// Find a user by username
-export const findUserByUsername = async (
-  username: string
-): Promise<User | null> => {
-  return findUserByUsernameModel(username);
+export const findUserByUsername = async (username: string) => {
+  return (await prisma.users.findFirst({ where: { username } })) || null;
 };
 
-// Find a user by ID
-export const findUserById = async (id: number): Promise<User | null> => {
-  return findUserByIdModel(id);
+export const findUserById = async (id: string) => {
+  return await prisma.users.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      role: true,
+      createdAt: true,
+      email: true,
+      username: true,
+      profiles: {
+        select: { accountBalance: true, lastName: true, firstName: true },
+      },
+      _count: {
+        select: {
+          posts: true,
+          orders: { where: { services: { userId: id } } },
+          services: true,
+        },
+      },
+    },
+  });
 };
+export const findRoleUserById = async (id: string) => {
+  return await prisma.users.findUnique({
+    where: { id },
 
-// Update a user by ID
+    select: { role: true, profiles: { select: { accountBalance: true } } },
+  });
+};
 export const updateUserById = async (
-  id: number,
+  id: string,
   username: string,
   password: string,
-  role: string
-): Promise<void> => {
+  role: Role
+) => {
   const hashedPassword = bcrypt.hashSync(password, 10);
-  await updateUserByIdModel(id, username, hashedPassword, role);
+  return (
+    (await prisma.users.update({
+      where: { id },
+      data: { username: username, password: hashedPassword, role: role },
+    })) || null
+  );
+};
+
+export const updatePasswordUserById = async (
+  id: string,
+  password: string,
+  passwordNew: string
+) => {
+  const user = await prisma.users.findUnique({
+    where: { id: id },
+  });
+  if (!user || !bcrypt.compareSync(password, user.password)) {
+    return {
+      success: false,
+      msg: "Mật khẩu không đúng!",
+    };
+  }
+  const hashedPasswordNew = bcrypt.hashSync(passwordNew, 10);
+  return {
+    success: true,
+    msg: await prisma.users.update({
+      where: { id: id },
+      data: { password: hashedPasswordNew },
+    }),
+  };
 };
 
 // Delete a user by ID
-export const deleteUserById = async (id: number): Promise<void> => {
-  await deleteUserByIdModel(id);
+export const deleteUserById = async (id: string): Promise<void> => {
+  (await await prisma.users.delete({ where: { id } })) || null;
+};
+
+export const getAllUserServices = async () => {
+  return await prisma.users.findMany();
 };

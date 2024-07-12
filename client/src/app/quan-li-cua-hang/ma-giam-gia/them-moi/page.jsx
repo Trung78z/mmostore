@@ -157,7 +157,7 @@ export default function Themmoi() {
             </li>
             <li className="text-green-500">
               Các quy định khác về gian hàng các bạn đọc thêm ở đây:
-              <Link href="/qui-dinh" className="border-b text-blue-500">
+              <Link href="/quy-dinh" className="border-b text-blue-500">
                 Quy định về gian hàng và các mặt hàng bị cấm.
               </Link>
             </li>

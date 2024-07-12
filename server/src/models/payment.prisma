@@ -1,0 +1,17 @@
+model payments {
+  id        String      @id
+  total     Int?
+  image     String?
+  status    RolePayment @default(ide)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  users     users?      @relation(fields: [usersId], references: [id])
+  usersId   String?
+}
+
+enum RolePayment {
+  success
+  cancel
+  ide
+  error
+}

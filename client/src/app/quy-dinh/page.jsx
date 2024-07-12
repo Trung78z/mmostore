@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function page() {
+export default function QuiDinh() {
   const content = ` 
   <div class="container" >
 

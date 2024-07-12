@@ -1,7 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@headlessui/react";
-import React from "react";
+import { Input, Button } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,12 +11,35 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
+import axios from "@/configs/api";
+import { formatContent, getMinMaxPrice } from "@/lib/utils";
+import { MdDelete } from "react-icons/md";
+import { FaCheckCircle, FaEye } from "react-icons/fa";
 
 export default function DonHangDaMua() {
+  const [row, setRow] = useState([]);
   const router = useRouter();
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/services/by/user", {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      });
+      setRow(response.data.msg);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleClickAdd = () => {
     router.push("/quan-li-cua-hang/quan-li-gian-hang/them-moi");
   };
+  const handleDelete = () => {};
+  const handleActive = () => {};
   return (
     <>
       <div className="space-y-2 px-2 py-4">
@@ -30,9 +52,11 @@ export default function DonHangDaMua() {
                 placeholder="Nhập mã đơn hàng..."
               ></Input>
 
-              <Button className="px-2 py-0 text-sm">Tìm đơn hàng</Button>
+              <Button className="rounded-lg bg-primary px-3 py-2 text-sm font-medium text-white hover:bg-primary/90">
+                Tìm đơn hàng
+              </Button>
               <Button
-                className="bg-green-400 px-2 py-0 text-sm"
+                className="rounded-lg bg-green-400 px-3 py-2 text-sm font-medium text-white hover:bg-green-500"
                 onClick={handleClickAdd}
               >
                 Thêm mới
@@ -66,34 +90,71 @@ export default function DonHangDaMua() {
             </li>
           </ul>
           <Table>
-            <TableCaption>A list of your recent .</TableCaption>
+            <TableCaption>
+              {row.length < 1
+                ? "Bạn chưa có sản phẩm nào trên gian hàng!"
+                : "Danh sách sản phẩm trên gian hàng của bạn!"}
+            </TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Thao tác</TableHead>
                 <TableHead>Tên đơn hàng</TableHead>
                 <TableHead>Loại</TableHead>
-                <TableHead className="text-right">Trùng</TableHead>
-                <TableHead className="text-right">Reseller</TableHead>
-                <TableHead className="text-right">Đơn giá</TableHead>
-                <TableHead className="text-right">Sàn</TableHead>
-                <TableHead className="text-right">Kho</TableHead>
-                <TableHead className="text-right">Ngày tạo</TableHead>
-                <TableHead className="text-right">Trạng thái</TableHead>
+                <TableHead className="text-start">Trùng</TableHead>
+                <TableHead className="text-start">Reseller</TableHead>
+                <TableHead className="text-start">Đơn giá</TableHead>
+                <TableHead className="text-start">Sàn</TableHead>
+                <TableHead className="text-start">Kho</TableHead>
+                <TableHead className="text-start">Ngày tạo</TableHead>
+                <TableHead className="text-start">Trạng thái</TableHead>
+                <TableHead className="w-[100px]">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>
+              {row.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="text-start font-medium">
+                    {formatContent(item.content, 20)}
+                  </TableCell>
+                  <TableCell className="text-start font-medium">
+                    {item.serviceSubCategory?.subCategory}
+                  </TableCell>
+                  <TableCell className="text-start font-medium">
+                    {item.duplicate ? "Có" : "Không"}
+                  </TableCell>
+                  <TableCell className="text-start font-medium">
+                    {item.reseller ? "Có" : "Không"}
+                  </TableCell>
+                  <TableCell className="text-start font-medium">
+                    {item.serviceSales.length !== 0
+                      ? item.serviceSales.length > 1
+                        ? getMinMaxPrice(item.serviceSales)
+                        : item.serviceSales[0].price
+                      : 0}
+                  </TableCell>
+                  <TableCell className="text-start font-medium">Zalo</TableCell>
+                  <TableCell className="text-start font-medium">1111</TableCell>
+                  <TableCell className="text-start font-medium">
+                    {new Date(item.updatedAt).toLocaleDateString("vi-VN")}
+                  </TableCell>
+                  <TableCell className="text-start font-medium">
+                    {item.published ? "Đã duyệt" : "Chờ xác nhận!"}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Button
+                      className="text-xl text-red-500 hover:text-red-600"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <MdDelete />
+                    </Button>
+                    <Button
+                      className="text-xl text-green-500 hover:text-green-600"
+                      onClick={() => handleActive(item.id)}
+                    >
+                      <FaEye />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>

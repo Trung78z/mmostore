@@ -14,6 +14,16 @@ body::-webkit-scrollbar-track {
   background-color: #e4e3e3;
   border-radius: 100rem;
 }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Tắt nút lên xuống trên Firefox */
+/* input[type="number"] {
+  -moz-appearance: textfield;
+} */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -105,8 +115,23 @@ ol li {
 }
 
 #contentFetch {
+  h1 {
+    @apply text-center text-3xl font-medium;
+  }
   h2 {
     @apply text-center text-2xl font-medium;
+  }
+  h3 {
+    @apply text-center text-xl font-medium;
+  }
+  h4 {
+    @apply text-center text-lg font-medium;
+  }
+  h5 {
+    @apply text-center text-sm font-medium;
+  }
+  h6 {
+    @apply text-center text-xs font-medium;
   }
 }
 

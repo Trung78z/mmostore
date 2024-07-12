@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `services` ADD COLUMN `poached` VARCHAR(10) NOT NULL DEFAULT '1111';

@@ -11,59 +11,88 @@ import {
 
 import { MdDelete } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
-import { products } from "@/lib/placeholder";
 import { Button, Input } from "@headlessui/react";
 import ViewBaiviet from "@/components/kiemduyet/ViewBaiviet";
-
+import { toast } from "react-toastify";
+import axios from "@/configs/api";
+import { formatDatePost } from "@/lib/utils";
 export default function DonHangSanPham() {
   const [data, setData] = useState([]);
-  const [dataOld, setDataOld] = useState(products);
+  const [dataOld, setDataOld] = useState([]);
   useEffect(() => {
-    const update = products.filter(
-      (item) => item.status === "Đang chờ xét duyệt",
-    );
-    setData(update);
+    fetch();
   }, []);
-  const handleDelete = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã từ chối" };
+
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/posts/admin/posts", {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      setData(response.data.msg);
+      setDataOld(response.data.msg);
+      const update = response.data.msg.filter((item) => item.status === "ide");
+      if (update.length === 0) {
+        setData(response.data.msg);
+      } else {
+        setData(update);
       }
-      return item;
-    });
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã từ chối" };
-      }
-      return item;
-    });
-    toast("Đã từ chối thành công!");
-    setDataOld(updateData1);
-    setData(updateData);
+    } catch (error) {}
   };
-  const handleActive = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã xét duyệt" };
-      }
-      return item;
-    });
-    setData(updateData);
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã xét duyệt" };
-      }
-      return item;
-    });
-    toast("Đã xét duyệt thành công!");
-    setDataOld(updateData1);
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.put(
+        "/posts/admin/byId/" + id,
+        { status: "error" },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "error";
+        }
+        return value;
+      });
+      toast("Update thành công!");
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
+  };
+  const handleActive = async (id) => {
+    try {
+      const res = await axios.put(
+        "/posts/admin/byId/" + id,
+        { status: "success" },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+      toast("Update thành công!");
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "success";
+        }
+        return value;
+      });
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
   };
   const handleFilterStatus = (e) => {
-    console.log(e.target.value);
     const update = dataOld.filter((item) => item.status === e.target.value);
     setData(update);
   };
-
+  console.log(data);
   return (
     <div className="space-y-2 px-2 py-4">
       <div className="space-y-2">
@@ -80,9 +109,9 @@ export default function DonHangSanPham() {
               className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-max"
               onChange={handleFilterStatus}
             >
-              <option value="Đang chờ xét duyệt">Đang chờ xét duyệt</option>
-              <option value="Đã xét duyệt">Đã xét duyệt</option>
-              <option value="Đã từ chối">Đã từ chối</option>
+              <option value="ide">Đang chờ xét duyệt</option>
+              <option value="success">Đã xét duyệt</option>
+              <option value="error">Đã từ chối</option>
             </select>
           </div>
         </div>
@@ -99,13 +128,15 @@ export default function DonHangSanPham() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((item, index) => (
-                <TableRow key={index}>
+              {data.map((item) => (
+                <TableRow key={item.id}>
                   <TableCell className="ext-center">{item.id}</TableCell>
-                  <TableCell className="text-center">{item.user}</TableCell>
+                  <TableCell className="text-center">
+                    {item.user.username}
+                  </TableCell>
                   <TableCell className="text-center">{item.title}</TableCell>
                   <TableCell className="text-center">
-                    {item.dateUpdate}
+                    {formatDatePost(item.createdAt)}
                   </TableCell>
                   <TableCell className="text-center">{item.status}</TableCell>
                   <TableCell className="text-center">

@@ -1,19 +1,28 @@
 model users {
-  id            String          @id @default(uuid())
-  email         String          @unique
-  username      String          @unique
-  password      String
-  role          Role            @default(USER)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  profiles      profiles?
-  posts         posts[]
-  likesPosts    likesPosts[]
-  viewPosts     viewPosts[]
-  chatPosts     chatPosts[]
-  dotnates      dotnates[]
-  services      services[]
-  servicesPosts servicesPosts[]
+  id              String            @id @default(uuid())
+  email           String            @unique
+  username        String            @unique
+  password        String
+  role            Role              @default(USER)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  profiles        profiles?
+  posts           posts[]
+  postLikes       postLikes[]
+  postViews       postViews[]
+  postPomments    postPomments[]
+  postDonates     postDonates[]
+  services        services[]
+  serviceLikes    serviceLikes[]
+  serviceViews    serviceViews[]
+  servicePomments serviceComments[]
+  serviceReviews  serviceReviews[]
+  products        products[]
+  productLikes    productLikes[]
+  productViews    productViews[]
+  productPomments productComments[]
+  productReviews  productReviews[]
+  oders           orders[]
 }
 
 model profiles {

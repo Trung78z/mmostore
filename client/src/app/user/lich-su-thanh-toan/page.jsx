@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@headlessui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import {
   Table,
@@ -27,8 +27,27 @@ import {
   Textarea,
 } from "@headlessui/react";
 
+import axios from "@/configs/api";
+import { formatDatePost } from "@/lib/utils";
+function formatPrice(price) {
+  return price.toLocaleString("vi-VN");
+}
+
 export default function LichSuThanhToan() {
   let [isOpen, setIsOpen] = useState(false);
+  const [row, setRow] = useState([]);
+  useEffect(() => {
+    fetch();
+  }, []);
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/payment/", {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      console.log(response.data);
+      setRow(response.data.payment);
+    } catch (error) {}
+  };
   return (
     <div>
       <TabGroup>
@@ -52,20 +71,24 @@ export default function LichSuThanhToan() {
                     <TableHead className="w-[100px]">Ngày </TableHead>
                     <TableHead>Loại</TableHead>
                     <TableHead>Số tiền</TableHead>
-                    <TableHead className="text-center">Lí do</TableHead>
+                    <TableHead className="text-center">Trạng thái</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">
-                      {new Date().toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>VND</TableCell>
-                    <TableCell>200k</TableCell>
-                    <TableCell className="text-right">
-                      Khủng hoảng kinh tế
-                    </TableCell>
-                  </TableRow>
+                  {row.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell className="w-[180px] flex-shrink-0 font-medium">
+                        {formatDatePost(item.updatedAt)}
+                      </TableCell>
+                      <TableCell>VND</TableCell>
+                      <TableCell>
+                        {item.total.toLocaleString("vi-VN")}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {item.status === "ide" ? "Đang chờ" : "Đã thành công"}
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </div>
@@ -161,7 +184,7 @@ export default function LichSuThanhToan() {
                 <TableBody>
                   <TableRow>
                     <TableCell className="font-medium">
-                      {new Date().toLocaleDateString()}
+                      {new Date().toLocaleDateString("vi-VN")}
                     </TableCell>
                     <TableCell>VND</TableCell>
                     <TableCell>200k</TableCell>

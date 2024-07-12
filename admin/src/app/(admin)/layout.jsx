@@ -1,13 +1,31 @@
 "use client";
 import SidebarGiaoDich from "@/components/Sidebar";
-import React from "react";
+import React, { useContext } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { BsChatDots } from "react-icons/bs";
 import { Button } from "@headlessui/react";
 import { toast } from "react-toastify";
+import { AuthContext } from "@/lib/hooks/AuthProvider";
+import axios from "@/configs/api";
+import { useRouter } from "next/navigation";
 export default function GiaoDichLayout({ children }) {
-  function handleLogout() {
-    toast("Đăng xuất thành công!");
+  const { setAuthState } = useContext(AuthContext);
+  const router = useRouter();
+  async function handleLogout() {
+    try {
+      const msg = await axios.post("/user/logout", null, {
+        withCredentials: true,
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      });
+      sessionStorage.removeItem("token");
+      toast("Bạn đã đăng xuất thành công!", { autoClose: 700 });
+      setAuthState({ status: false, id: null, role: "", accountBalance: 0 });
+      router.push("/dang-nhap");
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <>

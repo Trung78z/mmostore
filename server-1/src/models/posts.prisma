@@ -1,31 +1,30 @@
-model postscategorys {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     posts[]
+model postCategory {
+  id       Int     @id @default(autoincrement())
+  category String
+  slug     String?
+  posts    posts[]
 }
 
 model posts {
-  id               Int             @id @default(autoincrement())
-  title            String
-  content          String          @db.Text
-  image            String?
-  slug             String          @unique
-  published        Boolean         @default(false)
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  user             users           @relation(fields: [userId], references: [id])
-  userId           String
-  likesPosts       likesPosts[]
-  viewPosts        viewPosts[]
-  chatPosts        chatPosts[]
-  dotnates         dotnates[]
-  postscategorys   postscategorys? @relation(fields: [postscategorysId], references: [id])
-  postscategorysId Int?
+  id             Int            @id @default(autoincrement())
+  title          String
+  content        String         @db.Text
+  image          String?
+  slug           String         @unique
+  published      Boolean        @default(false)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           users          @relation(fields: [userId], references: [id])
+  userId         String
+  postLikes      postLikes[]
+  postViews      postViews[]
+  postPomments   postPomments[]
+  postDonates    postDonates[]
+  postCategory   postCategory?  @relation(fields: [postCategoryId], references: [id])
+  postCategoryId Int?
 }
 
-model likesPosts {
+model postLikes {
   id      Int    @id @default(autoincrement())
   user    users  @relation(fields: [userId], references: [id])
   userId  String
@@ -33,7 +32,7 @@ model likesPosts {
   postsId Int?
 }
 
-model viewPosts {
+model postViews {
   id      Int    @id @default(autoincrement())
   user    users  @relation(fields: [userId], references: [id])
   userId  String
@@ -41,7 +40,7 @@ model viewPosts {
   postsId Int?
 }
 
-model chatPosts {
+model postPomments {
   id      Int    @id @default(autoincrement())
   content String @unique
   user    users  @relation(fields: [userId], references: [id])
@@ -50,7 +49,7 @@ model chatPosts {
   postsId Int?
 }
 
-model dotnates {
+model postDonates {
   id      Int    @id @default(autoincrement())
   content String @unique
   user    users  @relation(fields: [userId], references: [id])
