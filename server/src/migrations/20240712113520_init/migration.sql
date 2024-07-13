@@ -17,7 +17,7 @@ CREATE TABLE `orders` (
     `status` ENUM('create', 'success', 'refund', 'cancel') NOT NULL DEFAULT 'create',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
-    `usersId` VARCHAR(191) NULL,
+    `userId` VARCHAR(191) NULL,
     `servicesId` INTEGER NULL,
     `serviceSalesId` INTEGER NULL,
 
@@ -32,7 +32,7 @@ CREATE TABLE `payments` (
     `status` ENUM('success', 'cancel', 'ide', 'error') NOT NULL DEFAULT 'ide',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
-    `usersId` VARCHAR(191) NULL,
+    `userId` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -234,7 +234,7 @@ CREATE TABLE `profiles` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `orders` ADD CONSTRAINT `orders_usersId_fkey` FOREIGN KEY (`usersId`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `orders` ADD CONSTRAINT `orders_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `orders` ADD CONSTRAINT `orders_servicesId_fkey` FOREIGN KEY (`servicesId`) REFERENCES `services`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -243,7 +243,7 @@ ALTER TABLE `orders` ADD CONSTRAINT `orders_servicesId_fkey` FOREIGN KEY (`servi
 ALTER TABLE `orders` ADD CONSTRAINT `orders_serviceSalesId_fkey` FOREIGN KEY (`serviceSalesId`) REFERENCES `serviceSales`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `payments` ADD CONSTRAINT `payments_usersId_fkey` FOREIGN KEY (`usersId`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `payments` ADD CONSTRAINT `payments_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `posts` ADD CONSTRAINT `posts_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

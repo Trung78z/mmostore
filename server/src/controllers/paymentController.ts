@@ -17,6 +17,41 @@ export const createPayment = async (req: Request, res: Response) => {
   }
 };
 
+export const createWithdraw = async (req: Request, res: Response) => {
+  const { total, banking, accountBank, description } = req.body;
+  try {
+    if (req.user) {
+      const withDraw = await paymentService.createWithdraw(
+        total,
+        banking,
+        accountBank,
+        description,
+        req.user.id
+      );
+      res.status(200).json({ success: true, withDraw });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+export const updateWithdraw = async (req: Request, res: Response) => {
+  const { status } = req.body;
+  const { id } = req.params;
+  try {
+    const withDraw = await paymentService.updateWithdraw(id, status);
+    res.status(200).json({ success: true, withDraw });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export const updatePayment = async (req: Request, res: Response) => {
   const { total } = req.body;
   const { id } = req.params;
@@ -77,6 +112,34 @@ export const updatePaymentByAdminSuccess = async (
     const response = await paymentService.updatePaymentByAdminSuccess(id);
     return res.status(200).json({ success: true, msg: response });
   } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const findAllWithDrawByUser = async (req: Request, res: Response) => {
+  try {
+    if (req.user) {
+      const payment = await paymentService.findAllWithDrawByUser(req.user.id);
+      return res.status(201).json({ success: true, payment });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const findAllWithDrawByAdmin = async (req: Request, res: Response) => {
+  try {
+    const payment = await paymentService.findAllWithDrawByAdmin();
+    return res.status(201).json({ success: true, payment });
+  } catch (error) {
+    console.log(error);
+
     return res.status(500).json({ error: "Internal server error" });
   }
 };

@@ -1,5 +1,10 @@
 import bcrypt from "bcrypt";
 import { createSlug } from "../utils/loashCover";
+enum RoleUser {
+  USER = "USER",
+  CUSTOMER = "CUSTOMER",
+  ADMIN = "ADMIN",
+}
 
 export function user() {
   return [
@@ -7,6 +12,7 @@ export function user() {
       email: "trungpspy@gmail.com",
       username: "trungpspy",
       password: bcrypt.hashSync("Trungpy78@", 10),
+
       profiles: {
         firstName: "Nguyen Thanh",
         lastName: "Trung",
@@ -27,6 +33,7 @@ export function user() {
       email: "admin@gmail.com",
       username: "admin",
       password: bcrypt.hashSync("Trungpy78@", 10),
+      role: "ADMIN" as RoleUser,
       profiles: {
         firstName: "Tap hoa",
         lastName: "Trung",

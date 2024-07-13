@@ -28,7 +28,7 @@ export default function ViewPricing({ item, setData, dataOld, setDataOld }) {
     try {
       const response = await axios.put(
         "/payment/admin/" + item.id,
-        { total: total, userId: item.usersId },
+        { total: total, userId: item.userId },
         {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),

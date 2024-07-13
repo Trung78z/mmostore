@@ -19,6 +19,7 @@ model users {
   orders          orders[]
   Reviews         Reviews[]
   payments        payments[]
+  withdraws       withdraws[]
 }
 
 model profiles {

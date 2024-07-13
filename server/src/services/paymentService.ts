@@ -1,5 +1,13 @@
 import prisma from "../configs/dbs";
 import { v4 as uuidv4 } from "uuid";
+
+enum RoleStatusService {
+  cancel = "cancel",
+  success = "success",
+  ide = "ide",
+  error = "error",
+}
+
 async function generateUniqueShortUuid() {
   let isUnique = false;
   let shortUuid;
@@ -18,6 +26,21 @@ async function generateUniqueShortUuid() {
   return shortUuid;
 }
 
+async function generateUniqueShortUuidWithdraw() {
+  let isUnique = false;
+  let shortUuid;
+  while (!isUnique) {
+    shortUuid = uuidv4().slice(0, 8);
+    const existingRecord = await prisma.withdraws.findUnique({
+      where: { id: shortUuid },
+    });
+    if (!existingRecord) {
+      isUnique = true;
+    }
+  }
+  return shortUuid;
+}
+
 export const createPayment = async (
   userId?: string,
   total?: number,
@@ -30,7 +53,7 @@ export const createPayment = async (
         id: idBem,
         total: total,
         image: image,
-        usersId: userId,
+        userId: userId,
       },
     });
     return { success: true, msg: newService };
@@ -39,14 +62,48 @@ export const createPayment = async (
   }
 };
 
+export const createWithdraw = async (
+  total: number,
+  banking: string,
+  accountBank: string,
+  description: string,
+  userId: string
+) => {
+  const idBem = await generateUniqueShortUuidWithdraw();
+  if (idBem) {
+    const newService = await prisma.withdraws.create({
+      data: {
+        id: idBem,
+        total: total,
+        banking: banking,
+        accountBank: accountBank,
+        description: description,
+        userId: userId,
+      },
+    });
+    return { success: true, msg: newService };
+  } else {
+    throw new Error("Internal server error");
+  }
+};
+
+export const updateWithdraw = async (id: string, status: RoleStatusService) => {
+  return await prisma.withdraws.update({
+    where: { id: id },
+    data: {
+      status: status,
+    },
+  });
+};
+
 export const updatePayment = async (
   id: string,
-  usersId: string,
+  userId: string,
   total?: number,
   image?: string
 ) => {
   const newService = await prisma.payments.update({
-    where: { id, usersId },
+    where: { id, userId },
     data: { total, image },
   });
   return newService;
@@ -95,9 +152,16 @@ export const updatePaymentByAdminSuccess = async (id: string) => {
   });
 };
 
-export const findAllPaymentByUser = async (usersId: string) => {
+export const findAllWithDrawByUser = async (userId: string) => {
+  return await prisma.withdraws.findMany({ where: { userId } });
+};
+export const findAllWithDrawByAdmin = async () => {
+  return await prisma.withdraws.findMany();
+};
+
+export const findAllPaymentByUser = async (userId: string) => {
   return await prisma.payments.findMany({
-    where: { usersId, NOT: { total: null } },
+    where: { userId, NOT: { total: null } },
   });
 };
 

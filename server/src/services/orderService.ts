@@ -34,12 +34,12 @@ export const createOrder = async (
   sale: number,
   total: number,
   refund: number,
-  usersId: string,
+  userId: string,
   serviceSalesId?: number,
   servicesId?: number
 ) => {
   const profile = await prisma.profiles.findUnique({
-    where: { userId: usersId },
+    where: { userId: userId },
     select: { accountBalance: true },
   });
 
@@ -54,13 +54,13 @@ export const createOrder = async (
           sale: sale,
           total: total,
           refund: refund,
-          usersId: usersId,
+          userId: userId,
           servicesId: servicesId,
           serviceSalesId: serviceSalesId,
         },
       });
       const updatedProfile = await prisma.profiles.update({
-        where: { userId: usersId },
+        where: { userId: userId },
         data: {
           accountBalance: profile.accountBalance - total,
         },
@@ -105,7 +105,7 @@ export const findAllOrder = async () => {
 };
 export const findByUserOrder = async (userId: string) => {
   return await prisma.orders.findMany({
-    where: { usersId: userId },
+    where: { userId: userId },
     include: {
       services: {
         select: {
