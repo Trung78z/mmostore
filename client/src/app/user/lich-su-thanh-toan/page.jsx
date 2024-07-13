@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import {
   Table,
@@ -32,25 +32,29 @@ import { formatDatePost } from "@/lib/utils";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
+import { AuthContext } from "@/lib/hooks/AuthProvider";
+import Swal from "sweetalert2";
 function formatPrice(price) {
   return price.toLocaleString("vi-VN");
 }
 const schema = z.object({
   total: z
     .number()
-    .min(10000, { message: "Vui lòng nạp ít nhất 10k VND" })
-    .max(1000000, { message: "Vui lòng nạp nhiều nhất 1tr VND" }),
+    .min(10000, { message: "Vui lòng rút ít nhất 10k VND" })
+    .max(5000000, { message: "Vui lòng rút nhiều nhất 5tr VND" }),
   banking: z
     .string()
     .min(10, { message: "Vui lòng ghi rõ tên ngân hàng" })
     .max(100, { message: "Tên ngân hàng gì mà nhiều thế!" }),
   accountBank: z
     .string()
-    .min(8, { message: "Vui lòng ghi rõ tên ngân hàng" })
+    .min(8, { message: "Vui lòng ghi rõ tài khoản ngân hàng" })
     .max(30, { message: "Tên ngân hàng gì mà nhiều thế!" }),
 });
 
 export default function LichSuThanhToan() {
+  const { authState, setAuthState } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -60,9 +64,22 @@ export default function LichSuThanhToan() {
 
   let [isOpen, setIsOpen] = useState(false);
   const [row, setRow] = useState([]);
+  const [rowDraw, setRowDraw] = useState([]);
   useEffect(() => {
     fetch();
+    fetchWithdraw();
   }, []);
+  const fetchWithdraw = async () => {
+    try {
+      const res = await axios.get("/payment/withdraw/user", {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      console.log(res.data);
+      setRowDraw(res.data.payment);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetch = async () => {
     try {
       const response = await axios.get("/payment/", {
@@ -73,8 +90,31 @@ export default function LichSuThanhToan() {
     } catch (error) {}
   };
   const onSubmit = async (data) => {
+    if (authState.accountBalance < data.total) {
+      return Swal.fire({
+        title: "Bạn không đủ tiền?",
+        text: "Bạn không đủ tiền để rút?",
+        icon: "info",
+      });
+    }
     try {
-    } catch (error) {}
+      const response = await axios.post("/payment/withdraw", data, {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+
+      console.log(response.data);
+      setRowDraw((prev = [...prev, response.data.withDraw.msg]));
+      setAuthState({
+        ...authState,
+        accountBalance: response.data.withDraw.resProfile.accountBalance,
+      });
+      reset({ total: 0, banking: "", accountBank: "" });
+      toast.success("Yêu cầu rút tiền thành công!");
+      setIsOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Yêu cầu rút tiền không thành công!");
+    }
   };
   return (
     <div>
@@ -137,7 +177,7 @@ export default function LichSuThanhToan() {
                 onClose={() => setIsOpen(false)}
                 className="relative z-50"
               >
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
                     <DialogPanel className="max-w-lg space-y-4 rounded-lg border bg-white p-12">
                       <DialogTitle className="font-bold">
@@ -157,22 +197,41 @@ export default function LichSuThanhToan() {
                             type="number"
                             {...register("total", { valueAsNumber: true })}
                             className="mt-1 block min-w-full rounded-sm border p-2"
-                          />
+                          />{" "}
+                          {errors.total && (
+                            <p className="text-red-600">
+                              {errors.total.message}
+                            </p>
+                          )}
                         </Field>
 
                         <Field>
                           <Label className="block">Tên ngân hàng</Label>
                           <Input
+                            name="banking"
+                            type="text"
+                            {...register("banking")}
                             className="mt-1 block min-w-full rounded-sm border p-2"
-                            name="bank"
-                          />
+                          />{" "}
+                          {errors.banking && (
+                            <p className="text-red-600">
+                              {errors.banking.message}
+                            </p>
+                          )}
                         </Field>
                         <Field>
                           <Label className="block">Số tài khoản</Label>
                           <Input
+                            name="accountBank"
+                            type="text"
+                            {...register("accountBank")}
                             className="mt-1 block min-w-full rounded-sm border p-2"
-                            name="bankId"
-                          />
+                          />{" "}
+                          {errors.accountBank && (
+                            <p className="text-red-600">
+                              {errors.accountBank.message}
+                            </p>
+                          )}
                         </Field>
                       </Fieldset>
                       <div className="flex justify-end gap-4">
@@ -208,17 +267,19 @@ export default function LichSuThanhToan() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>dsadsads</TableCell>
-                    <TableCell className="font-medium">
-                      {new Date().toLocaleDateString("vi-VN")}
-                    </TableCell>
-                    <TableCell>AGRIBANK</TableCell>
-                    <TableCell>29381023812093</TableCell>
-                    <TableCell>VND</TableCell>
-                    <TableCell>222222</TableCell>
-                    <TableCell>ide</TableCell>
-                  </TableRow>
+                  {rowDraw.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.id}</TableCell>
+                      <TableCell className="font-medium">
+                        {formatDatePost(item.createdAt)}
+                      </TableCell>
+                      <TableCell>{item.banking}</TableCell>
+                      <TableCell>{item.accountBank}</TableCell>
+                      <TableCell>VND</TableCell>
+                      <TableCell>{item.total}</TableCell>
+                      <TableCell>{item.status}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </div>

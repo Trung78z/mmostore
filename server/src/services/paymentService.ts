@@ -69,19 +69,36 @@ export const createWithdraw = async (
   description: string,
   userId: string
 ) => {
-  const idBem = await generateUniqueShortUuidWithdraw();
-  if (idBem) {
-    const newService = await prisma.withdraws.create({
-      data: {
-        id: idBem,
-        total: total,
-        banking: banking,
-        accountBank: accountBank,
-        description: description,
-        userId: userId,
-      },
-    });
-    return { success: true, msg: newService };
+  const profile = await prisma.profiles.findUnique({
+    where: { userId: userId },
+    select: { accountBalance: true },
+  });
+
+  if (profile?.accountBalance && profile.accountBalance > total) {
+    const idBem = await generateUniqueShortUuidWithdraw();
+    if (idBem) {
+      const draw = await prisma.withdraws.create({
+        data: {
+          id: idBem,
+          total: total,
+          banking: banking,
+          accountBank: accountBank,
+          description: description,
+          userId: userId,
+        },
+      });
+      const resProfile = await prisma.profiles.update({
+        where: { userId: userId },
+        data: {
+          accountBalance: profile.accountBalance - total,
+        },
+        select: { accountBalance: true },
+      });
+
+      return { success: true, msg: draw, resProfile };
+    } else {
+      throw new Error("Internal server error");
+    }
   } else {
     throw new Error("Internal server error");
   }

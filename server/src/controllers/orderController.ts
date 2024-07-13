@@ -17,7 +17,6 @@ export const createOrder = async (req: Request, res: Response) => {
         serviceSalesId,
         servicesId
       );
-      console.log(newService);
 
       return res.status(201).json({ success: true, newService });
     } else {
