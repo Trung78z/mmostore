@@ -13,23 +13,21 @@ import { MdDelete } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 
 import { Button, Input } from "@headlessui/react";
-import ViewBaiviet from "@/components/kiemduyet/ViewBaiviet";
-import { payment } from "@/lib/placeholder";
-import ViewPricing from "@/components/thanhtoan/ViewPricing";
+
 import ViewPhanHoi from "@/components/phanhoi/ViewPhanHoi";
 import { toast } from "react-toastify";
 import axios from "@/configs/api";
 import { formatContent } from "@/lib/utils";
 export default function DonHangSanPham() {
   const [data, setData] = useState([]);
-  const [dataOld, setDataOld] = useState(payment);
+  const [dataOld, setDataOld] = useState([]);
   useEffect(() => {
     fetch();
   }, []);
 
   const fetch = async () => {
     try {
-      const response = await axios.get("/contacts/admin/USER", {
+      const response = await axios.get("/contacts/admin/CUSTOMER", {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       });
       setDataOld(response.data.msg);
@@ -83,7 +81,7 @@ export default function DonHangSanPham() {
       <div className="space-y-2">
         <div className="card flex flex-col items-center justify-between md:flex-row">
           <h1 className="flex-1 text-2xl font-medium">
-            Phản hồi cho người bán hàng
+            Phản hồi cho người bán
           </h1>
           <div className="space-x-4">
             <Input

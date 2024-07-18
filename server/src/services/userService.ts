@@ -22,7 +22,11 @@ export const registerUser = async (
 export const findUserByEmail = async (email: string) => {
   return await prisma.users.findUnique({
     where: { email },
-    include: { profiles: { select: { accountBalance: true } } },
+    include: {
+      profiles: {
+        select: { accountBalance: true, firstName: true, lastName: true },
+      },
+    },
   });
 };
 
@@ -55,8 +59,12 @@ export const findUserById = async (id: string) => {
 export const findRoleUserById = async (id: string) => {
   return await prisma.users.findUnique({
     where: { id },
-
-    select: { role: true, profiles: { select: { accountBalance: true } } },
+    select: {
+      role: true,
+      profiles: {
+        select: { accountBalance: true, lastName: true, firstName: true },
+      },
+    },
   });
 };
 export const updateUserById = async (

@@ -1,6 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@headlessui/react";
+import { Input, Button } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -12,6 +11,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import axios from "@/configs/api";
+import { FaCheckCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
 export default function DonHangSanPham() {
   const [row, setRow] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,8 +31,27 @@ export default function DonHangSanPham() {
       if (response.data.success === false) {
         setRow([]);
       }
+
       setLoading(false);
       setRow(response.data.order);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  const handleActive = async (id) => {
+    try {
+      const response = await axios.put("/orders/" + id, null, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      });
+      const filter = row.filter((item) => {
+        return item.id === id ? (item.confirmSeller = true) : item;
+      });
+      setRow(filter);
+      toast("Xác nhận thành công!");
+      // setLoading(false);
+      // setRow(response.data.order);
     } catch (error) {
       setLoading(false);
     }
@@ -64,7 +84,9 @@ export default function DonHangSanPham() {
               <option value="Người bán">Hủy</option>
               <option value="Người bán">Thất bại</option>
             </select>
-            <Button className="px-2 py-0 text-sm">Tìm đơn hàng</Button>
+            <Button className="rounded-md bg-blue-500 px-2 py-2 text-sm font-medium text-white hover:bg-blue-600">
+              Tìm đơn hàng
+            </Button>
           </div>
         </div>
         <div className="card space-y-6">
@@ -104,7 +126,7 @@ export default function DonHangSanPham() {
                   Trạng thái
                 </TableHead>
                 <TableHead className="flex-shrink-0 text-start">
-                  Thao tác
+                  Xác nhận hoàn thành
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -132,7 +154,20 @@ export default function DonHangSanPham() {
                   <TableCell className="font-medium">{item.total}</TableCell>
                   <TableCell className="font-medium">{item.refund}</TableCell>
                   <TableCell className="font-medium">{item.status}</TableCell>
-                  <TableCell className="font-medium">{item.sale}</TableCell>
+                  <TableCell className="font-medium">
+                    <Button
+                      disabled={item.confirmSeller}
+                      className={`flex items-center gap-2 text-xl ${!item.confirmSeller ? `text-red-500` : `text-green-500`} `}
+                      onClick={() => handleActive(item.id)}
+                    >
+                      <FaCheckCircle />
+                      <span
+                        className={`text-sm font-normal ${!item.confirmSeller && `text-red-500`} `}
+                      >
+                        {item.confirmSeller ? "Đã xác nhận" : "Chưa xác nhận"}
+                      </span>
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -50,7 +50,7 @@ export const createPost = async (req: Request, res: Response) => {
 };
 export const likePost = async (req: Request, res: Response) => {
   const { postId } = req.body;
-  console.log(req.body);
+
   try {
     if (req.user) {
       const likePost = await postService.likePost(req.user.id, postId);
@@ -69,7 +69,6 @@ export const likePost = async (req: Request, res: Response) => {
 
 export const viewPost = async (req: Request, res: Response) => {
   const { postId } = req.body;
-  console.log(req.body);
 
   try {
     if (req.user) {

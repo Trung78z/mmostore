@@ -134,8 +134,6 @@ export const updatePaymentByAdminStatus = async (
   req: Request,
   res: Response
 ) => {
-  console.log(req.body);
-
   const { id } = req.params;
   const { status } = req.body;
   try {

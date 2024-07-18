@@ -13,3 +13,8 @@ Content-Type: application/json
 ### Register a new user
 GET {{baseUrl}}/categories/services
 Content-Type: application/json
+
+
+### Register a new user
+GET {{baseUrl}}/categories/services/email
+Content-Type: application/json

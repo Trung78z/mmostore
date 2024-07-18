@@ -31,7 +31,7 @@ const schema = z.object({
     }),
 });
 
-export default function Example() {
+export default function LoginPage() {
   const { setAuthState } = useContext(AuthContext);
   const router = useRouter();
   const {
@@ -55,6 +55,8 @@ export default function Example() {
         id: user.data.id,
         role: user.data.role,
         accountBalance: user.data.accountBalance || 0,
+        lastName: user.data.lastName,
+        firstName: user.data.firstName,
       });
       sessionStorage.setItem("token", user.data.accessToken);
       toast("Đăng nhập thành công!", { autoClose: 700 });

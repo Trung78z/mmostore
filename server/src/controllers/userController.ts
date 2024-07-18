@@ -6,6 +6,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from "../helpers/tokenHelpers";
+import { first } from "lodash";
 export const registerUser = async (req: Request, res: Response) => {
   const { email, username, password, role = "user" } = req.body;
 
@@ -55,6 +56,8 @@ export const loginUser = async (req: Request, res: Response) => {
         id: user.id,
         role: user.role,
         accountBalance: user.profiles?.accountBalance,
+        firstName: user.profiles?.firstName,
+        lastName: user.profiles?.lastName,
       });
     } else {
       res.status(200).json({

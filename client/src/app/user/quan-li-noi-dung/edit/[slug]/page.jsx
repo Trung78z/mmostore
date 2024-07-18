@@ -90,9 +90,9 @@ export default function EditBaiViet() {
             thưởng từ sàn.
           </p>
         </li>
-        <li className="text-green-500">
+        {/* <li className="text-green-500">
           <p>Tiền donate sẽ được nhận sau 3 ngày.</p>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { AuthContext } from "@/lib/hooks/AuthProvider";
 
+import CardDichVuOther from "@/components/danh-muc/CardDichVuOther";
 export default function SlugServices() {
   const { slug } = useParams();
 
@@ -245,9 +246,9 @@ export default function SlugServices() {
                         >
                           Mua hàng
                         </Button>
-                        <Button className="rounded-sm bg-primary p-3 py-1 text-xl font-semibold text-white">
+                        {/* <Button className="rounded-sm bg-primary p-3 py-1 text-xl font-semibold text-white">
                           Đặt trước
-                        </Button>
+                        </Button> */}
                         <Button className="rounded-sm border border-primary p-3 py-1 text-xl font-semibold text-primary">
                           Nhắn tin
                         </Button>
@@ -273,9 +274,9 @@ export default function SlugServices() {
                     <Tab className="rounded-lg px-5 py-2 data-[selected]:border-none data-[selected]:bg-background data-[selected]:text-black data-[hover]:underline">
                       Reviews
                     </Tab>
-                    <Tab className="rounded-lg px-5 py-2 data-[selected]:border-none data-[selected]:bg-background data-[selected]:text-black data-[hover]:underline">
+                    {/* <Tab className="rounded-lg px-5 py-2 data-[selected]:border-none data-[selected]:bg-background data-[selected]:text-black data-[hover]:underline">
                       Tab 3
-                    </Tab>
+                    </Tab> */}
                   </TabList>
                   <TabPanels className="md:mx-10">
                     <TabPanel
@@ -286,7 +287,7 @@ export default function SlugServices() {
                       {Array.from({ length: 5 }).map((_, index) => (
                         <div key={index} className="flex">
                           <Image
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
                             alt=""
                             width={40}
                             height={40}
@@ -313,6 +314,10 @@ export default function SlugServices() {
                     ></TabPanel>
                   </TabPanels>
                 </TabGroup>
+              </div>
+              <div className="">
+                <h4> Dịch vụ tương tự</h4>
+                <CardDichVuOther />
               </div>
             </div>
           </>

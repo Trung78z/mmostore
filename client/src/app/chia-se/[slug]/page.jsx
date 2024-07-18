@@ -70,9 +70,9 @@ export default function SlugShare({ params }) {
             <Button className="rounded-lg bg-blue-500 px-4 text-white hover:bg-blue-500/80">
               Like
             </Button>
-            <Button className="rounded-lg bg-red-500 px-4 text-white hover:bg-red-500/80">
+            {/* <Button className="rounded-lg bg-red-500 px-4 text-white hover:bg-red-500/80">
               Donate
-            </Button>
+            </Button> */}
           </div>
           <ul className="card list-none space-y-4">
             <li className="card-item">
@@ -82,9 +82,9 @@ export default function SlugShare({ params }) {
               </p>
             </li>
             <li className="ml-0">
-              <Button className="rounded-lg bg-red-500 px-4 py-1 text-xl text-white hover:bg-red-500/80">
+              {/* <Button className="rounded-lg bg-red-500 px-4 py-1 text-xl text-white hover:bg-red-500/80">
                 Donate
-              </Button>
+              </Button> */}
             </li>
             <li className="ml-0">
               <form className="space-y-4">

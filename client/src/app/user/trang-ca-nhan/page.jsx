@@ -8,7 +8,7 @@ import axios from "@/configs/api";
 import { formatDate, formatDatePost, formatTime } from "@/lib/utils";
 import { format } from "date-fns";
 export default function TrangCaNhan() {
-  const { authState, setAuthState } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
   const [item, setItem] = useState({});
   useEffect(() => {
     fetch();
@@ -143,7 +143,7 @@ export default function TrangCaNhan() {
               fill={true}
             ></Image>
           </div>
-          <h3>@Hoàng Vương</h3>
+          <h3>@{item.username}</h3>
           <p>Online</p>
           <Button className="rounded-lg bg-primary/80 px-4 py-2 text-xl text-white">
             Gian hàng

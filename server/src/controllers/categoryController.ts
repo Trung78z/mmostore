@@ -28,3 +28,12 @@ export const getCateService = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+export const getCateSub = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const msg = await category.getCategoriesSub(id);
+    res.status(200).json({ success: true, msg });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

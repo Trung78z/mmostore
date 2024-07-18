@@ -40,16 +40,42 @@ export function user() {
         accountBalance: 20000000,
       },
     },
+    {
+      email: "admin1@gmail.com",
+      username: "admin1",
+      password: bcrypt.hashSync("Admin1@2024", 10),
+      role: "ADMIN" as RoleUser,
+      profiles: {
+        firstName: "Tap hoa",
+        lastName: "Trung",
+        accountBalance: 20000000,
+      },
+    },
+    {
+      email: "customer@gmail.com",
+      username: "customer",
+      password: bcrypt.hashSync("Customer@2024", 10),
+      role: "CUSTOMER" as RoleUser,
+      profiles: {
+        firstName: "ADMIN 2",
+        lastName: "Vip",
+        accountBalance: 20000000,
+      },
+    },
+    {
+      email: "user2024@gmail.com",
+      username: "user2024",
+      password: bcrypt.hashSync("user2024@2024", 10),
+      role: "USER" as RoleUser,
+      profiles: {
+        firstName: "ADMIN 2",
+        lastName: "Vip",
+        accountBalance: 20000000,
+      },
+    },
   ];
 }
-// export function profile(userId: string) {
-//   return {
-//     firstName: "Nguyen Thanh",
-//     lastName: "Trung",
-//     accountBalance: 200000,
-//     userId: userId,
-//   };
-// }
+
 export function post(userId: string) {
   return [
     {
@@ -300,6 +326,82 @@ export function service(userId: string) {
       serviceSubCategoryId: 5,
       serviceChildrenCategoryId: 39,
     },
+
+    {
+      title: "Twttier X Buff Follow SIÊU RẺ 1",
+      content:
+        "Gmail ngoại iOS, random IP, đã ngâm đủ 14 ngày Kinh doanh: Gmail random IP >7 ngày ( Đọc mô tả trước khi sử dụng) | Gmail random IP >8 tháng | Gmail random IP >6 tháng | Gmail API random > 7 ngày ( ĐỌC MAIL KHÔNG CẦN LOGIN) | Gmail random IP >3 tháng",
+      image:
+        "http://localhost:8080/api/image/uploads/posts/avatar-1720108835434-873122554",
+      slug: createSlug("Twttier X Buff Follow SIÊU RẺ 1"),
+      description: descriptions,
+      createdAt: "2024-07-04T12:40:45.279Z",
+      updatedAt: "2024-07-04T15:15:12.000Z",
+      userId: userId,
+      serviceCategoryId: 1,
+      serviceSubCategoryId: 2,
+      serviceChildrenCategoryId: 13,
+    },
+    {
+      title: "Gmail đã ngâm từ 7 ngày đến 2 tháng siêu rẻ 2",
+      content:
+        "Gmail đã ngâm trên 10 ngày - 2 tháng bao trâu\nKinh doanh: Gmail new mix ip đã ngâm trên 1 tháng | Gmail new mix ip đã ngâm trên 7 ngày bao trâu",
+      image:
+        "http://localhost:8080/api/image/uploads/posts/avatar-1720108835434-873122554",
+      slug: createSlug("Gmail đã ngâm từ 7 ngày đến 2 tháng siêu rẻ 2"),
+      description: descriptions2,
+      createdAt: "2024-07-04T12:40:45.385Z",
+      updatedAt: "2024-07-04T16:29:19.000Z",
+      userId: userId,
+      serviceCategoryId: 1,
+      serviceSubCategoryId: 2,
+      serviceChildrenCategoryId: 13,
+    },
+    {
+      title: "Gmail ( cho thuê ) - Giá rẻ 1",
+      content:
+        "Gmail cho thuê để getcode, nhận thư, giá rẻ. Đuôi @gmail.com\nKinh doanh: Gmail cho thuê giá rẻ",
+      image:
+        "http://localhost:8080/api/image/uploads/posts/avatar-1720108835434-873122554",
+      slug: createSlug("Gmail ( cho thuê ) - Giá rẻ 1"),
+      description: descriptions2,
+      createdAt: "2024-07-04T12:40:45.385Z",
+      updatedAt: "2024-07-04T16:29:19.000Z",
+      userId: userId,
+      serviceCategoryId: 1,
+      serviceSubCategoryId: 2,
+      serviceChildrenCategoryId: 13,
+    },
+    {
+      title: "MAIL VIỆT TRÊN 1 NĂM CHƯA QUA DỊCH VỤ SIÊU KHỎE1",
+      content:
+        "Mail Việt Ip Việt Đã Live Trên 1 Năm Chưa Qua Dịch Vụ Bao Khỏe Cho Các Bác\nKinh doanh: Gmail Việt Chưa Qua Dịch Vụ Trên 1 Năm",
+      image:
+        "http://localhost:8080/api/image/uploads/posts/avatar-1720108835434-873122554",
+      slug: createSlug("MAIL VIỆT TRÊN 1 NĂM CHƯA QUA DỊCH VỤ SIÊU KHỎE1"),
+      description: descriptions2,
+      createdAt: "2024-07-04T12:40:45.385Z",
+      updatedAt: "2024-07-04T16:30:46.000Z",
+      userId: userId,
+      serviceCategoryId: 1,
+      serviceSubCategoryId: 2,
+      serviceChildrenCategoryId: 13,
+    },
+    {
+      title: "Gmail kèm kênh youtube giá rẻ2",
+      content:
+        "Gmail kèm kênh youtube giá rẻ, và nhiều hơn nữa... mình có bán kênh 1000sub mn qua gian hàng tham khảo nhé\nKinh doanh: Kênh youtube >1100 subcribers | Kênh youtube > 1100 subcriber | Kênh youtube 940 ~ 1020 subcribers >3100h xem | Kênh youtube 920 ~ 1180 subcribers 2600~2700h xem",
+      image:
+        "http://localhost:8080/api/image/uploads/posts/avatar-1720108835434-873122554",
+      slug: createSlug("Gmail kèm kênh youtube giá rẻ2"),
+      description: descriptions,
+      createdAt: "2024-07-04T12:40:45.385Z",
+      updatedAt: "2024-07-04T16:30:46.000Z",
+      userId: userId,
+      serviceCategoryId: 1,
+      serviceSubCategoryId: 2,
+      serviceChildrenCategoryId: 13,
+    },
   ];
 }
 
@@ -317,12 +419,72 @@ export const serviceSell = [
   {
     title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 30 ngày)",
     price: 60,
-    servicesId: 1,
+    servicesId: 2,
   },
   {
     title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 15 ngày)",
     price: 40,
-    servicesId: 1,
+    servicesId: 2,
+  },
+  {
+    title: "Combo 500 Follow (BH 30 ngày)",
+    price: 29999,
+    servicesId: 3,
+  },
+  {
+    title: "Combo 500 Follow (BH 15 ngày)",
+    price: 19999,
+    servicesId: 3,
+  },
+  {
+    title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 30 ngày)",
+    price: 60,
+    servicesId: 4,
+  },
+  {
+    title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 15 ngày)",
+    price: 40,
+    servicesId: 4,
+  },
+  {
+    title: "Combo 500 Follow (BH 30 ngày)",
+    price: 29999,
+    servicesId: 5,
+  },
+  {
+    title: "Combo 500 Follow (BH 15 ngày)",
+    price: 19999,
+    servicesId: 6,
+  },
+  {
+    title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 30 ngày)",
+    price: 60,
+    servicesId: 7,
+  },
+  {
+    title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 15 ngày)",
+    price: 40,
+    servicesId: 6,
+  },
+  {
+    title: "Combo 500 Follow (BH 30 ngày)",
+    price: 29999,
+    servicesId: 4,
+  },
+  {
+    title: "Combo 500 Follow (BH 15 ngày)",
+    price: 19999,
+    servicesId: 7,
+  },
+  {
+    title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 30 ngày)",
+    price: 60,
+    servicesId: 8,
+  },
+  {
+    title: "1 Follow (Min 500 foll chia nhiều tài khoản) (BH 15 ngày)",
+    price: 40,
+    servicesId: 9,
   },
 ];
 const descriptions = `<div id="myDescription" class="typography"><div><font color="#000000"><font size="3"><font face="Times New Roman"><font face="Roboto, &quot;sans-serif&quot;"><strong><strong><strong><font color="#3d464d"><font size="3"><font color="#3d464d"><font size="6"><font face="Roboto, &quot;sans-serif&quot;"><strong><font color="#72ff84">Mã giảm giá 10% cho đơn trên 500k</font></strong></font></font></font></font></font></strong><strong><font color="#3d464d"><font size="3"><font color="#3d464d"><font size="6"><font face="Roboto, &quot;sans-serif&quot;"><strong><font color="#1e92f7">&nbsp; &nbsp;</font></strong></font></font></font></font></font></strong><strong><font color="#3d464d"><font size="3"><font color="#3d464d"><font size="6"><font face="Roboto, &quot;sans-serif&quot;"><strong><font color="#4cea5e">:&nbsp;</font></strong></font></font></font></font></font></strong><strong><font color="#3d464d"><font size="3"><font color="#3d464d"><font size="6"><font face="Roboto, &quot;sans-serif&quot;"><strong><font color="#4cea5e">&nbsp;&nbsp;</font></strong></font></font></font></font></font></strong><strong><font face="Roboto, &quot;sans-serif&quot;"><strong><font face="Arial, &quot;sans-serif&quot;">&nbsp;<font face="Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;">&nbsp;<font face="Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;"><em><u><font color="#f551ff"><font size="5"><font face="Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;">DVX2024PLUS</font></font></font></u></em></font></font></font></strong></font></strong></strong></strong></font></font></font></font><br></div>

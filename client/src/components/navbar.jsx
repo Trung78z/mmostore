@@ -68,7 +68,14 @@ export default function Navbar() {
       });
       sessionStorage.removeItem("token");
       toast("Bạn đã đăng xuất thành công!", { autoClose: 700 });
-      setAuthState({ status: false, id: null, role: "", accountBalance: 0 });
+      setAuthState({
+        status: false,
+        id: null,
+        role: "",
+        accountBalance: 0,
+        lastName: "",
+        firstName: "",
+      });
       pathname.startsWith("/user") && router.push("/");
     } catch (error) {
       console.log(error);
@@ -199,7 +206,7 @@ export default function Navbar() {
                                 Vnđ
                               </h4>
                             </div>
-                            <button
+                            {/* <button
                               type="button"
                               className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400"
                             >
@@ -214,7 +221,7 @@ export default function Navbar() {
                               <span className="absolute left-0 top-0 flex min-h-5 min-w-5 translate-y-5 items-center justify-center rounded-full bg-white p-0 text-[12px] font-semibold text-red-500">
                                 3
                               </span>
-                            </button>
+                            </button> */}
 
                             <Menu as="div" className="relative ml-3">
                               <div>
@@ -227,7 +234,7 @@ export default function Navbar() {
                                     width={8}
                                     height={8}
                                     className="h-8 w-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
                                     alt=""
                                   />
                                 </MenuButton>

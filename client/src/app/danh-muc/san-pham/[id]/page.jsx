@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/reducer/hooks";
 import CardProduct from "@/components/danh-muc/CardProduct";
 import CardProductVip from "@/components/danh-muc/CardProductVip";
 import { useParams } from "next/navigation";
-import { slugProduct, slugService } from "@/lib/data/slug";
+import { slugProduct } from "@/lib/data/slug";
 
 export default function DoanhMucDichVu() {
   const { id } = useParams();
@@ -32,6 +32,7 @@ export default function DoanhMucDichVu() {
     setData(filter);
     setDataV(filterV);
   }, [products]);
+
   return (
     <div className="flex gap-x-1 py-4">
       <div className="hidden w-[220px] md:block" id="ssssssss">
@@ -70,6 +71,7 @@ export default function DoanhMucDichVu() {
                   <>Liên hệ với chúng tôi để đặt quảng cáo!</>
                 )}
               </div>
+
               <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
                 {data.map((row, index) => (
                   <div key={index}>

@@ -19,7 +19,7 @@ import { AuthContext } from "@/lib/hooks/AuthProvider";
 export default function SlugServices() {
   const { slug } = useParams();
 
-  const { authState } = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
   const [check, setCheck] = useState(1);
   const [amount, setAmount] = useState(1);
   const [price, setPrice] = useState(0);
@@ -38,6 +38,9 @@ export default function SlugServices() {
       setAmount(1);
     }
   }
+  function handleChangeAmount(e) {
+    setAmount(e.target.value);
+  }
   function add() {
     setAmount((pre) => pre + 1);
   }
@@ -53,6 +56,8 @@ export default function SlugServices() {
         }
         setStatus(true);
         setRow(response.data.msg);
+
+        // Ensure response.data.msg and serviceSales[0] are defined before accessing price
         if (
           response.data.msg &&
           response.data.msg.serviceSales &&
@@ -73,47 +78,60 @@ export default function SlugServices() {
   }, [slug]);
 
   const handleOrder = async () => {
-    Swal.fire({
-      title: "Error!",
-      text: "Do you want to continue",
-      icon: "error",
-      confirmButtonText: "Cool",
-    });
-
+    if (price * parseInt(amount) > authState.accountBalance) {
+      return Swal.fire({
+        title: "Error!",
+        text: "Số tiền không đủ vui lòng nạp tiền thêm!",
+        icon: "error",
+        reverseButtons: true,
+        showCancelButton: true,
+        confirmButtonText: "Nạp tiền?",
+        cancelButtonText: "Không!",
+      }).then((res) => {
+        if (res.value) {
+          router.push("/nap-tien");
+        }
+      });
+    }
     const data = {
-      amount: amount,
-      unitPrice: price * amount,
+      amount: parseInt(amount),
+      unitPrice: price * parseInt(amount),
       sale: 0,
-      total: price * amount - 0,
+      total: price * parseInt(amount) - 0,
       refund: 0,
       servicesId: row.id,
       serviceSalesId: check,
     };
+    Swal.fire({
+      title: "Mua hàng?",
+      text: "Bạn chắc chắn mua hàng chứ!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Mua hàng!",
+      cancelButtonText: "Hủy!",
+      reverseButtons: true,
+    }).then(async (res) => {
+      if (res.value) {
+        try {
+          const response = await axios.post("/orders/create", data, {
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+            },
+          });
+          setAuthState({
+            ...authState,
+            accountBalance:
+              response.data.newService.updatedProfile.accountBalance,
+          });
 
-    // Swal.fire({
-    //   title: "Mua hàng?",
-    //   text: "Bạn chắc chắn mua hàng chứ!",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "Mua hàng!",
-    //   cancelButtonText: "Hủy!",
-    //   reverseButtons: true,
-    // }).then(async (res) => {
-    //   if (res.value) {
-    //     try {
-    //       const response = await axios.post("/orders/create", data, {
-    //         headers: {
-    //           Authorization: "Bearer " + sessionStorage.getItem("token"),
-    //         },
-    //       });
-    //       Swal.fire("Success!", "Đặt hàng thành công!", "success");
-    //     } catch (error) {
-    //       toast.error("Đặt hàng không thành công vui lòng thử lại!");
-    //     }
-    //   }
-    // });
+          Swal.fire("Success!", "Đặt hàng thành công!", "success");
+        } catch (error) {
+          toast.error("Đặt hàng không thành công vui lòng thử lại!");
+        }
+      }
+    });
   };
   const handleLoginPage = () => {
     router.push("/dang-nhap");
@@ -202,9 +220,13 @@ export default function SlugServices() {
                         >
                           <GrSubtractCircle className="h-6 w-6" />
                         </Button>
-                        <span className="flex w-4 justify-center">
-                          {amount}
-                        </span>
+                        <input
+                          className="flex w-10 text-center"
+                          type="number"
+                          min={1}
+                          value={amount}
+                          onChange={handleChangeAmount}
+                        ></input>
                         <Button
                           className="rounded-full hover:bg-slate-400"
                           onClick={add}
@@ -251,9 +273,9 @@ export default function SlugServices() {
                     <Tab className="rounded-lg px-5 py-2 data-[selected]:border-none data-[selected]:bg-background data-[selected]:text-black data-[hover]:underline">
                       Reviews
                     </Tab>
-                    <Tab className="rounded-lg px-5 py-2 data-[selected]:border-none data-[selected]:bg-background data-[selected]:text-black data-[hover]:underline">
+                    {/* <Tab className="rounded-lg px-5 py-2 data-[selected]:border-none data-[selected]:bg-background data-[selected]:text-black data-[hover]:underline">
                       Tab 3
-                    </Tab>
+                    </Tab> */}
                   </TabList>
                   <TabPanels className="md:mx-10">
                     <TabPanel
@@ -264,7 +286,7 @@ export default function SlugServices() {
                       {Array.from({ length: 5 }).map((_, index) => (
                         <div key={index} className="flex">
                           <Image
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
                             alt=""
                             width={40}
                             height={40}
@@ -280,7 +302,7 @@ export default function SlugServices() {
                               <FaRegStarHalfStroke className="h-4 w-4 text-yellow-500" />
                             </div>
                             <p>Sản phẩm chuẩn chất lượng.</p>
-                            {/* <p>{new Date().toLocaleDateString()}</p> */}
+                            <p>{new Date().toLocaleDateString()}</p>
                             <hr />
                           </div>
                         </div>

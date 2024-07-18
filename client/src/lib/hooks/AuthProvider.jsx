@@ -11,6 +11,8 @@ function AuthProvider({ children }) {
     id: null,
     role: "",
     accountBalance: 0,
+    lastName: "",
+    firstName: "",
   });
   useEffect(() => {
     fetch();
@@ -27,6 +29,8 @@ function AuthProvider({ children }) {
           id: result.data.id,
           role: result.data.role,
           accountBalance: result.data.profile.accountBalance,
+          lastName: result.data.profile.lastName,
+          firstName: result.data.profile.firstName,
         });
         sessionStorage.setItem("token", result.data.accessToken);
       } else {
@@ -35,6 +39,8 @@ function AuthProvider({ children }) {
           id: 0,
           role: "",
           accountBalance: 0,
+          lastName: "",
+          firstName: "",
         });
       }
     } catch (error) {

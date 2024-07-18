@@ -48,7 +48,7 @@ export const createService = async (
   });
   return newService.id;
 };
-
+export const createReview = async () => {};
 export const findByIdService = async (slug: string) => {
   try {
     const post = await prisma.services.findUnique({
@@ -83,10 +83,23 @@ export const findByIdService = async (slug: string) => {
 export const findAllServiceById = async (id: string) => {
   const services = await prisma.services.findMany({
     where: {
-      serviceCategory: { category: RoleService.service },
       serviceSubCategory: { subCategoryCover: id },
       status: "success",
     },
+    include: {
+      user: { select: { username: true } },
+      serviceCategory: { select: { category: true } },
+      serviceSubCategory: { select: { subCategory: true } },
+      serviceChildrenCategory: { select: { childrenCategory: true } },
+      serviceSales: true,
+      _count: { select: { orders: true } },
+    },
+  });
+
+  return services;
+};
+export const findSeed = async () => {
+  const services = await prisma.services.findMany({
     include: {
       user: { select: { username: true } },
       serviceCategory: { select: { category: true } },

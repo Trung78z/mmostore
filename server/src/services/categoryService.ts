@@ -53,3 +53,11 @@ export const getCategoriesService = async () => {
     orderBy: { id: "asc" },
   });
 };
+export const getCategoriesSub = async (id: string) => {
+  return await prisma.serviceSubCategory.findMany({
+    where: { subCategoryCover: id },
+    include: {
+      serviceChildrenCategory: true,
+    },
+  });
+};

@@ -39,8 +39,7 @@ model services {
   updatedAt                 DateTime                 @updatedAt
   user                      users                    @relation(fields: [userId], references: [id])
   userId                    String
-  Reviews                   Reviews[]
-  serviceLikes              serviceLikes[]
+  serviceReviews            serviceReviews[]
   serviceViews              serviceViews[]
   serviceComments           serviceComments[]
   serviceSales              serviceSales[]
@@ -51,14 +50,6 @@ model services {
   serviceSubCategoryId      Int?
   serviceChildrenCategory   serviceChildrenCategory? @relation(fields: [serviceChildrenCategoryId], references: [id])
   serviceChildrenCategoryId Int?
-}
-
-model serviceLikes {
-  id         Int       @id @default(autoincrement())
-  user       users     @relation(fields: [userId], references: [id])
-  userId     String
-  services   services? @relation(fields: [servicesId], references: [id])
-  servicesId Int?
 }
 
 model serviceSales {
@@ -87,10 +78,12 @@ model serviceComments {
   servicesId Int?
 }
 
-model Reviews {
+model serviceReviews {
   id         Int       @id @default(autoincrement())
   content    String    @unique
   level      Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
   user       users     @relation(fields: [userId], references: [id])
   userId     String
   services   services? @relation(fields: [servicesId], references: [id])

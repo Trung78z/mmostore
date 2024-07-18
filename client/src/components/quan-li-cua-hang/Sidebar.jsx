@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { Command, CommandList } from "@/components/ui/command";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
@@ -18,6 +18,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { BsChatDots } from "react-icons/bs";
 import Image from "next/image";
+import { AuthContext } from "@/lib/hooks/AuthProvider";
 
 const navigate = [
   {
@@ -44,10 +45,10 @@ const navigate = [
         title: "Đơn hàng dịch vụ",
         icon: <FaListOl className="h-6 w-6 text-white" />,
       },
-      {
-        title: "Đặt trước",
-        icon: <BiSolidTime className="h-6 w-6 text-white" />,
-      },
+      // {
+      //   title: "Đặt trước",
+      //   icon: <BiSolidTime className="h-6 w-6 text-white" />,
+      // },
       {
         title: "Khiếu nại",
         icon: <RiShoppingBag3Fill className="h-6 w-6 text-white" />,
@@ -64,10 +65,10 @@ const navigate = [
         title: "Mã giảm giá",
         icon: <RiDiscountPercentFill className="h-6 w-6 text-white" />,
       },
-      {
-        title: "Gian hàng top 1",
-        icon: <PiRankingFill className="h-6 w-6 text-white" />,
-      },
+      // {
+      //   title: "Gian hàng top 1",
+      //   icon: <PiRankingFill className="h-6 w-6 text-white" />,
+      // },
     ],
   },
 ];
@@ -75,7 +76,7 @@ export default function SidebarGiaoDich(props) {
   const pathname = usePathname();
   const path = pathname.substring(pathname.lastIndexOf("/"));
   const { active } = props;
-
+  const { authState } = useContext(AuthContext);
   return (
     <>
       <div className="fixed bottom-0 left-0 top-0 hidden min-w-60 max-w-60 rounded-r-sm border-r bg-primary/90 px-0 md:block">
@@ -135,10 +136,12 @@ export default function SidebarGiaoDich(props) {
                 height={8}
                 width={8}
                 className="inline-block rounded-full ring-2 ring-white"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
                 alt=""
               />
-              <h5>Hoàng vương</h5>
+              <h5>
+                {authState.firstName} <span>{authState.lastName}</span>
+              </h5>
             </div>
           </div>
         </div>

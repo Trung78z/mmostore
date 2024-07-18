@@ -24,6 +24,8 @@ import axios from "@/configs/api";
 
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function Themmoi() {
   const [form, setForm] = useState({
@@ -45,9 +47,11 @@ export default function Themmoi() {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [childrenCategories, setChildrenCategories] = useState([]);
+  const router = useRouter();
   useEffect(() => {
     fetchService();
   }, []);
+
   const handleChangeServiceSale = (e) => {
     const { id, value } = e.target;
     setFormSales((prev) => ({ ...prev, [id]: value }));
@@ -67,6 +71,7 @@ export default function Themmoi() {
       const response = await axios.get("/categories/services");
       setCategories(response.data.msg);
       const filter = response.data.msg[0].serviceSubCategory;
+      console.log(response.data.msg);
       setSubCategories(filter);
       const filter2 =
         response.data.msg[0].serviceSubCategory[0].serviceChildrenCategory;
@@ -142,10 +147,12 @@ export default function Themmoi() {
               Authorization: "Bearer " + sessionStorage.getItem("token"),
             },
           });
+          toast.success("Đăng bán thành công vui lòng đợi chủ shop duyệt!");
+          router.back();
         }
       });
     } catch (error) {
-      console.error(error);
+      toast.error("Đã có lỗi xảy ra hoặc trùng thông tin đã có trên sàn!");
     }
   };
   return (

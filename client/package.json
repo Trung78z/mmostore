@@ -48,7 +48,7 @@
     "react-toastify": "^10.0.5",
     "socket.io-client": "^4.7.5",
     "sweetalert2": "^11.12.2",
-    "swiper": "^11.1.4",
+    "swiper": "^11.1.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"

@@ -16,18 +16,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
-
+import axios from "@/configs/api";
 import { useAppDispatch, useAppSelector } from "@/lib/reducer/hooks";
 import { selectPosts, selectStatus } from "@/lib/features/posts/postSlice";
 import CardDoanhMucPost from "./CardDoanhMucPost";
 import { fetchPosts } from "@/lib/features/posts/actions/postActions";
 
 const FormSchema = z.object({
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
+  items: z.array(z.number()).refine((value) => value.some((item) => item), {
+    message: "Vui lòng chọn ít nhất 1 bộ lọc",
   }),
 });
-export default function LeftDoanhMuc({ id, products, setData, slugService }) {
+export default function LeftDoanhMuc({ id, products, setData }) {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(selectPosts);
   const status = useAppSelector(selectStatus);
@@ -42,18 +42,20 @@ export default function LeftDoanhMuc({ id, products, setData, slugService }) {
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
-
   useEffect(() => {
-    const filter = slugService.find((item) => {
-      return item.sub === id;
-    }).child;
-    setItems(filter);
-  }, [id, slugService]);
+    const fetchCate = async () => {
+      try {
+        const response = await axios.get("/categories/services/" + id);
+        setItems(response.data.msg[0].serviceChildrenCategory);
+      } catch (error) {}
+    };
+    fetchCate();
+  }, [id]);
+
   function onSubmit(item) {
+    console.log(products);
     const filteredListings = products.filter((listing) => {
-      return item.items.includes(
-        listing.serviceChildrenCategory.childrenCategory,
-      );
+      return item.items.includes(listing.serviceChildrenCategoryId);
     });
     setData(filteredListings);
   }
@@ -103,7 +105,7 @@ export default function LeftDoanhMuc({ id, products, setData, slugService }) {
                                 />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                {item.label}
+                                {item.childrenCategory}
                               </FormLabel>
                             </FormItem>
                           );

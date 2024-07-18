@@ -4,9 +4,7 @@ import fs from "fs";
 import path from "path";
 import { configDotenv } from "dotenv";
 configDotenv();
-export const images = (req: Request, res: Response) => {
-  return res.sendStatus(200);
-};
+
 export const getImages = (req: Request, res: Response) => {
   const filename = req.params.filename;
 
@@ -36,8 +34,9 @@ export const createService = async (req: Request, res: Response) => {
     serviceChildrenCategoryId,
     serviceSales,
   } = req.body;
+
   const duplicateCheck = duplicate === "true" ? true : false;
-  const resellerCheck = duplicate === "true" ? true : false;
+  const resellerCheck = reseller === "true" ? true : false;
 
   const filename = req.file?.filename;
   const imageUrl = filename
@@ -78,6 +77,11 @@ export const createService = async (req: Request, res: Response) => {
   }
 };
 
+export const createReview = async (req: Request, res: Response) => {
+  try {
+  } catch (error) {}
+};
+
 export const getServiceById = async (req: Request, res: Response) => {
   const { slug } = req.params;
 
@@ -90,6 +94,7 @@ export const getServiceById = async (req: Request, res: Response) => {
 };
 export const getServices = async (req: Request, res: Response) => {
   const { id } = req.params;
+
   try {
     const services = await serviceService.findAllServiceById(id);
     if (services) {
@@ -99,6 +104,17 @@ export const getServices = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+export const getSeed = async (req: Request, res: Response) => {
+  try {
+    const services = await serviceService.findSeed();
+    if (services) {
+      return res.status(200).json({ success: true, msg: services });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export const getServicesAllByAdmin = async (req: Request, res: Response) => {
   try {
     const services = await serviceService.findAllServiceAllByAdmin();
@@ -118,15 +134,6 @@ export const getProductAllByAdmin = async (req: Request, res: Response) => {
   }
 };
 
-export const getProducts = async (req: Request, res: Response) => {
-  try {
-    const posts = await serviceService.findAllProduct();
-
-    return res.status(200).json({ success: true, msg: posts });
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
 export const getByUserServices = async (req: Request, res: Response) => {
   try {
     if (req.user) {

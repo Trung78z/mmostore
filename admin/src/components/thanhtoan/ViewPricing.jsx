@@ -57,7 +57,6 @@ export default function ViewPricing({ item, setData, dataOld, setDataOld }) {
         onClick={open}
         className="rounded-md text-xl font-medium text-yellow-500 focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
       >
-        {/* <FaEye /> */}
         <FaEdit />
       </Button>
 

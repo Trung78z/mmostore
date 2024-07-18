@@ -15,6 +15,7 @@ import axios from "@/configs/api";
 import { formatContent, getMinMaxPrice } from "@/lib/utils";
 import { MdDelete } from "react-icons/md";
 import { FaCheckCircle, FaEye } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function DonHangDaMua() {
   const [row, setRow] = useState([]);
@@ -38,8 +39,22 @@ export default function DonHangDaMua() {
   const handleClickAdd = () => {
     router.push("/quan-li-cua-hang/quan-li-gian-hang/them-moi");
   };
-  const handleDelete = () => {};
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete("/services/" + id, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      });
+      const filter = row.filter((item) => item.id !== id);
+      setRow(filter);
+      toast("Đã xóa thành công! ");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleActive = () => {};
+
   return (
     <>
       <div className="space-y-2 px-2 py-4">

@@ -5,12 +5,11 @@ import {
   getServices,
   updateServiceById,
   deleteServiceById,
-  getImages,
   getByUserServices,
-  getProducts,
   updateServiceByAdmin,
   getServicesAllByAdmin,
   getProductAllByAdmin,
+  getSeed,
 } from "../controllers/serviceController";
 import authMiddleware from "../middlewares/authMiddleware";
 
@@ -22,8 +21,8 @@ const router = Router();
 router.post("/create", upload.single("service"), authMiddleware, createService);
 // *Get post
 router.get("/id/:slug", getServiceById);
-router.get("/", getProducts);
 router.get("/service/:id", getServices);
+router.get("/fetch/service", getSeed);
 router.get("/", getServices);
 router.get("/by/user", authMiddleware, getByUserServices);
 router.get(

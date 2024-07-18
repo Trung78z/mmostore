@@ -8,7 +8,8 @@
     "build": "rm -r dist && tsc",
     "start": "npm run build && node dist/index",
     "db": "npx prisma migrate dev --name init --schema=src/models",
-    "reset:db": "rm -r src/migrations && npx prisma migrate dev --name init --schema=src/models  && npm run drop:db"
+    "reset:db": "rm -r src/migrations && npx prisma migrate dev --name init --schema=src/models  && npm run drop:db",
+    "seed": "npx prisma db seed"
   },
   "prisma": {
     "seed": "ts-node src/models/seed",
