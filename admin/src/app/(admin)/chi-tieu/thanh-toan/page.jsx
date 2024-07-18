@@ -16,53 +16,88 @@ import { Button, Input } from "@headlessui/react";
 import ViewBaiviet from "@/components/kiemduyet/ViewBaiviet";
 import { payment } from "@/lib/placeholder";
 import ViewPricing from "@/components/thanhtoan/ViewPricing";
-
+import axios from "@/configs/api";
+import { formatDatePost } from "@/lib/utils";
+import { toast } from "react-toastify";
+import ViewPricingWithDraw from "@/components/thanhtoan/ViewPricingWithDraw";
 export default function DonHangSanPham() {
   const [data, setData] = useState([]);
-  const [dataOld, setDataOld] = useState(payment);
+  const [dataOld, setDataOld] = useState([]);
   useEffect(() => {
-    const update = payment.filter(
-      (item) => item.status === "Đang chờ thanh toán",
-    );
-    setData(update);
+    fetch();
   }, []);
-  const handleDelete = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã từ chối" };
-      }
-      return item;
-    });
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã từ chối" };
-      }
-      return item;
-    });
-    setDataOld(updateData1);
-    setData(updateData);
+
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/payment/withdraw/admin", {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      setDataOld(response.data.payment);
+      const filter = response.data.payment.filter(
+        (item) => item.status === "ide",
+      );
+      setData(filter);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const handleActive = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã thanh toán" };
-      }
-      return item;
-    });
-    setData(updateData);
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status: "Đã thanh toán" };
-      }
-      return item;
-    });
-    setDataOld(updateData1);
+
+  const handleActive = async (id) => {
+    try {
+      const res = await axios.put(
+        "/payment/admin/withdraw/" + id,
+        { status: "success" },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+      toast("Update thành công!");
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "success";
+        }
+        return value;
+      });
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
+  };
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.put(
+        "/payment/admin/withdraw/" + id,
+        { status: "error" },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+      toast("Update thành công!");
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "error";
+        }
+        return value;
+      });
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
   };
   const handleFilterStatus = (e) => {
     const update = dataOld.filter((item) => item.status === e.target.value);
     setData(update);
   };
-
+  const handleSearch = (e) => {
+    const filter = dataOld.filter((item) => item.id.includes(e.target.value));
+    setData(filter);
+  };
   return (
     <div className="space-y-2 px-2 py-4">
       <div className="space-y-2">
@@ -71,7 +106,8 @@ export default function DonHangSanPham() {
           <div className="space-x-4">
             <Input
               className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-max"
-              placeholder="Nhập tiêu đề bài viết..."
+              onChange={handleSearch}
+              placeholder="Tìm mã đơn hàng..."
             ></Input>
             <select
               name=""
@@ -79,18 +115,19 @@ export default function DonHangSanPham() {
               className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-max"
               onChange={handleFilterStatus}
             >
-              <option value="Đang chờ thanh toán">Đang chờ thanh toán</option>
-              <option value="Đã thanh toán">Đã thanh toán</option>
-              <option value="Từ chối thanh toán">Từ chối thanh toán</option>
+              <option value="ide">Đang chờ thanh toán</option>
+              <option value="success">Đã thanh toán</option>
+              <option value="error">Từ chối thanh toán</option>
             </select>
           </div>
         </div>
+
         <div className="card space-y-6">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="text-center">Mã đơn hàng</TableHead>
-                <TableHead className="text-center">Tên đơn hàng</TableHead>
+                <TableHead className="text-center">Tên khách hàng</TableHead>
                 <TableHead className="text-center">Số tài khoản</TableHead>
                 <TableHead className="text-center">Tên ngân hàng</TableHead>
                 <TableHead className="text-center">Số tiền</TableHead>
@@ -103,20 +140,33 @@ export default function DonHangSanPham() {
             <TableBody>
               {data.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-center">{item.maDH}</TableCell>
-                  <TableCell className="text-center">{item.tenDH}</TableCell>
-                  <TableCell className="text-center">{item.stk}</TableCell>{" "}
-                  <TableCell className="text-center">{item.tenNH}</TableCell>
-                  <TableCell className="text-center">{item.pricing}</TableCell>
+                  <TableCell className="text-center">{item.id}</TableCell>
                   <TableCell className="text-center">
-                    {item.dateUpdate}
+                    {item.users.profiles.firstName}
+                    <> </>
+                    {item.users.profiles.lastName}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {item.accountBank}
+                  </TableCell>
+                  <TableCell className="text-center">{item.banking}</TableCell>
+                  <TableCell className="text-center">
+                    {parseInt(item.total).toLocaleString("vi-VN")}
+                  </TableCell>
+                  <TableCell className="w-[190px] text-center">
+                    {formatDatePost(item.createdAt)}
                   </TableCell>{" "}
-                  <TableCell className="text-center">
-                    {item.dateBanking}
+                  <TableCell className="w-[190px] text-center">
+                    {formatDatePost(item.updatedAt)}
                   </TableCell>{" "}
                   <TableCell className="text-center">{item.status}</TableCell>
                   <TableCell className="text-center">
-                    <ViewPricing item={item} />
+                    <ViewPricingWithDraw
+                      item={item}
+                      setData={setData}
+                      dataOld={dataOld}
+                      setDataOld={setDataOld}
+                    />
                     <Button
                       className="text-xl text-red-500"
                       onClick={() => handleDelete(item.id)}

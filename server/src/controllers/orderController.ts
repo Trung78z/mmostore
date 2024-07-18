@@ -30,6 +30,7 @@ export const createOrder = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
 export const findAllOrder = async (req: Request, res: Response) => {
   try {
     const order = await orderService.findAllOrder();
@@ -73,6 +74,43 @@ export const findByUserSellOrder = async (req: Request, res: Response) => {
         .status(200)
         .json({ success: false, message: "User not authenticated" });
     }
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const updateConfirm = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  // const { RoleService } = req.user;
+  try {
+    if (req.user) {
+      const order = await orderService.updateConfirmCustomer(id, req.user.role);
+      return res.status(201).json({ success: true, order });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+export const updateOrderByAdmin = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status, total, userId } = req.body;
+
+  try {
+    const order = await orderService.updateOrderByAdmin(
+      id,
+      status,
+      parseInt(total),
+      userId
+    );
+    return res.status(201).json({ success: true, order });
   } catch (error) {
     console.log(error);
 

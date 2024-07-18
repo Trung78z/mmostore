@@ -24,10 +24,11 @@ export default function ViewPricing({ item, setData, dataOld, setDataOld }) {
   function close() {
     setIsOpen(false);
   }
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await axios.put(
-        "/payment/admin/" + item.id,
+        "/payment/admin/pay/" + item.id,
         { total: total, userId: item.userId },
         {
           headers: {

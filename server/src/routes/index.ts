@@ -7,6 +7,7 @@ import serviceRoutes from "./service";
 import imageRoutes from "./image";
 import orderRoutes from "./order";
 import paymentRoutes from "./payment";
+import contactRoutes from "./contact";
 const RootRouter = express();
 
 RootRouter.use("/user", authRoutes);
@@ -17,6 +18,7 @@ RootRouter.use("/image", imageRoutes);
 RootRouter.use("/services", serviceRoutes);
 RootRouter.use("/orders", orderRoutes);
 RootRouter.use("/payment", paymentRoutes);
+RootRouter.use("/contacts", contactRoutes);
 
 RootRouter.get("/", (req, res) => {
   res.json({ exp: Math.floor(Date.now() / 1000) });

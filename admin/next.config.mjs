@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/kiem-duyet/san-pham",
+        destination: "/dang-nhap",
         permanent: true,
       },
     ];

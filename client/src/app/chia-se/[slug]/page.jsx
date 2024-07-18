@@ -24,13 +24,25 @@ export default function SlugShare({ params }) {
       if (data.data.success === null) {
         setData({});
       }
-
+      viewPost(data.data.msg.id);
       setData(data.data.msg);
     } catch (error) {
       console.log(error);
     }
   };
-
+  const viewPost = async (postId) => {
+    try {
+      await axios.post(
+        "/posts/view-post",
+        { postId: postId },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+    } catch (error) {}
+  };
   return (
     <>
       {data && (
@@ -42,10 +54,8 @@ export default function SlugShare({ params }) {
                 <span className="text-primary hover:text-primary/80">
                   {data.user.username} <> </>
                 </span>
-                {/* - {formatDifferenceInHours(data.createdAt)} - */}
+
                 {formatDatePost(data.createdAt)}
-                {/* {new Date(data.createdAt).toLocaleDateString("vi-VN")} -<> </>
-                {new Date(data.createdAt).toLocaleTimeString("vi-VN")} */}
               </h3>
             </div>
           </div>

@@ -104,7 +104,10 @@ export const createWithdraw = async (
   }
 };
 
-export const updateWithdraw = async (id: string, status: RoleStatusService) => {
+export const updateWithdrawByAdminStatus = async (
+  id: string,
+  status: RoleStatusService
+) => {
   return await prisma.withdraws.update({
     where: { id: id },
     data: {
@@ -161,24 +164,74 @@ export const updatePaymentByAdmin = async (
     });
   }
 };
+export const updateWithdrawByAdmin = async (
+  id: string,
+  userId: string,
+  total: number
+) => {
+  const profile = await prisma.profiles.findUnique({
+    where: { userId },
+  });
 
-export const updatePaymentByAdminSuccess = async (id: string) => {
+  if (profile && profile.accountBalance) {
+    return await prisma.profiles.update({
+      where: { userId: userId },
+      data: {
+        accountBalance: profile.accountBalance - total,
+        user: {
+          update: {
+            withdraws: {
+              update: { where: { id: id }, data: { status: "success" } },
+            },
+          },
+        },
+      },
+      select: {
+        accountBalance: true,
+        user: {
+          select: {
+            withdraws: {
+              where: { id },
+              select: { status: true },
+            },
+          },
+        },
+      },
+    });
+  }
+};
+
+export const updatePaymentByAdminStatus = async (
+  id: string,
+  status: RoleStatusService
+) => {
   return await prisma.payments.update({
     where: { id },
-    data: { status: "success" },
+    data: { status: status },
   });
 };
 
 export const findAllWithDrawByUser = async (userId: string) => {
-  return await prisma.withdraws.findMany({ where: { userId } });
+  return await prisma.withdraws.findMany({
+    where: { userId },
+    orderBy: { createdAt: "asc" },
+  });
 };
 export const findAllWithDrawByAdmin = async () => {
-  return await prisma.withdraws.findMany();
+  return await prisma.withdraws.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      users: {
+        select: { profiles: { select: { firstName: true, lastName: true } } },
+      },
+    },
+  });
 };
 
 export const findAllPaymentByUser = async (userId: string) => {
   return await prisma.payments.findMany({
     where: { userId, NOT: { total: null } },
+    orderBy: { createdAt: "asc" },
   });
 };
 
@@ -190,12 +243,6 @@ export const findALlPaymentByAdmin = async () => {
         select: { profiles: { select: { firstName: true, lastName: true } } },
       },
     },
-  });
-};
-
-export const deletePaymentByAdmin = async (id: string) => {
-  return await prisma.payments.update({
-    where: { id },
-    data: { status: "error" },
+    orderBy: { createdAt: "asc" },
   });
 };

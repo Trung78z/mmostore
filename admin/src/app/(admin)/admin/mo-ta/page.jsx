@@ -20,6 +20,7 @@ export default function MotaHomePage() {
     try {
       const data = await axios.get("/home");
       setContent(data.data.content.content);
+
       setLoading(false);
     } catch (error) {
       console.log(error);

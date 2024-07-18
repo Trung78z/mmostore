@@ -2,6 +2,7 @@ import { Roboto } from "next/font/google";
 import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import AuthProvider from "@/lib/hooks/AuthProvider";
+import AuthCheck from "./authorcheck";
 const inter = Roboto({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -26,7 +27,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={(inter.className, "bg-[#f8f8f8]")}>
         <AuthProvider>
-          <div>{children}</div>
+          <AuthCheck>
+            <div>{children}</div>
+          </AuthCheck>
         </AuthProvider>
         <ToastContainer />
       </body>

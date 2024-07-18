@@ -14,52 +14,91 @@ import { FaCheckCircle } from "react-icons/fa";
 
 import { Button, Input } from "@headlessui/react";
 import ViewBaiviet from "@/components/kiemduyet/ViewBaiviet";
-import { payment } from "@/lib/placeholder";
 
+import axios from "@/configs/api";
+import { cn, formatDatePost } from "@/lib/utils";
+import { toast } from "react-toastify";
 export default function DonHangSanPham() {
   const [data, setData] = useState([]);
-  const [dataOld, setDataOld] = useState(payment);
+  const [dataOld, setDataOld] = useState([]);
   useEffect(() => {
-    const update = payment.filter((item) => item.status2 === "Chưa hoàn thành");
-    setData(update);
+    fetch();
   }, []);
-  const handleDelete = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status2: "Đã từ chối" };
-      }
-      return item;
-    });
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status2: "Đã từ chối" };
-      }
-      return item;
-    });
-    setDataOld(updateData1);
-    setData(updateData);
+
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/orders", {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      console.log(response.data);
+      setDataOld(response.data.order);
+      const filter = response.data.order.filter(
+        (item) => item.status === "create",
+      );
+      setData(filter);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const handleActive = (id) => {
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, status2: "Đã hoàn thành" };
-      }
-      return item;
-    });
-    setData(updateData);
-    const updateData1 = dataOld.map((item) => {
-      if (item.id === id) {
-        return { ...item, status2: "Đã hoàn thành" };
-      }
-      return item;
-    });
-    setDataOld(updateData1);
+
+  const handleActive = async (id, total, userId) => {
+    try {
+      const res = await axios.put(
+        "/orders/admin/" + id,
+        { status: "success", total, userId },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+      toast("Update thành công!");
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "success";
+        }
+        return value;
+      });
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
   };
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.put(
+        "/orders/admin/" + id,
+        { status: "cancel" },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+      toast("Update thành công!");
+      const update = dataOld.map((value) => {
+        if (value.id === id) {
+          value.status = "error";
+        }
+        return value;
+      });
+      setDataOld(update);
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra!");
+      console.log(error);
+    }
+  };
+
   const handleFilterStatus = (e) => {
     const update = dataOld.filter((item) => item.status === e.target.value);
     setData(update);
   };
 
+  const handleSearch = (e) => {
+    const filter = dataOld.filter((item) => item.id.includes(e.target.value));
+    setData(filter);
+  };
   return (
     <div className="space-y-2 px-2 py-4">
       <div className="space-y-2">
@@ -68,7 +107,8 @@ export default function DonHangSanPham() {
           <div className="space-x-4">
             <Input
               className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-max"
-              placeholder="Nhập tiêu đề bài viết..."
+              onChange={handleSearch}
+              placeholder="Tìm mã đơn hàng..."
             ></Input>
             <select
               name=""
@@ -76,8 +116,9 @@ export default function DonHangSanPham() {
               className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-max"
               onChange={handleFilterStatus}
             >
-              <option value="Chưa hoàn thành">Chưa hoàn thành</option>
-              <option value="Đã hoàn thành">Đã hoàn thành</option>
+              <option value="create">Chưa hoàn thành</option>
+              <option value="cancel">Đã hủy</option>
+              <option value="success">Đã hoàn thành</option>
             </select>
           </div>
         </div>
@@ -87,43 +128,77 @@ export default function DonHangSanPham() {
               <TableRow>
                 <TableHead className="text-center">Mã đơn hàng</TableHead>
                 <TableHead className="text-center">Tên khách hàng</TableHead>
-                <TableHead className="text-center">Số tài khoản</TableHead>
-                <TableHead className="text-center">Tên ngân hàng</TableHead>
                 <TableHead className="text-center">Tên người bán</TableHead>
                 <TableHead className="text-center">Số tiền</TableHead>
                 <TableHead className="text-center">Ngày tạo</TableHead>
                 <TableHead className="text-center">Ngày thanh toán</TableHead>
                 <TableHead className="text-center">Trạng thái</TableHead>
+                <TableHead className="text-center">
+                  Xác nhận người bán|người mua
+                </TableHead>
+
                 <TableHead className="text-center">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-center">{item.maDH}</TableCell>
-                  <TableCell className="text-center">{item.user}</TableCell>
-                  <TableCell className="text-center">{item.stk}</TableCell>{" "}
-                  <TableCell className="text-center">{item.tenNH}</TableCell>
-                  <TableCell className="text-center">{item.user2}</TableCell>
-                  <TableCell className="text-center">{item.pricing}</TableCell>
+                  <TableCell className="text-center">{item.id}</TableCell>
                   <TableCell className="text-center">
-                    {item.dateUpdate}
-                  </TableCell>{" "}
+                    {item.users.username}
+                  </TableCell>
                   <TableCell className="text-center">
-                    {item.dateBanking}
-                  </TableCell>{" "}
-                  <TableCell className="text-center">{item.status2}</TableCell>
+                    {item.services.user.username}
+                  </TableCell>
+                  <TableCell className="text-center">{item.total}</TableCell>
                   <TableCell className="text-center">
-                    {/* <ViewBaiviet item={item} /> */}
+                    {formatDatePost(item.createdAt)}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {formatDatePost(item.updatedAt)}
+                  </TableCell>
+                  <TableCell className="text-center">{item.status}</TableCell>
+                  <TableCell className="flex justify-center gap-x-1 text-center">
+                    <span
+                      className={cn(
+                        "text-xl text-gray-500",
+                        item.confirmSeller && "text-green-500",
+                      )}
+                    >
+                      <FaCheckCircle />
+                    </span>
+                    |{" "}
+                    <span
+                      className={cn(
+                        "text-xl text-gray-500",
+                        item.buyerConfirm && "text-green-500",
+                      )}
+                    >
+                      <FaCheckCircle />
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-center">
                     <Button
                       className="text-xl text-red-500"
+                      disabled={
+                        item.status === "success" && item.status === "cancel"
+                          ? true
+                          : false
+                      }
                       onClick={() => handleDelete(item.id)}
                     >
                       <MdDelete />
-                    </Button>{" "}
+                    </Button>
                     <Button
                       className="text-xl text-green-500"
-                      onClick={() => handleActive(item.id)}
+                      disabled={
+                        item.status === "success" && item.status === "cancel"
+                          ? true
+                          : false
+                      }
+                      onClick={() =>
+                        handleActive(item.id, item.total, item.services.userId)
+                      }
                     >
                       <FaCheckCircle />
                     </Button>

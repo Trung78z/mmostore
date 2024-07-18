@@ -13,40 +13,54 @@ export const createPost = async (
   image?: string,
   userId?: string
 ) => {
-  try {
-    const newPost = await prisma.posts.create({
-      data: {
-        title: title,
-        content: content,
-        image: image || null,
-        slug: createSlug(title),
-        userId: userId!,
-      },
-    });
-    return newPost.id;
-  } catch (error) {
-    console.error("Error creating post:", error);
+  return await prisma.posts.create({
+    data: {
+      title: title,
+      content: content,
+      image: image || null,
+      slug: createSlug(title),
+      userId: userId!,
+    },
+  });
+};
+
+export const likePost = async (userId: string, postId: number) => {
+  const found = await prisma.postLikes.findFirst({
+    where: { userId, postId },
+  });
+
+  if (found) {
+    return await prisma.postLikes.delete({ where: { id: found.id } });
+  } else {
+    return await prisma.postLikes.create({ data: { userId, postId } });
+  }
+};
+
+export const viewPost = async (userId: string, postId: number) => {
+  const found = await prisma.postViews.findFirst({
+    where: { userId, postId },
+  });
+
+  if (found) {
     return null;
+  } else {
+    return await prisma.postViews.create({ data: { userId, postId } });
   }
 };
 
 export const findByIdPost = async (slug: string) => {
-  try {
-    const post = await prisma.posts.findUnique({
-      where: { slug },
-      include: {
-        user: {
-          select: {
-            username: true,
-          },
+  return await prisma.posts.findUnique({
+    where: { slug },
+    include: {
+      user: {
+        select: {
+          username: true,
         },
       },
-    });
-    return post;
-  } catch (error) {
-    console.error("Error findById post:", error);
-    return null;
-  }
+      postLikes: true,
+      postViews: true,
+    },
+  });
 };
 export const findAllPost = async () => {
   return await prisma.posts.findMany({
@@ -57,6 +71,8 @@ export const findAllPost = async () => {
           username: true,
         },
       },
+      postLikes: true,
+      postViews: true,
     },
   });
 };
@@ -68,26 +84,24 @@ export const findAllPostByAdmin = async () => {
           username: true,
         },
       },
+      postLikes: true,
+      postViews: true,
     },
   });
 };
 export const findAllPostByUser = async (userId: string) => {
-  try {
-    const post = await prisma.posts.findMany({
-      where: { userId },
-      include: {
-        user: {
-          select: {
-            username: true,
-          },
+  return await prisma.posts.findMany({
+    where: { userId },
+    include: {
+      user: {
+        select: {
+          username: true,
         },
       },
-    });
-    return post;
-  } catch (error) {
-    console.error("Error findALL post:", error);
-    return null;
-  }
+      postLikes: true,
+      postViews: true,
+    },
+  });
 };
 
 export const updatePostById = async (
@@ -97,37 +111,33 @@ export const updatePostById = async (
   image?: string,
   userId?: string
 ) => {
-  try {
-    const existingPost = await prisma.posts.findUnique({
-      where: { id: id },
-    });
+  const existingPost = await prisma.posts.findUnique({
+    where: { id: id },
+  });
 
-    if (!existingPost) {
-      throw new Error(`Post with id ${id} not found`);
-    }
+  if (!existingPost) {
+    throw new Error(`Post with id ${id} not found`);
+  }
 
-    const updatePost = await prisma.posts.update({
-      where: { id: id, userId: userId },
-      data: {
-        title,
-        content,
-        image: image ? image : existingPost.image,
-        slug: createSlug(title),
-      },
-      include: {
-        user: {
-          select: {
-            username: true,
-          },
+  const updatePost = await prisma.posts.update({
+    where: { id: id, userId: userId },
+    data: {
+      title,
+      content,
+      image: image ? image : existingPost.image,
+      slug: createSlug(title),
+    },
+    include: {
+      user: {
+        select: {
+          username: true,
         },
       },
-    });
-
-    return updatePost;
-  } catch (error) {
-    console.error("Error update post:", error);
-    return null;
-  }
+      postLikes: true,
+      postViews: true,
+    },
+  });
+  return updatePost;
 };
 
 // Delete a user by ID

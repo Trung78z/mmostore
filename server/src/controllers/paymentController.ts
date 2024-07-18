@@ -39,11 +39,17 @@ export const createWithdraw = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-export const updateWithdraw = async (req: Request, res: Response) => {
+export const updateWithdrawByAdminStatus = async (
+  req: Request,
+  res: Response
+) => {
   const { status } = req.body;
   const { id } = req.params;
   try {
-    const withDraw = await paymentService.updateWithdraw(id, status);
+    const withDraw = await paymentService.updateWithdrawByAdminStatus(
+      id,
+      status
+    );
     res.status(200).json({ success: true, withDraw });
   } catch (error) {
     console.log(error);
@@ -103,13 +109,40 @@ export const updatePaymentByAdmin = async (req: Request, res: Response) => {
   }
 };
 
-export const updatePaymentByAdminSuccess = async (
+export const updateWithdrawByAdmin = async (req: Request, res: Response) => {
+  const { userId, total } = req.body;
+  const { id } = req.params;
+  try {
+    if (req.user) {
+      const withdraw = await paymentService.updateWithdrawByAdmin(
+        id,
+        userId,
+        parseInt(total)
+      );
+      return res.status(201).json({ success: true, withdraw });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+export const updatePaymentByAdminStatus = async (
   req: Request,
   res: Response
 ) => {
+  console.log(req.body);
+
   const { id } = req.params;
+  const { status } = req.body;
   try {
-    const response = await paymentService.updatePaymentByAdminSuccess(id);
+    const response = await paymentService.updatePaymentByAdminStatus(
+      id,
+      status
+    );
     return res.status(200).json({ success: true, msg: response });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
@@ -171,16 +204,6 @@ export const findAllPaymentByAdmin = async (req: Request, res: Response) => {
         .status(200)
         .json({ success: false, message: "User not authenticated" });
     }
-  } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-export const deletePayment = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  try {
-    const response = await paymentService.deletePaymentByAdmin(id);
-    return res.status(200).json({ success: true, msg: response });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
   }

@@ -12,7 +12,6 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 
 const CardProduct = ({ props, product = "Dịch vụ", id, slug = "dich-vu" }) => {
-  console.log(props);
   return (
     <>
       <div
@@ -64,7 +63,7 @@ const CardProduct = ({ props, product = "Dịch vụ", id, slug = "dich-vu" }) =
             <FaStar className="h-4 w-4 text-yellow-500" />
             <FaRegStarHalfStroke className="h-4 w-4 text-yellow-500" />
             <p className="inline-block text-[14px]">
-              306 Reviews | Đã bán: 3313997 | Khiếu nại: 0.0%
+              306 Reviews | Đã bán: {props._count.orders} | Khiếu nại: 0.0%
             </p>
           </div>
           <div>

@@ -89,19 +89,21 @@ enum RoleService {
   product = "product",
 }
 export const findAllOrder = async () => {
-  const newService = await prisma.orders.findMany({
+  return await prisma.orders.findMany({
     include: {
       services: {
         select: {
           id: true,
           serviceCategory: true,
           serviceSubCategory: true,
+          userId: true,
+          user: { select: { username: true } },
         },
       },
+      users: { select: { username: true } },
       serviceSales: true,
     },
   });
-  return newService;
 };
 export const findByUserOrder = async (userId: string) => {
   return await prisma.orders.findMany({
@@ -143,4 +145,58 @@ export const findByUserSellOrder = async (
     },
   });
   return newService;
+};
+
+export const updateConfirmCustomer = async (id: string, role: string) => {
+  if (role === "CUSTOMER") {
+    return await prisma.orders.update({
+      where: {
+        id,
+      },
+      data: { confirmSeller: true },
+    });
+  } else {
+    return await prisma.orders.update({
+      where: {
+        id,
+      },
+      data: { buyerConfirm: true },
+    });
+  }
+};
+export const updateOrderByAdmin = async (
+  id: string,
+  status: Status,
+  total: number,
+  userId: string
+) => {
+  if (status === "success") {
+    const profile = await prisma.profiles.findUnique({
+      where: { userId: userId },
+      select: { accountBalance: true },
+    });
+    if (profile && profile.accountBalance) {
+      const order = await prisma.orders.update({
+        where: {
+          id,
+        },
+        data: { status: status },
+      });
+      const updatedProfile = await prisma.profiles.update({
+        where: { userId: userId },
+        data: {
+          accountBalance: profile.accountBalance + total,
+        },
+        select: { accountBalance: true },
+      });
+      return { order, updatedProfile };
+    }
+  } else {
+    return await prisma.orders.update({
+      where: {
+        id,
+      },
+      data: { status: status },
+    });
+  }
 };

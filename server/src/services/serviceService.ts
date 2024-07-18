@@ -52,7 +52,7 @@ export const createService = async (
 export const findByIdService = async (slug: string) => {
   try {
     const post = await prisma.services.findUnique({
-      where: { slug, AND: { status: "success" } },
+      where: { slug: slug, status: "success" },
       include: {
         user: {
           select: {
@@ -69,6 +69,7 @@ export const findByIdService = async (slug: string) => {
             subCategory: true,
           },
         },
+        _count: { select: { orders: true } },
         serviceSales: true,
       },
     });
@@ -84,6 +85,7 @@ export const findAllServiceById = async (id: string) => {
     where: {
       serviceCategory: { category: RoleService.service },
       serviceSubCategory: { subCategoryCover: id },
+      status: "success",
     },
     include: {
       user: { select: { username: true } },
@@ -91,6 +93,7 @@ export const findAllServiceById = async (id: string) => {
       serviceSubCategory: { select: { subCategory: true } },
       serviceChildrenCategory: { select: { childrenCategory: true } },
       serviceSales: true,
+      _count: { select: { orders: true } },
     },
   });
 
@@ -149,6 +152,7 @@ export const findAllServiceByUser = async (userId: string) => {
             subCategory: true,
           },
         },
+        _count: { select: { orders: true } },
         serviceSales: true,
       },
     });

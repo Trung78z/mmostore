@@ -89,7 +89,7 @@ export default function SlugServices() {
       servicesId: row.id,
       serviceSalesId: check,
     };
-    console.log(data);
+
     // Swal.fire({
     //   title: "Mua hàng?",
     //   text: "Bạn chắc chắn mua hàng chứ!",

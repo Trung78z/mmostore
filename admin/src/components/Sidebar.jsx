@@ -85,14 +85,6 @@ const homePage = [
       icon: <MdDescription className="h-6 w-6" />,
     },
   },
-  {
-    gruop: "Trang chủ",
-    icon: <TiHome className="h-6 w-6" />,
-    titles: {
-      title: "Mô tả",
-      icon: <MdDescription className="h-6 w-6" />,
-    },
-  },
 ];
 export default function SidebarAdmin(props) {
   const pathname = usePathname();

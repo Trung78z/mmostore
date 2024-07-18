@@ -16,7 +16,7 @@ const schema = z.object({
   total: z
     .number()
     .min(10000, { message: "Vui lòng nạp ít nhất 10k VND" })
-    .max(1000000, { message: "Vui lòng nạp nhiều nhất 1tr VND" }),
+    .max(5000000, { message: "Vui lòng nạp nhiều nhất 5tr VND" }),
 });
 
 export default function NapTienUser() {
@@ -47,7 +47,7 @@ export default function NapTienUser() {
         },
       );
       setRow(response.data.newService.msg);
-      console.log(response.data.newService.msg.id);
+
       setActive(true);
     } catch (error) {
       toast("Server đang lỗi vui lòng thử lại!");
@@ -56,7 +56,6 @@ export default function NapTienUser() {
 
   const handleUpdate = async (data) => {
     const forms = new FormData();
-    console.log(data.total, image);
     forms.append("total", data.total);
     forms.append("payment", image);
 

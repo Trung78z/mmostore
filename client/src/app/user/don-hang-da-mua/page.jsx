@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@headlessui/react";
+
+import { Input, Button } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -13,8 +13,11 @@ import {
 } from "@/components/ui/table";
 import axios from "@/configs/api";
 import { FaS } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
+import { formatDatePost } from "@/lib/utils";
 export default function DonHangDaMua() {
   const [row, setRow] = useState([]);
+  const [rowOld, setRowOld] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetch();
@@ -31,13 +34,40 @@ export default function DonHangDaMua() {
       if (response.data.success === false) {
         setRow([]);
       }
+      setRowOld(response.data.order);
       setLoading(false);
       setRow(response.data.order);
     } catch (error) {
       setLoading(false);
     }
   };
-
+  const handleActive = async (id) => {
+    try {
+      const response = await axios.put("/orders/" + id, null, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      });
+      const filter = row.filter((item) => {
+        return item.id === id ? (item.buyerConfirm = true) : item;
+      });
+      setRow(filter);
+      toast("Xác nhận thành công!");
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  const handleSearch = (e) => {
+    const filter = rowOld.filter(
+      (item) =>
+        item.id.toString().includes(e.target.value) ||
+        item.total.toString().includes(e.target.value) ||
+        item.serviceSales.title
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase()),
+    );
+    setRow(filter);
+  };
   return (
     <>
       <div className="space-y-2">
@@ -46,18 +76,10 @@ export default function DonHangDaMua() {
           <div className="flex items-center gap-2">
             <div className="flex flex-col items-center gap-2 sm:flex-row">
               <Input
-                className="min-h-10 flex-1 rounded-lg border px-2"
-                placeholder="Nhập mã đơn hàng..."
+                className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-96"
+                onChange={handleSearch}
+                placeholder="Tìm mã đơn hàng hoặc số tiền hoặc mặc hàng..."
               ></Input>
-              <select
-                name=""
-                id=""
-                className="min-h-10 flex-1 rounded-lg border px-2"
-              >
-                <option value="Người bán">Mã đơn hàng</option>
-                <option value="Người bán">Người bán</option>
-              </select>
-              <Button className="px-2 py-0 text-sm">Tìm đơn hàng</Button>
             </div>
           </div>
         </div>
@@ -104,7 +126,9 @@ export default function DonHangDaMua() {
                 <TableHead className="text-center">Giảm</TableHead>
                 <TableHead className="text-center">Tổng tiền</TableHead>
                 <TableHead className="text-center">Hoàn tiền</TableHead>
-                <TableHead className="text-center">Trạng thái</TableHead>
+                <TableHead className="flex-shrink-0 text-start">
+                  Xác nhận hoàn thành
+                </TableHead>
                 <TableHead className="text-center">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
@@ -113,7 +137,7 @@ export default function DonHangDaMua() {
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.id}</TableCell>
                   <TableCell className="font-medium">
-                    {item.createdAt}
+                    {formatDatePost(item.createdAt)}
                   </TableCell>
                   <TableCell className="font-medium">
                     {item.services.serviceSubCategory.subCategory}
@@ -131,7 +155,20 @@ export default function DonHangDaMua() {
                   <TableCell className="font-medium">{item.sale}</TableCell>
                   <TableCell className="font-medium">{item.total}</TableCell>
                   <TableCell className="font-medium">{item.refund}</TableCell>
-                  <TableCell className="font-medium">{item.status}</TableCell>
+                  <TableCell className="font-medium">
+                    <Button
+                      disabled={item.buyerConfirm}
+                      className={`flex items-center gap-2 text-xl ${!item.buyerConfirm ? `text-red-500` : `text-green-500`} `}
+                      onClick={() => handleActive(item.id)}
+                    >
+                      <FaCheckCircle />
+                      <span
+                        className={`text-sm font-normal ${!item.buyerConfirm && `text-red-500`} `}
+                      >
+                        {item.buyerConfirm ? "Đã xác nhận" : "Chưa xác nhận"}
+                      </span>
+                    </Button>
+                  </TableCell>
                   <TableCell className="font-medium">{item.sale}</TableCell>
                 </TableRow>
               ))}

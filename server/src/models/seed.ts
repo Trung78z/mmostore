@@ -83,6 +83,7 @@ async function createUser() {
         email: item.email,
         username: item.username,
         password: item.password,
+        role: item.role,
         profiles: {
           create: {
             lastName: item.profiles.lastName,

@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:8080/api
+
+
+
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"admin@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+### user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpspy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+### user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpyy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+###
+GET {{baseUrl}}/orders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg4MmIyMDVlLThiMWMtNGU0MS1hNmJlLWE2ZDNjYmNmMWY1NSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTEwOTI3MSwiZXhwIjoxNzIxMjgyMDcxfQ.HR20yn2PATa-eSF8yKszybPm4gJlvG1zEY8_i6B1h_A
+###
+PUT {{baseUrl}}/orders/47e0e5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBmMTYyYTA2LWU3YWYtNGVkMC05ZWQ0LTE3NTk4ZjgxODNkYSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTEwOTYwMiwiZXhwIjoxNzIxMjgyNDAyfQ.NQb4yRPm88KilfsWZ2MIaO-nFRlBenBMwzDgFC0vT4s
+###
+GET {{baseUrl}}/orders/userSell/service
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBmMTYyYTA2LWU3YWYtNGVkMC05ZWQ0LTE3NTk4ZjgxODNkYSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIxMTA1NTk3LCJleHAiOjE3MjEyNzgzOTd9.nYfAXR-BF4Y7U4pdavMHz64-W_lrpNcjrjCaQUPUKak

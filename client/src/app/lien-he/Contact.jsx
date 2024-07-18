@@ -2,7 +2,56 @@ import { FaFacebook } from "react-icons/fa";
 import { Input, Textarea } from "@headlessui/react";
 import { IoIosChatbubbles, IoIosTime, IoMdMailOpen } from "react-icons/io";
 import { Button } from "@/components/ui/button";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import axios from "@/configs/api";
+import { toast } from "react-toastify";
+import { useContext } from "react";
+import { AuthContext } from "@/lib/hooks/AuthProvider";
+const schema = z.object({
+  email: z
+    .string()
+    .email({ message: "Email không đúng định dạng" })
+    .min(1, { message: "Vui lòng nhập email của bạn!" }),
+  phone: z
+    .string()
+    .min(9, { message: "Không đúng định dạng số điện thoại!" })
+    .max(12, { message: "Không đúng định dạng số điện thoại!" }),
+  title: z
+    .string()
+    .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
+    .max(100, { message: "Vui lòng nhập nhiều nhất 100 kí tự!" }),
+  content: z.string().min(30, { message: "Vui lòng nhập ít nhất 30 kí tự!" }),
+});
+
 export default function Contact() {
+  const { authState } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ resolver: zodResolver(schema) });
+  async function handleContact(data) {
+    if (authState.status === false) {
+      return toast("Vui lòng đăng nhập để liên hệ!");
+    }
+    try {
+      const user = await axios.post("/contacts", data, {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+
+      if (user.data.success === false) {
+        return toast(user.data.msg);
+      }
+      toast("Cám ơn bạn đã liên hệ với chúng tôi!", { autoClose: 2000 });
+      reset({ title: "", content: "", phone: "", email: "" });
+    } catch (error) {
+      toast.error(error.response?.data.msg);
+    }
+  }
   return (
     <div className="py-10">
       <div className="box mx-auto max-w-screen-lg rounded-md bg-background p-2 shadow-lg md:p-10 lg:p-14">
@@ -31,7 +80,7 @@ export default function Contact() {
               <span>Mon-Sat 08:00am - 10:00pm</span>
             </li>
           </ul>
-          <form htmlFor="Email">
+          <form htmlFor="Email" onSubmit={handleSubmit(handleContact)}>
             <ul className="space-y-4">
               <h2 className="pb-4 text-xl font-semibold text-blue-700">
                 Tin nhắn
@@ -43,23 +92,30 @@ export default function Contact() {
                   </label>
                   <Input
                     type="email"
-                    name="Email"
-                    id="Email"
-                    required
+                    name="email"
+                    {...register("email")}
+                    autoComplete="email"
+                    id="email"
                     className="min-h-8 rounded-md border pl-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
                   />
+                  {errors.email && (
+                    <p className="text-red-600">{errors.email.message}</p>
+                  )}
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="tel" className="cursor-pointer">
+                  <label htmlFor="phone" className="cursor-pointer">
                     Số điện thoại:
                   </label>
                   <Input
-                    type="tel"
-                    name="tel"
-                    id="tel"
-                    required
+                    type="text"
+                    name="phone"
+                    {...register("phone")}
+                    id="phone"
                     className="min-h-8 rounded-md border pl-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
                   />
+                  {errors.phone && (
+                    <p className="text-red-600">{errors.phone.message}</p>
+                  )}
                 </div>
               </li>
               <li className="text-md ml-0 flex items-center gap-x-2 font-medium">
@@ -70,21 +126,29 @@ export default function Contact() {
                   <Input
                     type="text"
                     name="title"
+                    {...register("title")}
                     id="title"
-                    required
                     className="min-h-8 rounded-md border pl-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
                   />
+                  {errors.title && (
+                    <p className="text-red-600">{errors.title.message}</p>
+                  )}
                 </div>
               </li>
               <li className="text-md ml-0 flex items-center gap-x-2 font-medium">
                 <div className="flex flex-1 flex-col">
-                  <label htmlFor="description" className="cursor-pointer">
+                  <label htmlFor="content" className="cursor-pointer">
                     Nội dung:
                   </label>
                   <Textarea
-                    name="description"
+                    name="content"
+                    id="content"
+                    {...register("content")}
                     className="min-h-20 rounded-md border data-[focus]:bg-blue-100 data-[hover]:shadow"
-                  ></Textarea>
+                  ></Textarea>{" "}
+                  {errors.content && (
+                    <p className="text-red-600">{errors.content.message}</p>
+                  )}
                 </div>
               </li>
             </ul>

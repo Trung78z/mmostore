@@ -12,7 +12,6 @@ export function user() {
       email: "trungpspy@gmail.com",
       username: "trungpspy",
       password: bcrypt.hashSync("Trungpy78@", 10),
-
       profiles: {
         firstName: "Nguyen Thanh",
         lastName: "Trung",
@@ -23,6 +22,7 @@ export function user() {
       email: "trungpyy@gmail.com",
       username: "trungpyy",
       password: bcrypt.hashSync("Trungpy78@", 10),
+      role: "CUSTOMER" as RoleUser,
       profiles: {
         firstName: "Nguyen Thanh",
         lastName: "Trung",

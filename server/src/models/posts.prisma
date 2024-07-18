@@ -25,28 +25,31 @@ model posts {
 }
 
 model postLikes {
-  id      Int    @id @default(autoincrement())
-  user    users  @relation(fields: [userId], references: [id])
-  userId  String
-  posts   posts? @relation(fields: [postsId], references: [id])
-  postsId Int?
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      users    @relation(fields: [userId], references: [id])
+  userId    String // This field seems to be the issue
+  posts     posts?   @relation(fields: [postId], references: [id])
+  postId    Int?
 }
 
 model postViews {
-  id      Int    @id @default(autoincrement())
-  user    users  @relation(fields: [userId], references: [id])
-  userId  String
-  posts   posts? @relation(fields: [postsId], references: [id])
-  postsId Int?
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      users    @relation(fields: [userId], references: [id])
+  userId    String
+  posts     posts?   @relation(fields: [postId], references: [id])
+  postId    Int?
 }
 
 model postPomments {
-  id      Int    @id @default(autoincrement())
-  content String @unique
-  user    users  @relation(fields: [userId], references: [id])
-  userId  String
-  posts   posts? @relation(fields: [postsId], references: [id])
-  postsId Int?
+  id        Int      @id @default(autoincrement())
+  content   String   @unique
+  createdAt DateTime @default(now())
+  user      users    @relation(fields: [userId], references: [id])
+  userId    String
+  posts     posts?   @relation(fields: [postId], references: [id])
+  postId    Int?
 }
 
 model postDonates {
@@ -55,8 +58,8 @@ model postDonates {
   user    users  @relation(fields: [userId], references: [id])
   userId  String
 
-  posts   posts? @relation(fields: [postsId], references: [id])
-  postsId Int?
+  posts  posts? @relation(fields: [postId], references: [id])
+  postId Int?
 }
 
 enum RolePost {

@@ -22,7 +22,6 @@ export default function ViewPhanHoi({ item }) {
 
   function close() {
     setIsOpen(false);
-    toast("Đã phản hồi thành công!");
   }
   return (
     <>
@@ -49,21 +48,33 @@ export default function ViewPhanHoi({ item }) {
                 as="h3"
                 className="flex flex-col text-center text-base/7 font-medium"
               >
-                <h3>Phản hồi cho khách hàng</h3>{" "}
+                <h3>Thông tin khách hàng</h3>
               </DialogTitle>
-              <p className="mt-2 text-center text-sm/6 text-black">
-                {item.description}
-              </p>
-              <div className="mt-10">
-                <Field>
-                  <Textarea
-                    className={clsx(
-                      "mt-3 block w-full resize-none rounded-lg border-none bg-black/5 px-3 py-1.5 text-sm/6 text-black",
-                      "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-black",
-                    )}
-                    rows={3}
-                  />
-                </Field>
+              <div className="mt-2 space-y-2">
+                <div className="flex gap-2">
+                  <label>Tiêu đề: </label>
+                  <p className="text-center text-sm/6 text-black">
+                    {item.title}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <label>Mô tả: </label>
+                  <p className="text-center text-sm/6 text-black">
+                    {item.content}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <label>Số điện thoại liên hệ: </label>
+                  <p className="text-center text-sm/6 text-black">
+                    {item.phone}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <label>Email liên hệ: </label>
+                  <p className="text-center text-sm/6 text-black">
+                    {item.email}
+                  </p>
+                </div>
               </div>
               <div className="mt-4 flex items-center justify-end gap-x-1">
                 <Button
@@ -71,12 +82,6 @@ export default function ViewPhanHoi({ item }) {
                   onClick={close}
                 >
                   Close!
-                </Button>{" "}
-                <Button
-                  className="gap-2 rounded-md bg-green-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-green-600 data-[open]:bg-green-700 data-[focus]:outline-1 data-[focus]:outline-white"
-                  onClick={close}
-                >
-                  Xác nhận
                 </Button>
               </div>
             </DialogPanel>

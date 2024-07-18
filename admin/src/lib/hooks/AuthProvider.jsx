@@ -30,8 +30,9 @@ function AuthProvider({ children }) {
           accountBalance: result.data.profile.accountBalance,
         });
         if (result.data.role !== "ADMIN") {
-          router.push("/dang-nhap");
+          return router.push("/dang-nhap");
         }
+        sessionStorage.setItem("token", result.data.accessToken);
       } else {
         setAuthState({
           status: false,
@@ -39,10 +40,12 @@ function AuthProvider({ children }) {
           role: "",
           accountBalance: 0,
         });
+        sessionStorage.removeItem("token");
         router.push("/dang-nhap");
       }
     } catch (error) {
       console.log(error);
+      sessionStorage.removeItem("token");
       router.push("/dang-nhap");
     }
   };

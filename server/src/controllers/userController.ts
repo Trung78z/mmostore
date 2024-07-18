@@ -128,8 +128,6 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const logoutUser = (req: Request, res: Response) => {
-  console.log(req.user);
-
   try {
     res.clearCookie("refreshToken");
     return res.status(200).json({ success: true });

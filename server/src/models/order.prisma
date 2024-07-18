@@ -5,6 +5,8 @@ model orders {
   sale           Int
   total          Int
   refund         Int
+  confirmSeller  Boolean       @default(false)
+  buyerConfirm   Boolean       @default(false)
   status         Status        @default(create)
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt

@@ -12,7 +12,14 @@ import {
 } from "@headlessui/react";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState, useRef } from "react";
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import axios from "@/configs/api";
 
 import Link from "next/link";
@@ -31,7 +38,7 @@ export default function Themmoi() {
     serviceChildrenCategoryId: 1,
   });
   const [serviceSales, setServiceSales] = useState([]);
-  const [formSales, setFormSales] = useState({ title: "", price: 200 });
+  const [formSales, setFormSales] = useState({ title: "", price: 0 });
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState("");
   const [value, setValue] = useState("");
@@ -321,24 +328,36 @@ export default function Themmoi() {
                   <label htmlFor="content" className="cursor-pointer">
                     Loại hàng <span className="text-red-500">*</span>
                   </label>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-center">Tiêu đề</TableHead>
+                        <TableHead className="text-center">Giá thành</TableHead>
+                        <TableHead className="text-center">Thao tác</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {serviceSales.map((item) => (
+                        <TableRow key={item.title}>
+                          <TableCell className="ext-center">
+                            {item.title}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            {item.price}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Button
+                              className="col-span-1 ml-auto max-w-20 rounded-md bg-red-500 px-2 py-0 text-white hover:border-primary/80 md:col-span-2 lg:col-span-1"
+                              onClick={() => handleDeleteSale(item.title)}
+                            >
+                              Delete
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
 
-                  <ul className="space-y-1">
-                    {serviceSales.map((item) => (
-                      <li
-                        key={item.title}
-                        className="ml-0 grid grid-cols-4 gap-2 border-b"
-                      >
-                        <p className="col-span-2">{item.title}</p>
-                        <p>{item.price}</p>
-                        <Button
-                          className="col-span-1 ml-auto max-w-20 rounded-md bg-red-500 px-2 py-0 text-white hover:border-primary/80 md:col-span-2 lg:col-span-1"
-                          onClick={() => handleDeleteSale(item.title)}
-                        >
-                          Delete
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
                   <div className="ml-0 grid min-w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
                     <Input
                       id="title"
@@ -347,7 +366,7 @@ export default function Themmoi() {
                       value={formSales.title}
                       className="min-h-10 min-w-full flex-1 rounded-lg border px-2"
                       placeholder="Nhập tiêu đề cho loại hàng..."
-                    ></Input>{" "}
+                    ></Input>
                     <Input
                       id="price"
                       onChange={handleChangeServiceSale}
@@ -392,7 +411,7 @@ export default function Themmoi() {
                 Tạo bài mới
               </Button>
             </div>
-          </Fieldset>{" "}
+          </Fieldset>
         </form>
         <hr />
         <p className="text-red-500">Vui lòng đọc kỹ trước khi tạo mới:</p>

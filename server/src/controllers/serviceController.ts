@@ -80,6 +80,7 @@ export const createService = async (req: Request, res: Response) => {
 
 export const getServiceById = async (req: Request, res: Response) => {
   const { slug } = req.params;
+
   try {
     const post = await serviceService.findByIdService(slug);
     res.status(200).json({ success: true, msg: post });

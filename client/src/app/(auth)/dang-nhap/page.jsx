@@ -45,7 +45,7 @@ export default function Example() {
       const user = await axios.post("/user/login", data, {
         withCredentials: true,
       });
-      console.log(user);
+
       if (user.data.success === false) {
         return toast(user.data.msg);
       }

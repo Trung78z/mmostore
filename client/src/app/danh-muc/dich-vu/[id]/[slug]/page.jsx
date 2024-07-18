@@ -125,7 +125,7 @@ export default function SlugServices() {
             accountBalance:
               response.data.newService.updatedProfile.accountBalance,
           });
-          console.log(response.data.newService.updatedProfile.accountBalance);
+
           Swal.fire("Success!", "Đặt hàng thành công!", "success");
         } catch (error) {
           toast.error("Đặt hàng không thành công vui lòng thử lại!");

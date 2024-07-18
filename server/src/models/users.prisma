@@ -20,6 +20,7 @@ model users {
   Reviews         Reviews[]
   payments        payments[]
   withdraws       withdraws[]
+  contacts        contact[]
 }
 
 model profiles {

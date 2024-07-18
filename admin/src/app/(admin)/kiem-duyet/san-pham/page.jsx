@@ -92,7 +92,7 @@ export default function DonHangSanPham() {
     const update = dataOld.filter((item) => item.status === e.target.value);
     setData(update);
   };
-  console.log(data);
+
   return (
     <div className="space-y-2 px-2 py-4">
       <div className="space-y-2">

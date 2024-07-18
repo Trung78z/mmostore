@@ -48,7 +48,44 @@ export const createPost = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+export const likePost = async (req: Request, res: Response) => {
+  const { postId } = req.body;
+  console.log(req.body);
+  try {
+    if (req.user) {
+      const likePost = await postService.likePost(req.user.id, postId);
+      return res.status(200).json({ success: true, msg: likePost });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
+  } catch (error) {
+    console.log(error);
 
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const viewPost = async (req: Request, res: Response) => {
+  const { postId } = req.body;
+  console.log(req.body);
+
+  try {
+    if (req.user) {
+      const likePost = await postService.viewPost(req.user.id, postId);
+      return res.status(204).json({ success: true, msg: likePost });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 // Login a user
 export const getPostById = async (req: Request, res: Response) => {
   const { slug } = req.params;

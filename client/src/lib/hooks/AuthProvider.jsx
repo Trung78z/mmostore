@@ -20,6 +20,7 @@ function AuthProvider({ children }) {
       const result = await axios.post("/user/refresh-token", null, {
         withCredentials: true,
       });
+
       if (result.data.success) {
         setAuthState({
           status: true,
@@ -27,6 +28,7 @@ function AuthProvider({ children }) {
           role: result.data.role,
           accountBalance: result.data.profile.accountBalance,
         });
+        sessionStorage.setItem("token", result.data.accessToken);
       } else {
         setAuthState({
           status: false,

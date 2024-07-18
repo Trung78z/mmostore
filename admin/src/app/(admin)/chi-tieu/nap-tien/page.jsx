@@ -41,9 +41,15 @@ export default function DonHangSanPham() {
 
   const handleActive = async (id) => {
     try {
-      const res = await axios.put("/payment/admin/success/" + id, null, {
-        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
-      });
+      const res = await axios.put(
+        "/payment/admin/payment/" + id,
+        { status: "success" },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
       toast("Update thành công!");
       const update = dataOld.map((value) => {
         if (value.id === id) {
@@ -60,9 +66,15 @@ export default function DonHangSanPham() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete("/payment/" + id, {
-        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
-      });
+      const res = await axios.put(
+        "/payment/admin/payment/" + id,
+        { status: "error" },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
       toast("Update thành công!");
       const update = dataOld.map((value) => {
         if (value.id === id) {
@@ -81,7 +93,10 @@ export default function DonHangSanPham() {
     const update = dataOld.filter((item) => item.status === e.target.value);
     setData(update);
   };
-
+  const handleSearch = (e) => {
+    const filter = dataOld.filter((item) => item.id.includes(e.target.value));
+    setData(filter);
+  };
   return (
     <div className="space-y-2 px-2 py-4">
       <div className="space-y-2">
@@ -90,7 +105,8 @@ export default function DonHangSanPham() {
           <div className="space-x-4">
             <Input
               className="min-h-10 min-w-full rounded-lg border px-2 md:min-w-max"
-              placeholder="Nhập tiêu đề bài viết..."
+              onChange={handleSearch}
+              placeholder="Tìm mã đơn hàng..."
             ></Input>
             <select
               name=""

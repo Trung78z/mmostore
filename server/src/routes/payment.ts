@@ -2,15 +2,15 @@ import { Router } from "express";
 import {
   createPayment,
   createWithdraw,
-  deletePayment,
   findAllByUser,
   findAllPaymentByAdmin,
   findAllWithDrawByAdmin,
   findAllWithDrawByUser,
   updatePayment,
   updatePaymentByAdmin,
-  updatePaymentByAdminSuccess,
-  updateWithdraw,
+  updatePaymentByAdminStatus,
+  updateWithdrawByAdmin,
+  updateWithdrawByAdminStatus,
 } from "../controllers/paymentController";
 import authMiddleware from "../middlewares/authMiddleware";
 import { upload } from "../helpers/multerPayment";
@@ -20,22 +20,28 @@ router.post("/", authMiddleware, createPayment);
 router.post("/withdraw", authMiddleware, createWithdraw);
 router.put("/:id", upload.single("payment"), authMiddleware, updatePayment);
 router.put(
-  "/admin/:id",
+  "/admin/pay/:id",
   authMiddleware,
   roleMiddleware("ADMIN"),
   updatePaymentByAdmin
 );
 router.put(
+  "/admin/draw/:id",
+  authMiddleware,
+  roleMiddleware("ADMIN"),
+  updateWithdrawByAdmin
+);
+router.put(
   "/admin/withdraw/:id",
   authMiddleware,
   roleMiddleware("ADMIN"),
-  updateWithdraw
+  updateWithdrawByAdminStatus
 );
 router.put(
-  "/admin/success/:id",
+  "/admin/payment/:id",
   authMiddleware,
   roleMiddleware("ADMIN"),
-  updatePaymentByAdminSuccess
+  updatePaymentByAdminStatus
 );
 
 router.get("/", authMiddleware, findAllByUser);
@@ -52,8 +58,6 @@ router.get(
   roleMiddleware("ADMIN"),
   findAllPaymentByAdmin
 );
-
-router.delete("/:id", authMiddleware, roleMiddleware("ADMIN"), deletePayment);
 
 // router.get("/user", authMiddleware, findByUserOrder);
 // router.get("/userSell", authMiddleware, findByUserSellOrder);

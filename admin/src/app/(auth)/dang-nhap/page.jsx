@@ -45,7 +45,6 @@ export default function Example() {
       const user = await axios.post("/user/login", data, {
         withCredentials: true,
       });
-      console.log(user);
       if (user.data.success === false) {
         return toast(user.data.msg);
       }
@@ -60,7 +59,7 @@ export default function Example() {
       });
       sessionStorage.setItem("token", user.data.accessToken);
       toast("Đăng nhập thành công!", { autoClose: 700 });
-      router.back();
+      router.push("/kiem-duyet/san-pham");
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data.msg);

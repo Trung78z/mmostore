@@ -10,6 +10,8 @@ import {
   getByUserPosts,
   getPostsByAdmin,
   updatePostByAdmin,
+  likePost,
+  viewPost,
 } from "../controllers/postController";
 import authMiddleware from "../middlewares/authMiddleware";
 import { upload } from "../helpers/multerPost";
@@ -19,6 +21,8 @@ const router = Router();
 
 router.post("/create", upload.single("post"), authMiddleware, createPost);
 router.post("/test", upload.single("post"), images);
+router.post("/like-post", authMiddleware, likePost);
+router.post("/view-post", authMiddleware, viewPost);
 // Protected routes
 // *Get post
 router.get("/:slug", getPostById);

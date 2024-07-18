@@ -74,7 +74,6 @@ export default function LichSuThanhToan() {
       const res = await axios.get("/payment/withdraw/user", {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       });
-      console.log(res.data);
       setRowDraw(res.data.payment);
     } catch (error) {
       console.log(error);
@@ -85,7 +84,6 @@ export default function LichSuThanhToan() {
       const response = await axios.get("/payment/", {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       });
-      console.log(response.data);
       setRow(response.data.payment);
     } catch (error) {}
   };
@@ -102,8 +100,7 @@ export default function LichSuThanhToan() {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       });
 
-      console.log(response.data);
-      setRowDraw((prev = [...prev, response.data.withDraw.msg]));
+      setRowDraw((prev) => [...prev, response.data.withDraw.msg]);
       setAuthState({
         ...authState,
         accountBalance: response.data.withDraw.resProfile.accountBalance,

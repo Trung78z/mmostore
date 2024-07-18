@@ -12,8 +12,28 @@ Content-Type: application/json
 }
 
 ### get all post
+POST {{baseUrl}}/posts/like-post
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NmUzOGZmLTgxMjQtNDkzMS1iNjcwLTNiNzdmZjA2ZjQ4YSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTE1MDkxMSwiZXhwIjoxNzIxMzIzNzExfQ.HHImq4BsdwZRFLuoC3wVWQiyW4caKcxYN4f-5UNPj0o
+
+{
+  "postId":1
+}
+
+### get all post
+POST {{baseUrl}}/posts/view-post
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NmUzOGZmLTgxMjQtNDkzMS1iNjcwLTNiNzdmZjA2ZjQ4YSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTE1MDkxMSwiZXhwIjoxNzIxMzIzNzExfQ.HHImq4BsdwZRFLuoC3wVWQiyW4caKcxYN4f-5UNPj0o
+
+{
+  "postId":1
+}
+
+
+### get all post
 GET {{baseUrl}}/posts
 Content-Type: application/json
+
 ###
 GET {{baseUrl}}/user/findAll/users
 Content-Type: application/json
