@@ -2,7 +2,6 @@
 
 import { createContext, useEffect, useState } from "react";
 import axios from "@/configs/api";
-import { useRouter } from "next/navigation";
 
 export const AuthContext = createContext("");
 
@@ -12,8 +11,9 @@ function AuthProvider({ children }) {
     id: null,
     role: "",
     accountBalance: 0,
+    lastName: "",
+    firstName: "",
   });
-  const router = useRouter();
   useEffect(() => {
     fetch();
   }, []);
@@ -22,16 +22,16 @@ function AuthProvider({ children }) {
       const result = await axios.post("/user/refresh-token", null, {
         withCredentials: true,
       });
+
       if (result.data.success) {
         setAuthState({
           status: true,
           id: result.data.id,
           role: result.data.role,
           accountBalance: result.data.profile.accountBalance,
+          lastName: result.data.profile.lastName,
+          firstName: result.data.profile.firstName,
         });
-        if (result.data.role !== "ADMIN") {
-          return router.push("/dang-nhap");
-        }
         sessionStorage.setItem("token", result.data.accessToken);
       } else {
         setAuthState({
@@ -39,14 +39,12 @@ function AuthProvider({ children }) {
           id: 0,
           role: "",
           accountBalance: 0,
+          lastName: "",
+          firstName: "",
         });
-        sessionStorage.removeItem("token");
-        router.push("/dang-nhap");
       }
     } catch (error) {
       console.log(error);
-      sessionStorage.removeItem("token");
-      router.push("/dang-nhap");
     }
   };
   return (

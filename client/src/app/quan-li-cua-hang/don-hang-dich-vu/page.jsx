@@ -46,12 +46,10 @@ export default function DonHangSanPham() {
         },
       });
       const filter = row.filter((item) => {
-        return item.id === id ? (item.confirmSeller = true) : item;
+        return item.id === id ? (item.buyerConfirm = true) : item;
       });
       setRow(filter);
       toast("Xác nhận thành công!");
-      // setLoading(false);
-      // setRow(response.data.order);
     } catch (error) {
       setLoading(false);
     }
@@ -156,15 +154,15 @@ export default function DonHangSanPham() {
                   <TableCell className="font-medium">{item.status}</TableCell>
                   <TableCell className="font-medium">
                     <Button
-                      disabled={item.confirmSeller}
-                      className={`flex items-center gap-2 text-xl ${!item.confirmSeller ? `text-red-500` : `text-green-500`} `}
+                      disabled={item.buyerConfirm}
+                      className={`flex items-center gap-2 text-xl ${!item.buyerConfirm ? `text-red-500` : `text-green-500`} `}
                       onClick={() => handleActive(item.id)}
                     >
                       <FaCheckCircle />
                       <span
-                        className={`text-sm font-normal ${!item.confirmSeller && `text-red-500`} `}
+                        className={`text-sm font-normal ${!item.buyerConfirm && `text-red-500`} `}
                       >
-                        {item.confirmSeller ? "Đã xác nhận" : "Chưa xác nhận"}
+                        {item.buyerConfirm ? "Đã xác nhận" : "Chưa xác nhận"}
                       </span>
                     </Button>
                   </TableCell>

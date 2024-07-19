@@ -7,7 +7,8 @@ import AuthProvider from "@/lib/hooks/AuthProvider";
 
 import { StoreProvider } from "./StoreProvider";
 import { cn } from "@/lib/utils";
-// import CheckSocketIo from "./checkSocketIo";
+import CheckSocketIo from "./checkSocketIo";
+import { SocketProvider } from "@/lib/hooks/socketContext";
 const inter = Roboto({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -37,7 +38,6 @@ export default function RootLayout({ children }) {
         <StoreProvider>
           <AuthProvider>
             <Navbar />
-            {/* <CheckSocketIo /> */}
             {children}
             <FooterPage />
             <ToastContainer />

@@ -146,7 +146,11 @@ export const findByUserSellOrder = async (
   });
   return newService;
 };
-
+export const findByUserBuy = async (id: number, userId: string) => {
+  return await prisma.orders.findFirst({
+    where: { servicesId: id, userId: userId },
+  });
+};
 export const updateConfirmCustomer = async (id: string, role: string) => {
   if (role === "CUSTOMER") {
     return await prisma.orders.update({

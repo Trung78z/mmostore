@@ -10,6 +10,7 @@ import {
   getServicesAllByAdmin,
   getProductAllByAdmin,
   getSeed,
+  createReview,
 } from "../controllers/serviceController";
 import authMiddleware from "../middlewares/authMiddleware";
 
@@ -19,6 +20,7 @@ import roleMiddleware from "../middlewares/roleMiddleware";
 const router = Router();
 
 router.post("/create", upload.single("service"), authMiddleware, createService);
+router.post("/createReview/:id", authMiddleware, createReview);
 // *Get post
 router.get("/id/:slug", getServiceById);
 router.get("/service/:id", getServices);

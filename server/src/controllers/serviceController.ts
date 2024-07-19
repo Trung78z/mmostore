@@ -78,7 +78,22 @@ export const createService = async (req: Request, res: Response) => {
 };
 
 export const createReview = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { level, content } = req.body;
   try {
+    if (req.user) {
+      const review = await serviceService.createReview(
+        level,
+        content,
+        req.user.id,
+        parseInt(id)
+      );
+      return res.status(201).json({ success: true, id: review });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
   } catch (error) {}
 };
 

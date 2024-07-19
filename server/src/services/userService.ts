@@ -6,7 +6,8 @@ export const registerUser = async (
   email: string,
   username: string,
   password: string,
-  role: string
+  firstName: string,
+  lastName: string
 ) => {
   const hashedPassword = bcrypt.hashSync(password, 10);
   const insertId = await prisma.users.create({
@@ -14,6 +15,7 @@ export const registerUser = async (
       email: email,
       username: username,
       password: hashedPassword,
+      profiles: { create: { firstName, lastName, accountBalance: 0 } },
     },
   });
   return insertId || null;
@@ -67,19 +69,21 @@ export const findRoleUserById = async (id: string) => {
     },
   });
 };
-export const updateUserById = async (
-  id: string,
-  username: string,
-  password: string,
-  role: Role
-) => {
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  return (
-    (await prisma.users.update({
-      where: { id },
-      data: { username: username, password: hashedPassword, role: role },
-    })) || null
-  );
+export const updateUserById = async (id: string, total: number, role: Role) => {
+  return await prisma.users.update({
+    where: { id },
+    data: { role: role, profiles: { update: { accountBalance: total } } },
+    select: {
+      email: true,
+      id: true,
+      createdAt: true,
+      username: true,
+      role: true,
+      profiles: {
+        select: { firstName: true, lastName: true, accountBalance: true },
+      },
+    },
+  });
 };
 
 export const updatePasswordUserById = async (
@@ -107,10 +111,21 @@ export const updatePasswordUserById = async (
 };
 
 // Delete a user by ID
-export const deleteUserById = async (id: string): Promise<void> => {
-  (await await prisma.users.delete({ where: { id } })) || null;
+export const deleteUserById = async (id: string) => {
+  await prisma.users.delete({ where: { id } });
 };
 
 export const getAllUserServices = async () => {
-  return await prisma.users.findMany();
+  return await prisma.users.findMany({
+    select: {
+      email: true,
+      id: true,
+      createdAt: true,
+      username: true,
+      role: true,
+      profiles: {
+        select: { firstName: true, lastName: true, accountBalance: true },
+      },
+    },
+  });
 };

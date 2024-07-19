@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-
 import CardPost from "@/components/posts/CardPost";
 import { selectPosts, selectStatus } from "@/lib/features/posts/postSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/reducer/hooks";
@@ -11,37 +10,29 @@ import {
   fetchPostCategory,
   fetchPosts,
 } from "@/lib/features/posts/actions/postActions";
+import { usePost } from "@/lib/hooks/ContextPost";
 
-export default function PostPage() {
-  const dispatch = useAppDispatch();
-  const posts = useAppSelector(selectPosts);
-  const status = useAppSelector(selectStatus);
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+export default function PostLadingPage() {
+  const { dataContextPost } = usePost();
 
   return (
     <div className="space-y-4 p-4">
-      {status === "loading" ? (
-        <p>Loading...</p>
-      ) : status === "failed" ? (
-        <p>Failed to fetch posts.</p>
-      ) : (
-        <section>
-          <div className="">
-            <div className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-4">
-              {posts.map((product) => (
-                <div key={product.id}>
-                  <CardPost product={product} />
-                </div>
-              ))}
-            </div>
+      <section>
+        <div className="">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-4">
+            {dataContextPost.map((product) => (
+              <div key={product.id}>
+                <CardPost product={product} />
+              </div>
+            ))}
           </div>
-        </section>
-      )}
-
-      {/* <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 sm:px-6">
+        </div>
+      </section>
+    </div>
+  );
+}
+{
+  /* <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">
           <Link
             href="#"
@@ -127,7 +118,5 @@ export default function PostPage() {
             </nav>
           </div>
         </div>
-      </div> */}
-    </div>
-  );
+      </div> */
 }

@@ -37,11 +37,10 @@ model services {
   sponsor                   Boolean                  @default(false)
   createdAt                 DateTime                 @default(now())
   updatedAt                 DateTime                 @updatedAt
-  user                      users                    @relation(fields: [userId], references: [id])
+  user                      users                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                    String
   serviceReviews            serviceReviews[]
   serviceViews              serviceViews[]
-  serviceComments           serviceComments[]
   serviceSales              serviceSales[]
   orders                    orders[]
   serviceCategory           serviceCategory?         @relation(fields: [serviceCategoryId], references: [id])
@@ -63,16 +62,7 @@ model serviceSales {
 
 model serviceViews {
   id         Int       @id @default(autoincrement())
-  user       users     @relation(fields: [userId], references: [id])
-  userId     String
-  services   services? @relation(fields: [servicesId], references: [id])
-  servicesId Int?
-}
-
-model serviceComments {
-  id         Int       @id @default(autoincrement())
-  content    String    @unique
-  user       users     @relation(fields: [userId], references: [id])
+  user       users     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   services   services? @relation(fields: [servicesId], references: [id])
   servicesId Int?
@@ -80,11 +70,11 @@ model serviceComments {
 
 model serviceReviews {
   id         Int       @id @default(autoincrement())
-  content    String    @unique
+  content    String?
   level      Int
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  user       users     @relation(fields: [userId], references: [id])
+  user       users     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   services   services? @relation(fields: [servicesId], references: [id])
   servicesId Int?

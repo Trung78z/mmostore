@@ -27,9 +27,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={(inter.className, "bg-[#f8f8f8]")}>
         <AuthProvider>
-          <AuthCheck>
-            <div>{children}</div>
-          </AuthCheck>
+          {/* <AuthCheck> */}
+          <div>{children}</div>
+          {/* </AuthCheck> */}
         </AuthProvider>
         <ToastContainer />
       </body>

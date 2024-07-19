@@ -80,6 +80,23 @@ export const findByUserSellOrder = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+export const findByUserBuy = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    if (req.user) {
+      const order = await orderService.findByUserBuy(parseInt(id), req.user.id);
+      return res.status(201).json({ success: true, msg: order });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "User not authenticated" });
+    }
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 export const updateConfirm = async (req: Request, res: Response) => {
   const { id } = req.params;

@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createOrder,
   findAllOrder,
+  findByUserBuy,
   findByUserOrder,
   findByUserSellOrder,
   updateConfirm,
@@ -16,6 +17,7 @@ router.post("/create", authMiddleware, createOrder);
 router.get("/", authMiddleware, roleMiddleware("ADMIN"), findAllOrder);
 router.get("/user", authMiddleware, findByUserOrder);
 router.get("/userSell/:service", authMiddleware, findByUserSellOrder);
+router.get("/user/:id", authMiddleware, findByUserBuy);
 
 router.put("/:id", authMiddleware, updateConfirm);
 router.put(

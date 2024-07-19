@@ -71,7 +71,7 @@ export default function Themmoi() {
       const response = await axios.get("/categories/services");
       setCategories(response.data.msg);
       const filter = response.data.msg[0].serviceSubCategory;
-      console.log(response.data.msg);
+
       setSubCategories(filter);
       const filter2 =
         response.data.msg[0].serviceSubCategory[0].serviceChildrenCategory;

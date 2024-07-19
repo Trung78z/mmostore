@@ -19,7 +19,22 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.chat-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
 
+.chat-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background color of the scrollbar track */
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb (scrolling part) */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar thumb when hovered */
+}
 /* Tắt nút lên xuống trên Firefox */
 /* input[type="number"] {
   -moz-appearance: textfield;

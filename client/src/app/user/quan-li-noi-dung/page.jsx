@@ -11,6 +11,7 @@ import {
   selectPostsByUser,
 } from "@/lib/features/posts/postUserSlice";
 import { fetchPostsByUser } from "@/lib/features/posts/actions/postUserActions";
+import LoadingPage from "@/components/Loading";
 
 export default function QuanLiNoiDung() {
   const dispatch = useAppDispatch();
@@ -23,7 +24,11 @@ export default function QuanLiNoiDung() {
   }, [dispatch]);
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return (
+      <p>
+        <LoadingPage />
+      </p>
+    );
   }
 
   if (status === "failed") {

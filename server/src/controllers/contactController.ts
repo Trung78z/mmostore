@@ -3,6 +3,7 @@ import * as contact from "../services/contactService";
 import { RoleContactCus } from "../types/enums/contact";
 export const createContact = async (req: Request, res: Response) => {
   const { email, phone, title, content } = req.body;
+
   try {
     if (req.user) {
       const msg = await contact.createContact(

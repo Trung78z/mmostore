@@ -48,7 +48,22 @@ export const createService = async (
   });
   return newService.id;
 };
-export const createReview = async () => {};
+export const createReview = async (
+  level: number,
+  content: string,
+  userId: string,
+  servicesId: number
+) => {
+  return prisma.serviceReviews.create({
+    data: { level, content, userId, servicesId },
+    select: {
+      level: true,
+      content: true,
+      createdAt: true,
+      user: { select: { profiles: { select: { lastName: true } } } },
+    },
+  });
+};
 export const findByIdService = async (slug: string) => {
   try {
     const post = await prisma.services.findUnique({
@@ -71,6 +86,14 @@ export const findByIdService = async (slug: string) => {
         },
         _count: { select: { orders: true } },
         serviceSales: true,
+        serviceReviews: {
+          select: {
+            level: true,
+            content: true,
+            createdAt: true,
+            user: { select: { profiles: { select: { lastName: true } } } },
+          },
+        },
       },
     });
     return post;
@@ -92,6 +115,14 @@ export const findAllServiceById = async (id: string) => {
       serviceSubCategory: { select: { subCategory: true } },
       serviceChildrenCategory: { select: { childrenCategory: true } },
       serviceSales: true,
+      serviceReviews: {
+        select: {
+          level: true,
+          content: true,
+          createdAt: true,
+          user: { select: { profiles: true } },
+        },
+      },
       _count: { select: { orders: true } },
     },
   });
@@ -100,12 +131,21 @@ export const findAllServiceById = async (id: string) => {
 };
 export const findSeed = async () => {
   const services = await prisma.services.findMany({
+    where: { status: "success" },
     include: {
       user: { select: { username: true } },
       serviceCategory: { select: { category: true } },
-      serviceSubCategory: { select: { subCategory: true } },
+      serviceSubCategory: { select: { subCategoryCover: true } },
       serviceChildrenCategory: { select: { childrenCategory: true } },
       serviceSales: true,
+      serviceReviews: {
+        select: {
+          level: true,
+          content: true,
+          createdAt: true,
+          user: { select: { profiles: true } },
+        },
+      },
       _count: { select: { orders: true } },
     },
   });
@@ -145,6 +185,14 @@ export const findAllProduct = async () => {
       user: { select: { username: true } },
       serviceCategory: { select: { category: true } },
       serviceSubCategory: { select: { subCategory: true } },
+      serviceReviews: {
+        select: {
+          level: true,
+          content: true,
+          createdAt: true,
+          user: { select: { profiles: true } },
+        },
+      },
     },
   });
 
@@ -167,6 +215,14 @@ export const findAllServiceByUser = async (userId: string) => {
         },
         _count: { select: { orders: true } },
         serviceSales: true,
+        serviceReviews: {
+          select: {
+            level: true,
+            content: true,
+            createdAt: true,
+            user: { select: { profiles: { select: { lastName: true } } } },
+          },
+        },
       },
     });
     return post;

@@ -5,11 +5,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -L src/index.ts",
-    "build": "rm -r dist && tsc",
+    "build": " tsc",
     "start": "npm run build && node dist/index",
     "db": "npx prisma migrate dev --name init --schema=src/models",
     "reset:db": "rm -r src/migrations && npx prisma migrate dev --name init --schema=src/models  && npm run drop:db",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma migrate reset --force"
   },
   "prisma": {
     "seed": "ts-node src/models/seed",
@@ -52,6 +52,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "3.10.1",
     "pm2": "^5.4.1",
+    "socket.io": "^4.7.5",
     "uuid": "^10.0.0"
   }
 }

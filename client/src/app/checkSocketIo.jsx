@@ -34,8 +34,6 @@ export default function CheckSocketIo() {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("receive-message", (message) => {
-      console.log(message);
-      console.log(message);
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: message.text, render: "received" },
@@ -63,7 +61,6 @@ export default function CheckSocketIo() {
       setValue("");
     }
   };
-  console.log(messages);
   return (
     <main className="top-1/2 flex min-h-screen items-center justify-center bg-[#c8c8c8]">
       <form onSubmit={handleSubmit} className="rounded-md bg-white">

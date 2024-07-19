@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { Command, CommandList } from "@/components/ui/command";
 import {
   Sheet,
@@ -7,6 +7,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { IoChatbubblesSharp } from "react-icons/io5";
 import Link from "next/link";
 import { cn, convertToSlug } from "@/lib/utils";
 import { RiShoppingBag3Fill } from "react-icons/ri";
@@ -15,7 +16,7 @@ import { FaListOl } from "react-icons/fa6";
 import { MdDescription, MdOutlinePriceChange } from "react-icons/md";
 import { MdMenuBook } from "react-icons/md";
 import { IoMdMenu } from "react-icons/io";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { BsChatDots } from "react-icons/bs";
 import Image from "next/image";
@@ -25,6 +26,8 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react";
+import { AuthContext } from "@/lib/hooks/AuthProvider";
+import { toast } from "react-toastify";
 
 const navigate = [
   {
@@ -74,22 +77,55 @@ const navigate = [
       },
     ],
   },
-];
-
-const homePage = [
+  {
+    gruop: "Tài khoản",
+    titles: [
+      {
+        title: "Tất cả tài khoản",
+        icon: <MdMenuBook className="h-6 w-6 text-white" />,
+      },
+    ],
+  },
+  {
+    gruop: "Chat",
+    titles: [
+      {
+        title: "Chat",
+        icon: <IoChatbubblesSharp className="h-6 w-6 text-white" />,
+      },
+    ],
+  },
   {
     gruop: "admin",
-    icon: <TiHome className="h-6 w-6" />,
-    titles: {
-      title: "Mô tả",
-      icon: <MdDescription className="h-6 w-6" />,
-    },
+
+    titles: [
+      {
+        title: "Mô tả",
+        icon: <TiHome className="h-6 w-6" />,
+      },
+    ],
   },
 ];
+import axios from "@/configs/api";
 export default function SidebarAdmin(props) {
   const pathname = usePathname();
-  function handleLogout() {
-    toast("Đăng xuất thành công!");
+  const router = useRouter();
+  const { authState, setAuthState } = useContext(AuthContext);
+  async function handleLogout() {
+    try {
+      const msg = await axios.post("/user/logout", null, {
+        withCredentials: true,
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+      });
+      sessionStorage.removeItem("token");
+      toast("Bạn đã đăng xuất thành công!", { autoClose: 700 });
+      setAuthState({ status: false, id: null, role: "", accountBalance: 0 });
+      router.push("/dang-nhap");
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <>
@@ -110,7 +146,7 @@ export default function SidebarAdmin(props) {
               </h5>
             </div>
           </Link>
-          <ul className="mt-4 list-none space-y-6 leading-3">
+          <ul className="mt-4 list-none space-y-1 leading-3">
             {navigate.map((item, key) => (
               <div key={key} className="space-y-1">
                 <p className="px-2 font-medium text-gray-300">{item.gruop}</p>
@@ -145,7 +181,7 @@ export default function SidebarAdmin(props) {
               </div>
             ))}
           </ul>
-          {homePage.map((item, index) => (
+          {/* {homePage.map((item, index) => (
             <Disclosure key={index}>
               <DisclosureButton className="flex items-center gap-x-2 px-2 py-2 font-medium text-white">
                 {item.icon} {item.gruop}
@@ -166,13 +202,15 @@ export default function SidebarAdmin(props) {
                 </Link>
               </DisclosurePanel>
             </Disclosure>
-          ))}
+          ))} */}
         </>
       </div>
       <Sheet className="block md:hidden" key="left">
         <div className="card flex items-center justify-between rounded-none py-3 md:hidden">
           <SheetTrigger asChild>
-            <IoMdMenu className="h-8 w-8" />
+            <Link href="/chat">
+              <IoMdMenu className="h-8 w-8" />
+            </Link>
           </SheetTrigger>
           <div className="flex items-center gap-x-4">
             <BsChatDots className="h-6 w-6" />
@@ -182,7 +220,7 @@ export default function SidebarAdmin(props) {
                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt=""
               />
-              <h5>Hoàng vương</h5>
+              <h5>{`${authState.firstName} ${authState.lastName}`}</h5>
             </div>
             <Button className="px-2 py-0 text-sm" onClick={handleLogout}>
               Đăng xuất

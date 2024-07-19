@@ -21,10 +21,15 @@ router.post("/logout", authMiddleware, logoutUser);
 
 // Protected routes
 router.get("/by/id", authMiddleware, getUser);
-router.put("/admin/update", authMiddleware, updateUser);
+router.put(
+  "/admin/update/:id",
+  authMiddleware,
+  roleMiddleware("ADMIN"),
+  updateUser
+);
 router.put("/", authMiddleware, updatePasswordUserById);
-router.delete("/", authMiddleware, deleteUser);
-router.get("/", getAllUser);
+router.delete("/:id", authMiddleware, roleMiddleware("ADMIN"), deleteUser);
+router.get("/", authMiddleware, roleMiddleware("ADMIN"), getAllUser);
 
 // Admin routes
 router.get("/admin", authMiddleware, roleMiddleware("ADMIN"), (req, res) => {

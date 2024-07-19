@@ -21,15 +21,15 @@ import Image from "next/image";
 import { AuthContext } from "@/lib/hooks/AuthProvider";
 
 const navigate = [
-  {
-    gruop: "SALE",
-    titles: [
-      {
-        title: "Sales",
-        icon: <RiShoppingBag3Fill className="h-6 w-6 text-white" />,
-      },
-    ],
-  },
+  // {
+  //   gruop: "SALE",
+  //   titles: [
+  //     {
+  //       title: "Sales",
+  //       icon: <RiShoppingBag3Fill className="h-6 w-6 text-white" />,
+  //     },
+  //   ],
+  // },
   {
     gruop: "Shop",
     titles: [
@@ -61,10 +61,10 @@ const navigate = [
         title: "Đánh giá",
         icon: <IoChatbubbleEllipses className="h-6 w-6 text-white" />,
       },
-      {
-        title: "Mã giảm giá",
-        icon: <RiDiscountPercentFill className="h-6 w-6 text-white" />,
-      },
+      // {
+      //   title: "Mã giảm giá",
+      //   icon: <RiDiscountPercentFill className="h-6 w-6 text-white" />,
+      // },
       // {
       //   title: "Gian hàng top 1",
       //   icon: <PiRankingFill className="h-6 w-6 text-white" />,

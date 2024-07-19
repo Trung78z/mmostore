@@ -41,6 +41,7 @@ import { AuthContext } from "@/lib/hooks/AuthProvider";
 import axios from "@/configs/api";
 import { navigation } from "@/lib/data/nav";
 import { ChevronDownIcon } from "lucide-react";
+import { BsChatDots } from "react-icons/bs";
 
 const user = [
   { name: "Trang cá nhân" },
@@ -76,7 +77,8 @@ export default function Navbar() {
         lastName: "",
         firstName: "",
       });
-      pathname.startsWith("/user") && router.push("/");
+      pathname.startsWith("/user") ||
+        (pathname.startsWith("/quan-li-cua-hang") && router.push("/"));
     } catch (error) {
       console.log(error);
     }
@@ -195,6 +197,7 @@ export default function Navbar() {
                             </div>
                           </div>
                         </div>
+
                         {authState.status ? (
                           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <div className="mr-2 hidden font-medium text-white lg:flex">
@@ -206,6 +209,9 @@ export default function Navbar() {
                                 Vnđ
                               </h4>
                             </div>
+                            <Link href="/chat">
+                              <BsChatDots className="h-6 w-6 text-white" />
+                            </Link>
                             {/* <button
                               type="button"
                               className="relative rounded-full bg-blue-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400"
@@ -274,7 +280,7 @@ export default function Navbar() {
                                               item.name === "Quản lí cửa hàng"
                                                 ? "/" +
                                                   convertToSlug(item.name) +
-                                                  "/sales"
+                                                  "/quan-li-gian-hang"
                                                 : "/user/" +
                                                   convertToSlug(item.name)
                                             }

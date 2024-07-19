@@ -14,7 +14,7 @@ model posts {
   status         RolePost       @default(ide)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  user           users          @relation(fields: [userId], references: [id])
+  user           users          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
   postLikes      postLikes[]
   postViews      postViews[]
@@ -27,7 +27,7 @@ model posts {
 model postLikes {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  user      users    @relation(fields: [userId], references: [id])
+  user      users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String // This field seems to be the issue
   posts     posts?   @relation(fields: [postId], references: [id])
   postId    Int?
@@ -36,7 +36,7 @@ model postLikes {
 model postViews {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  user      users    @relation(fields: [userId], references: [id])
+  user      users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   posts     posts?   @relation(fields: [postId], references: [id])
   postId    Int?
@@ -46,7 +46,7 @@ model postPomments {
   id        Int      @id @default(autoincrement())
   content   String   @unique
   createdAt DateTime @default(now())
-  user      users    @relation(fields: [userId], references: [id])
+  user      users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   posts     posts?   @relation(fields: [postId], references: [id])
   postId    Int?
@@ -55,7 +55,7 @@ model postPomments {
 model postDonates {
   id      Int    @id @default(autoincrement())
   content String @unique
-  user    users  @relation(fields: [userId], references: [id])
+  user    users  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
 
   posts  posts? @relation(fields: [postId], references: [id])

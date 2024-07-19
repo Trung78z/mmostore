@@ -2,8 +2,34 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import _ from "lodash";
 import { Fragment } from "react";
+import { differenceInMinutes } from "date-fns";
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
+}
+
+export function formatTimeChat(offlineTime) {
+  const now = new Date();
+
+  // Tính số phút đã offline
+  const minutesOffline = differenceInMinutes(now, offlineTime);
+
+  // Định dạng kết quả
+  let formattedOffline;
+  if (minutesOffline >= 24 * 60) {
+    const days = Math.floor(minutesOffline / (24 * 60));
+    const hours = Math.floor((minutesOffline % (24 * 60)) / 60);
+    const minutes = minutesOffline % 60;
+    formattedOffline = `${days}d${hours > 0 ? ` ${hours}h` : ""}${minutes > 0 ? ` ${minutes} phút${minutes > 1 ? "s" : ""}` : ""}`;
+  } else if (minutesOffline >= 60) {
+    // Nếu offline nhiều hơn 1 giờ nhưng ít hơn 24 giờ
+    const hours = Math.floor(minutesOffline / 60);
+    const minutes = minutesOffline % 60;
+    formattedOffline = `${hours}h${hours > 1 ? "" : ""}${minutes > 0 ? ` ${minutes} phút${minutes > 1 ? "" : ""}` : ""}`;
+  } else {
+    // Nếu offline ít hơn 1 giờ
+    formattedOffline = `${minutesOffline} phút`;
+  }
+  return formattedOffline;
 }
 
 export function getMinMaxPrice(row) {

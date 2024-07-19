@@ -39,6 +39,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6I
   "role": "admin"
 }
 
+### Get user update
+GET {{baseUrl}}/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxNWM1ZjFiLTZmOGEtNDc2ZS1iMDI4LThhNzkyNDcyZTAwZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTM2MjM1MCwiZXhwIjoxNzIxNTM1MTUwfQ.dtQaoMJu5Lwkz3A8d6nRNZlkE9Jzax70hx6cdtSlGwY
+
+{
+  "username": "trungpspy",
+  "password": "Trungpy78",
+  "role": "admin"
+}
+
 
 ### Get user update
 GET {{baseUrl}}/user

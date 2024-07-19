@@ -19,6 +19,14 @@ const schema = z
       .string()
       .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
       .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" }),
+    firstName: z
+      .string()
+      .min(4, { message: "Vui lòng nhập ít nhất 4 kí tự!" })
+      .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" }),
+    lastName: z
+      .string()
+      .min(4, { message: "Vui lòng nhập ít nhất 4 kí tự!" })
+      .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" }),
     password: z
       .string()
       .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
@@ -142,6 +150,50 @@ export default function RegisterPage() {
                   <p className="text-red-600">{errors.username.message}</p>
                 )}
               </div>
+            </div>{" "}
+            <div className="grid grid-cols-2">
+              <div>
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  First name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    {...register("firstName")}
+                    required
+                    className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                  {errors.firstName && (
+                    <p className="text-red-600">{errors.firstName.message}</p>
+                  )}
+                </div>
+              </div>{" "}
+              <div>
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Last name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    {...register("lastName")}
+                    required
+                    className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                  {errors.lastName && (
+                    <p className="text-red-600">{errors.lastName.message}</p>
+                  )}
+                </div>
+              </div>{" "}
             </div>
             <div>
               <div className="flex items-center justify-between">

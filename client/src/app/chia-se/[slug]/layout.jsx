@@ -1,20 +1,30 @@
-import SidebarPost from "@/components/posts/SidebarPost";
-import { API_URL } from "@/configs/api";
-import { subCategory } from "@/lib/data/post";
-import React from "react";
-async function getData() {
-  const response = await fetch(API_URL + "/categories/postShares");
-  return response.json();
-}
+"use client";
 
-export default async function LayoutPost({ children }) {
-  const Category = await getData();
+import { subCategory } from "@/lib/data/post";
+import React, { useEffect, useState, lazy, Suspense } from "react";
+import axios from "@/configs/api";
+const SidebarPost = lazy(() => import("@/components/posts/SidebarPost"));
+export default function LayoutPost({ children }) {
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    fetch();
+  }, []);
+  const fetch = async () => {
+    try {
+      const response = await axios.get("/categories/postShares");
+      setCategory(response.data.msg);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="mx-auto w-full max-w-screen-xl p-4">
       <div className="col-span-1 grid grid-flow-row md:grid-cols-4">
         <div className="col-span-3"> {children}</div>
         <div className="static top-0 col-span-1 hidden md:block">
-          <SidebarPost subCategory={Category} />
+          <Suspense fallback={<>Loading!</>}>
+            <SidebarPost subCategory={category} />
+          </Suspense>
         </div>
       </div>
     </div>

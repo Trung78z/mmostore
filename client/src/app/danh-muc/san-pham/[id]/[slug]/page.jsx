@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Button, Input } from "@headlessui/react";
+import { Button, Input, Textarea } from "@headlessui/react";
 
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { IoAddCircle } from "react-icons/io5";
 import { GrSubtractCircle } from "react-icons/gr";
-import { IoMdAddCircleOutline } from "react-icons/io";
+import { IoMdAddCircleOutline, IoMdStarOutline } from "react-icons/io";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "@/configs/api";
@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { AuthContext } from "@/lib/hooks/AuthProvider";
 
+import CardDichVuOther from "@/components/danh-muc/CardDichVuOther";
+import LoadingPage from "@/components/Loading";
 export default function SlugServices() {
   const { slug } = useParams();
 
@@ -27,9 +29,24 @@ export default function SlugServices() {
   const [status, setStatus] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [buy, setBuy] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(null);
+  const [content, setContent] = useState("");
   function handleCheck(id, price) {
     setCheck(id);
     setPrice(price);
+  }
+
+  async function fetchBuy(id) {
+    try {
+      const response = await axios.get("/orders/user/" + id, {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      });
+      if (response.msg !== null) {
+        return setBuy(true);
+      }
+    } catch (error) {}
   }
   function sub() {
     if (amount > 1) {
@@ -55,6 +72,7 @@ export default function SlugServices() {
           return;
         }
         setStatus(true);
+        fetchBuy(response.data.msg.id);
         setRow(response.data.msg);
 
         // Ensure response.data.msg and serviceSales[0] are defined before accessing price
@@ -76,6 +94,33 @@ export default function SlugServices() {
     };
     fetch();
   }, [slug]);
+  const handleReviews = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "services/createReview/" + row.id,
+        {
+          level: rating,
+          content: content,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        },
+      );
+
+      setRow((prev) => ({
+        ...prev,
+        serviceReviews: [response.data.id, ...prev.serviceReviews],
+      }));
+      toast.success("Cám ơn bạn đã đánh giá");
+      setRating(0);
+      setContent("");
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra vui lòng thử lại!");
+    }
+  };
 
   const handleOrder = async () => {
     if (price * parseInt(amount) > authState.accountBalance) {
@@ -139,7 +184,9 @@ export default function SlugServices() {
   return (
     <>
       {loading ? (
-        <>Loading.....</>
+        <>
+          <LoadingPage />
+        </>
       ) : (
         status && (
           <>
@@ -234,10 +281,10 @@ export default function SlugServices() {
                           <IoMdAddCircleOutline className="h-6 w-6" />
                         </Button>
                       </div>
-                      <Input
+                      {/* <Input
                         className="border px-2 py-1"
                         placeholder="Nhập mã giảm giá..."
-                      ></Input>
+                      ></Input> */}
                       <div className="flex items-center gap-x-2">
                         <Button
                           className="rounded-sm bg-primary p-3 py-1 text-xl font-semibold text-white"
@@ -245,9 +292,9 @@ export default function SlugServices() {
                         >
                           Mua hàng
                         </Button>
-                        <Button className="rounded-sm bg-primary p-3 py-1 text-xl font-semibold text-white">
+                        {/* <Button className="rounded-sm bg-primary p-3 py-1 text-xl font-semibold text-white">
                           Đặt trước
-                        </Button>
+                        </Button> */}
                         <Button className="rounded-sm border border-primary p-3 py-1 text-xl font-semibold text-primary">
                           Nhắn tin
                         </Button>
@@ -283,7 +330,55 @@ export default function SlugServices() {
                       dangerouslySetInnerHTML={{ __html: row.description }}
                     ></TabPanel>
                     <TabPanel className="card space-y-3 md:mx-20">
-                      {Array.from({ length: 5 }).map((_, index) => (
+                      {buy && (
+                        <form onSubmit={handleReviews}>
+                          <span> Đánh giá cho sản phẩm:</span>
+                          <div>
+                            {[...Array(5)].map((star, index) => {
+                              const ratingValue = index + 1;
+
+                              return (
+                                <label key={index}>
+                                  <input
+                                    type="radio"
+                                    name="rating"
+                                    value={ratingValue}
+                                    onClick={() => setRating(ratingValue)}
+                                    style={{ display: "none" }}
+                                  />
+                                  <FaStar
+                                    className="star inline-block h-6 w-6"
+                                    color={
+                                      ratingValue <= (hover || rating)
+                                        ? "#ffc107"
+                                        : "#e4e5e9"
+                                    }
+                                    size={30}
+                                    onMouseEnter={() => setHover(ratingValue)}
+                                    onMouseLeave={() => setHover(null)}
+                                  />
+                                </label>
+                              );
+                            })}
+                          </div>
+                          <Textarea
+                            placeholder="Chi tiết đánh giá..."
+                            className="w-full rounded-sm border px-2"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                          ></Textarea>
+                          <div className="flex justify-end">
+                            <Button
+                              type="submit"
+                              className="rounded-md bg-blue-500 p-1 text-white hover:bg-blue-600"
+                            >
+                              Gửi đánh giá
+                            </Button>
+                          </div>
+                        </form>
+                      )}
+
+                      {row.serviceReviews.map((item, index) => (
                         <div key={index} className="flex">
                           <Image
                             src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
@@ -293,16 +388,35 @@ export default function SlugServices() {
                             className="max-h-10 max-w-10 rounded-full"
                           />
                           <div>
-                            k****ungtls
+                            {"*****" + item.user.profiles.lastName}
                             <div className="flex">
-                              <FaStar className="h-4 w-4 text-yellow-500" />
-                              <FaStar className="h-4 w-4 text-yellow-500" />
-                              <FaStar className="h-4 w-4 text-yellow-500" />
-                              <FaStar className="h-4 w-4 text-yellow-500" />
-                              <FaRegStarHalfStroke className="h-4 w-4 text-yellow-500" />
+                              {Array.from({ length: item.level }).map(
+                                (_, index) => {
+                                  return (
+                                    <FaStar
+                                      key={index}
+                                      className="h-4 w-4 text-yellow-500"
+                                    />
+                                  );
+                                },
+                              )}
+                              {Array.from({ length: 5 - item.level }).map(
+                                (_, index) => {
+                                  return (
+                                    <FaStar
+                                      key={index}
+                                      className="h-4 w-4 text-gray-400"
+                                    />
+                                  );
+                                },
+                              )}
                             </div>
-                            <p>Sản phẩm chuẩn chất lượng.</p>
-                            <p>{new Date().toLocaleDateString()}</p>
+                            <p>{item.content}.</p>
+                            <p>
+                              {new Date(item.createdAt).toLocaleDateString(
+                                "vi-VN",
+                              )}
+                            </p>
                             <hr />
                           </div>
                         </div>
@@ -313,6 +427,10 @@ export default function SlugServices() {
                     ></TabPanel>
                   </TabPanels>
                 </TabGroup>
+              </div>
+              <div className="">
+                <h4> Dịch vụ tương tự</h4>
+                <CardDichVuOther />
               </div>
             </div>
           </>

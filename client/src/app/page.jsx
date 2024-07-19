@@ -13,9 +13,13 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "@/configs/api";
+import { useRouter } from "next/navigation";
+import SearchPage from "@/components/home/Search";
 
 export default function Home() {
+  const router = useRouter();
   const [more, setMore] = useState(false);
+  const [item, setItems] = useState([]);
   const handleChangeMore = () => {
     setMore(!more);
   };
@@ -26,6 +30,25 @@ export default function Home() {
   }, []);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [valueCate, setValueCate] = useState("");
+  const [subValueCate, setValueSubCate] = useState("");
+  const [subCate, setSubCate] = useState([]);
+  const [subChildCate, setChildSubCate] = useState([]);
+  useEffect(() => {
+    const fetchCate = async () => {
+      try {
+        const response = await axios.get("/categories/services");
+        setItems(response.data.msg);
+        setSubCate(response.data.msg[0].serviceSubCategory);
+
+        setValueCate(response.data.msg[0].category);
+        setValueSubCate(
+          response.data.msg[0].serviceSubCategory[0].subCategoryCover,
+        );
+      } catch (error) {}
+    };
+    fetchCate();
+  }, []);
 
   const fetch = async () => {
     setLoading(true);
@@ -42,55 +65,71 @@ export default function Home() {
       setLoading(false);
     }
   };
+  const handleChangeCate = (e) => {
+    const filter = item.find((item) => item.category === e.target.value);
+    setValueCate(e.target.value);
+    setSubCate(filter.serviceSubCategory);
+    setValueSubCate(filter.serviceSubCategory[0].subCategoryCover);
+  };
+  const handleChangeSubCate = (e) => {
+    const filter = subCate.find(
+      (item) => item.subCategoryCover === e.target.value,
+    );
+    setValueSubCate(e.target.value);
+  };
+  const handleSearchButton = () => {
+    router.push(
+      `/danh-muc/${
+        valueCate === "product" ? "san-pham" : "dich-vu"
+      }/${subValueCate}`,
+    );
+  };
   return (
     <>
       <div className="mx-auto max-w-screen-xl space-y-4 p-2 md:p-10 lg:space-y-10 lg:p-20">
         <div className="min-h-60 rounded-md bg-[url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIfTEJ-1XyZARbRXYSqFgPvdVTvCow6K4PVw&s)] bg-cover bg-no-repeat p-10 md:px-20 lg:px-24 xl:px-40">
-          <ul className="space-y-4 md:space-y-10">
-            <li className="ml-0 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="space-y-4 md:space-y-7">
+            <li className="ml-0 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
               <Select
                 name="status"
                 className="rounded-md border p-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
                 aria-label="Project status"
+                onChange={handleChangeCate}
               >
-                <option value="active">Tùy chọn tìm kiếm</option>
-                <option value="paused">Tên người bán</option>
-                <option value="delayed">Email</option>
-                <option value="canceled">Tài khoản</option>
-                <option value="canceled">Khác</option>
+                {item.map((item) => {
+                  return (
+                    <option key={item.id} value={item.category}>
+                      {item.category === "product" ? "Sản phẩm" : "Dịch vụ"}
+                    </option>
+                  );
+                })}
               </Select>
               <Select
                 name="status"
                 className="rounded-md border p-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
                 aria-label="Project status"
-              ></Select>
-              <Select
-                name="status"
-                className="rounded-md border p-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
-                aria-label="Project status"
+                onChange={handleChangeSubCate}
               >
-                {/* <option value="active">Tùy chọn tìm kiếm</option>
-                <option value="paused">Tên người bán</option>
-                <option value="delayed">Email</option>
-                <option value="canceled">Tài khoản</option>
-                <option value="canceled">Khác</option> */}
+                {subCate.map((item) => {
+                  return (
+                    <option key={item.id} value={item.subCategoryCover}>
+                      {item.subCategory}
+                    </option>
+                  );
+                })}
               </Select>
             </li>
-
+            <h2 className="text-center text-blue-500">Hoặc</h2>
             <li className="text-md ml-0 flex items-center gap-x-2 font-medium">
               <div className="flex flex-1 flex-col">
-                <Input
-                  type="text"
-                  name="title"
-                  id="title"
-                  required
-                  placeholder="Tìm gian hàng hoặc người bán"
-                  className="min-h-10 rounded-md border pl-2 data-[focus]:bg-blue-100 data-[hover]:shadow"
-                />
+                <SearchPage />
               </div>
             </li>
             <li className="ml-0 text-center">
-              <Button className="rounded bg-primary px-4 py-2 text-sm text-white data-[hover]:bg-primary/80 data-[hover]:data-[active]:bg-primary/90">
+              <Button
+                className="rounded bg-primary px-4 py-2 text-sm text-white data-[hover]:bg-primary/80 data-[hover]:data-[active]:bg-primary/90"
+                onClick={handleSearchButton}
+              >
                 Tìm kiếm
               </Button>
             </li>

@@ -13,13 +13,18 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/reducer/hooks";
 import { useRouter } from "next/navigation";
 import axios from "@/configs/api";
+import { IoSearch } from "react-icons/io5";
+import { Input } from "@headlessui/react";
+import LoadingPage from "@/components/Loading";
 
 export default function PostPage() {
   const { slug } = useParams();
+
   const dispatch = useAppDispatch();
+  const [data, setData] = useState([]);
 
   const status = useAppSelector(selectStatus);
-
+  const [category, setCategory] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
       dispatch(fetchPostsStart());
@@ -31,46 +36,123 @@ export default function PostPage() {
       }
     };
     fetchPosts();
+  }, [dispatch, slug]);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await axios.get("/categories/postShares");
+        setCategory(response.data.msg);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
   }, []);
-
   const posts = useAppSelector(selectPosts);
+  useEffect(() => {
+    setData(posts);
+  }, [posts]);
+
+  const handleChangeSearch = (e) => {
+    const filter = posts.filter((item) =>
+      item.title.toLowerCase().includes(e.target.value.toLowerCase()),
+    );
+    setData(filter);
+  };
   return (
     <>
-      <div className="space-y-4 p-4">
-        {status === "loading" ? (
-          <p>Loading...</p>
-        ) : status === "failed" ? (
-          <p>Failed to fetch posts.</p>
-        ) : (
-          <section>
-            <div className="">
-              <div className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-4">
-                {posts.map((product) => (
-                  <div key={product.id}>
-                    <CardPost product={product} />
-                  </div>
-                ))}
+      <div className="mx-auto w-full max-w-screen-xl pt-4">
+        <div className="px-4">
+          <h1>Kinh nghiệm MMO</h1>
+          <p>
+            Nơi chia sẻ kiến thức, kinh nghiệm, và trải nghiệm về kiếm tiền
+            online.
+          </p>
+        </div>
+        <div className="col-span-1 grid grid-flow-row md:grid-cols-4">
+          <div className="static top-0 col-span-1 hidden md:block">
+            <div className="h-full w-full space-y-6 rounded-lg p-4">
+              <div className="relative bg-background">
+                <Input
+                  className="min-h-12 min-w-full max-w-full rounded-lg border-2 border-primary p-2 data-[checked]:border-primary/80 data-[focus]:border-primary/80"
+                  placeholder="Tìm kiếm bài viết..."
+                  onChange={handleChangeSearch}
+                ></Input>
+                <span className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <IoSearch className="h-8 w-8 cursor-pointer text-primary/80 hover:text-primary" />
+                </span>
+              </div>
+
+              <div className="min-w-full rounded-lg bg-background p-2">
+                <Link href="/quan-li-bai-viet" className="">
+                  <h4>Quản lí bài viết</h4>
+                </Link>
+              </div>
+              <div className="min-w-full rounded-lg bg-background p-4">
+                <h5>Thể loại</h5>
+                <ul className="mt-2 list-none">
+                  {category.map((item) => (
+                    <li key={item.id} className="ml-2">
+                      <Link
+                        href={`/chia-se/the-loai/${item.slug}`}
+                        className="hover:text-primary/65"
+                      >
+                        {item.category} -
+                        <span className=""> ({item._count?.posts})</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          </section>
-        )}
-
-        <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 sm:px-6">
-          <div className="flex flex-1 justify-between sm:hidden">
-            <Link
-              href="#"
-              className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              Previous
-            </Link>
-            <Link
-              href="#"
-              className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              Next
-            </Link>
+          </div>{" "}
+          <div className="col-span-3">
+            {" "}
+            <div className="space-y-4 p-4">
+              {status === "loading" ? (
+                <p>
+                  <LoadingPage />
+                </p>
+              ) : status === "failed" ? (
+                <p>Failed to fetch posts.</p>
+              ) : (
+                <section>
+                  <div className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-4">
+                    {data.map((product) => (
+                      <div key={product.id}>
+                        <CardPost product={product} />
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
           </div>
-          {/* <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        </div>{" "}
+      </div>
+    </>
+  );
+}
+
+{
+  /*
+  <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 sm:px-6">
+  <div className="flex flex-1 justify-between sm:hidden">
+    <Link
+      href="#"
+      className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+    >
+      Previous
+    </Link>
+    <Link
+      href="#"
+      className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+    >
+      Next
+    </Link>
+  </div>
+</div>
+ <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
             <div>
               <p className="text-sm text-gray-700">
                 Đang hiển thị <span className="font-medium">1</span> to
@@ -140,9 +222,5 @@ export default function PostPage() {
                 </Link>
               </nav>
             </div>
-          </div> */}
-        </div>
-      </div>
-    </>
-  );
+          </div> */
 }

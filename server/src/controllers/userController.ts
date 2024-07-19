@@ -6,9 +6,16 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from "../helpers/tokenHelpers";
-import { first } from "lodash";
+
 export const registerUser = async (req: Request, res: Response) => {
-  const { email, username, password, role = "user" } = req.body;
+  const {
+    email,
+    username,
+    password,
+    role = "user",
+    firstName,
+    lastName,
+  } = req.body;
 
   try {
     const findByEmail = await userService.findUserByEmail(email);
@@ -27,7 +34,13 @@ export const registerUser = async (req: Request, res: Response) => {
         msg: "Tên tài khoản đã có trong hệ thống vui lòng thử lại!",
       });
     }
-    await userService.registerUser(email, username, password, role);
+    await userService.registerUser(
+      email,
+      username,
+      password,
+      firstName,
+      lastName
+    );
     res.sendStatus(201);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -89,14 +102,14 @@ export const getUser = async (req: Request, res: Response) => {
 
 // Update the authenticated user's profile
 export const updateUser = async (req: Request, res: Response) => {
-  const { username, password, role } = req.body;
-
+  const { total, role } = req.body;
+  const { id } = req.params;
   try {
-    if (req.user) {
-      await userService.updateUserById(req.user?.id, username, password, role);
-      res.json({ id: req.user?.id, username, role });
-    }
+    const msg = await userService.updateUserById(id, parseInt(total), role);
+    res.json(msg);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -120,12 +133,14 @@ export const updatePasswordUserById = async (req: Request, res: Response) => {
 
 // Delete the authenticated user's profile
 export const deleteUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
   try {
-    if (req.user) {
-      await userService.deleteUserById(req.user?.id);
-      res.sendStatus(204);
-    }
+    const msg = await userService.deleteUserById(id);
+    res.status(200).json(msg);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({ error: "Internal server error" });
   }
 };

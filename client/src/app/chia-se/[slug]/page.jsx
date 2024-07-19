@@ -15,21 +15,21 @@ export default function SlugShare({ params }) {
   const { slug } = params;
   const [data, setData] = useState();
   useEffect(() => {
+    const fetch = async () => {
+      try {
+        const data = await axios.get("/posts/" + slug);
+        if (data.data.success === null) {
+          setData({});
+        }
+        viewPost(data.data.msg.id);
+        setData(data.data.msg);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetch();
   }, [slug]);
 
-  const fetch = async () => {
-    try {
-      const data = await axios.get("/posts/" + slug);
-      if (data.data.success === null) {
-        setData({});
-      }
-      viewPost(data.data.msg.id);
-      setData(data.data.msg);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const viewPost = async (postId) => {
     try {
       await axios.post(
@@ -81,11 +81,7 @@ export default function SlugShare({ params }) {
                 ích nhé !
               </p>
             </li>
-            <li className="ml-0">
-              {/* <Button className="rounded-lg bg-red-500 px-4 py-1 text-xl text-white hover:bg-red-500/80">
-                Donate
-              </Button> */}
-            </li>
+            <li className="ml-0"></li>
             <li className="ml-0">
               <form className="space-y-4">
                 <label htmlFor="comment" className="text-3xl font-medium">

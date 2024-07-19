@@ -22,7 +22,7 @@ export default function CardDichVuOther() {
   const fetch = async () => {
     try {
       const response = await axios.get("/services/fetch/service");
-      console.log(response.data.msg);
+
       setRow(response.data.msg);
     } catch (error) {}
   };

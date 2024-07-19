@@ -53,7 +53,6 @@ export default function LeftDoanhMuc({ id, products, setData }) {
   }, [id]);
 
   function onSubmit(item) {
-    console.log(products);
     const filteredListings = products.filter((listing) => {
       return item.items.includes(listing.serviceChildrenCategoryId);
     });

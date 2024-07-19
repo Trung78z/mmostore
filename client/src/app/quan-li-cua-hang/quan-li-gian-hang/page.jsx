@@ -152,7 +152,11 @@ export default function DonHangDaMua() {
                     {new Date(item.updatedAt).toLocaleDateString("vi-VN")}
                   </TableCell>
                   <TableCell className="text-start font-medium">
-                    {item.published ? "Đã duyệt" : "Chờ xác nhận!"}
+                    {item.status === "success"
+                      ? "Đã duyệt"
+                      : item.status === "error"
+                        ? "Đã bị từ chối!"
+                        : "Chờ xác nhận!"}
                   </TableCell>
                   <TableCell className="text-center">
                     <Button
@@ -161,12 +165,12 @@ export default function DonHangDaMua() {
                     >
                       <MdDelete />
                     </Button>
-                    <Button
+                    {/* <Button
                       className="text-xl text-green-500 hover:text-green-600"
                       onClick={() => handleActive(item.id)}
                     >
                       <FaEye />
-                    </Button>
+                    </Button> */}
                   </TableCell>
                 </TableRow>
               ))}

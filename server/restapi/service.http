@@ -20,8 +20,18 @@ Content-Type: application/json
 ### get all post
 GET {{baseUrl}}/services/user
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA5YThkMjhmLTAxY2ItNDczZC04YTdiLTRkODdiMzU3ZjljOCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwNTUwOTk2LCJleHAiOjE3MjA3MjM3OTZ9.7Zqi-kMiAY1SUGX6ShuGd_ttyo6gjtLiYQP-cx2JFJY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMxYjNmZjZjLWQ2N2EtNGQ4OC1hYTI5LTA3NTM5YTJjZTQ0ZiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTI5MDc4MywiZXhwIjoxNzIxNDYzNTgzfQ.-4xqfE6jdEOde_si_WLCEyaFdHZuSaZ6-w1QTxcTfa4
 
 ### get all post
 GET {{baseUrl}}/services/fetch/service
 Content-Type: application/json
+
+### get all post
+POST {{baseUrl}}/services/createReview/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMxYjNmZjZjLWQ2N2EtNGQ4OC1hYTI5LTA3NTM5YTJjZTQ0ZiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTI5MDc4MywiZXhwIjoxNzIxNDYzNTgzfQ.-4xqfE6jdEOde_si_WLCEyaFdHZuSaZ6-w1QTxcTfa4
+
+{
+  "level":2,
+  "content": "sản phẩm vip"
+}

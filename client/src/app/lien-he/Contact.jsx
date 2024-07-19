@@ -10,6 +10,7 @@ import axios from "@/configs/api";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "@/lib/hooks/AuthProvider";
+import Link from "next/link";
 const schema = z.object({
   email: z
     .string()
@@ -35,6 +36,9 @@ export default function Contact() {
     reset,
   } = useForm({ resolver: zodResolver(schema) });
   async function handleContact(data) {
+    if (authState.role === "ADMIN") {
+      return toast("Bạn đã là admin của shop này rồi!");
+    }
     if (authState.status === false) {
       return toast("Vui lòng đăng nhập để liên hệ!");
     }
@@ -67,9 +71,14 @@ export default function Contact() {
               <FaFacebook className="h-6 w-6" />
               <span> Tạp hóa Zalo</span>
             </li>
-            <li className="text-md ml-0 flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
-              <IoIosChatbubbles className="h-6 w-6" />
-              <span>Chat với hỗ trợ viên</span>
+            <li className="ml-0">
+              <Link
+                href="/chat"
+                className="text-md ml-0 flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800"
+              >
+                <IoIosChatbubbles className="h-6 w-6" />
+                <span>Chat với hỗ trợ viên</span>
+              </Link>
             </li>
             <li className="text-md ml-0 flex cursor-pointer items-center gap-x-2 font-medium text-emerald-800 hover:text-gray-800">
               <IoMdMailOpen className="h-6 w-6" />

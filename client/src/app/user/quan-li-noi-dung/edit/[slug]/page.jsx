@@ -8,6 +8,7 @@ import { selectPostsByUser } from "@/lib/features/posts/postUserSlice";
 import { useAppSelector } from "@/lib/reducer/hooks";
 import { useParams } from "next/navigation";
 import FormPostEdit from "@/components/posts/FormPostEdit";
+import LoadingPage from "@/components/Loading";
 
 export default function EditBaiViet() {
   const { slug } = useParams();
@@ -18,7 +19,11 @@ export default function EditBaiViet() {
   // }, [posts, slug]);
 
   if (!posts.length) {
-    return <div>Loading...</div>; // Add loading state if posts are not yet fetched
+    return (
+      <div>
+        <LoadingPage />
+      </div>
+    ); // Add loading state if posts are not yet fetched
   }
 
   const post = posts.find((item) => item.id === parseInt(slug));
