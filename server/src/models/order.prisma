@@ -1,0 +1,28 @@
+model orders {
+  id               String          @id
+  amount           Int
+  unitPrice        Int
+  sale             Int
+  total            Int
+  refund           Int
+  confirmSeller    Boolean         @default(false)
+  buyerConfirm     Boolean         @default(false)
+  status           Status          @default(create)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  users            users?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String?
+  services         services?       @relation(fields: [servicesId], references: [id])
+  servicesId       Int?
+  serviceSales     serviceSales?   @relation(fields: [serviceSalesId], references: [id])
+  serviceSalesId   Int?
+  productAccount   productAccount? @relation(fields: [productAccountId], references: [id])
+  productAccountId Int?
+}
+
+enum Status {
+  create
+  success
+  refund
+  cancel
+}

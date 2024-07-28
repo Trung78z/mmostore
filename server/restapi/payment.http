@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:8080/api
+
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"admin@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+###
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpspy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+### Login user
+GET {{baseUrl}}/payment/withdraw/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlkOWE4N2NiLWIyYzAtNGU5MC04ODhkLTQxYThjNGQzYzUxYSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwODQ4MjIwLCJleHAiOjE3MjEwMjEwMjB9.veqR0x7BSqfUBmZAyqSLQDxeISwvPWb7_tzT51LL8hs
+
+
+
+### Login user
+POST {{baseUrl}}/payment/withdraw
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlkOWE4N2NiLWIyYzAtNGU5MC04ODhkLTQxYThjNGQzYzUxYSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwODQ4MjIwLCJleHAiOjE3MjEwMjEwMjB9.veqR0x7BSqfUBmZAyqSLQDxeISwvPWb7_tzT51LL8hs
+
+
+{
+  "total":1000000, 
+  "banking":"Agribank",
+  "accountBank":"203203219321"
+}
+
+### Login user
+GET {{baseUrl}}/payment/withdraw/admin
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI4ZmM3MDMxLWIyMTYtNDZiNi1iZjgwLTc0ZjEzN2QyOWRiNiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMDg0ODAxMCwiZXhwIjoxNzIxMDIwODEwfQ.kw5e_WtWJAhBCg7SqnG31WYukPiFnbH1Na8QeUBY37M
+
+### Login user
+PUT {{baseUrl}}/payment/admin/withdraw/4caadc57
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZkODVkODJiLTU5OGUtNDBhYy1iMWU5LTI5Y2IxNzNiNDI3NSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMDg5OTU2NywiZXhwIjoxNzIxMDcyMzY3fQ.bGsphXbKk6dm1dJ2aj7dCKaZjRzceGOUQxu4cNWvUdc
+
+{
+  "status":"success"
+}

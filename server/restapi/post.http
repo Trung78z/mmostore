@@ -1,0 +1,64 @@
+@baseUrl = http://localhost:8080/api
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpyy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+
+### get all post
+POST {{baseUrl}}/posts/like-post
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NmUzOGZmLTgxMjQtNDkzMS1iNjcwLTNiNzdmZjA2ZjQ4YSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTE1MDkxMSwiZXhwIjoxNzIxMzIzNzExfQ.HHImq4BsdwZRFLuoC3wVWQiyW4caKcxYN4f-5UNPj0o
+
+{
+  "postId":1
+}
+
+### get all post
+POST {{baseUrl}}/posts/view-post
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NmUzOGZmLTgxMjQtNDkzMS1iNjcwLTNiNzdmZjA2ZjQ4YSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTE1MDkxMSwiZXhwIjoxNzIxMzIzNzExfQ.HHImq4BsdwZRFLuoC3wVWQiyW4caKcxYN4f-5UNPj0o
+
+{
+  "postId":1
+}
+
+
+### get all post
+GET {{baseUrl}}/posts
+Content-Type: application/json
+
+###
+GET {{baseUrl}}/user/findAll/users
+Content-Type: application/json
+### get all post
+GET {{baseUrl}}/posts/user/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlZmI0MTU1LTA3MzItNGRkYi05ZDIzLWVlNTMzYjNiNDAxNCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwMzc1ODU4LCJleHAiOjE3MjA1NDg2NTh9.R0I7P620Fey0baTc8xrBzXTtBoxFcgmcqr_ZaqXk6DY
+
+### get by id post
+GET {{baseUrl}}/post/tai-sao-nen-ban-hang-tren-instagram
+Content-Type: application/json
+
+### delete by id post
+DELETE  {{baseUrl}}/post/6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzNTZlM2U3LTA5OTQtNGYzMC05NWZmLTg1YTNjMjAyMjk4MyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTQzNzkwLCJleHAiOjE3MjAxMTY1OTB9.WH1lqysWE0EZRJzf-wjdEb8r8hKYDzBFDeMbd7UYoQE
+
+
+### edit by id post
+PUT  {{baseUrl}}/post/7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQzNTZlM2U3LTA5OTQtNGYzMC05NWZmLTg1YTNjMjAyMjk4MyIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5OTQzNzkwLCJleHAiOjE3MjAxMTY1OTB9.WH1lqysWE0EZRJzf-wjdEb8r8hKYDzBFDeMbd7UYoQE
+
+{
+  "title": "stridsadsaaaaaaaasdadsaaaaaaaang",
+  "content": "strindssssdadsadsadsadsssssg",
+  "image": "http://exampledsadsa.com/image.png"
+}

@@ -1,0 +1,80 @@
+@baseUrl = http://localhost:8080/api
+
+
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpyy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+###
+
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"admin@gmail.com",
+  "password": "Trungpy78@"
+}
+### 
+POST {{baseUrl}}/chats/room
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3YTU2NTJmLTE5OTEtNGNiZS05ZGI5LTQ4YzJhMjg1ZDRhNiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTMzMDI5NCwiZXhwIjoxNzIxNTAzMDk0fQ.bSrOCViWPD4H8ABLMFpWCQD3BHXuA7swgd2zj1e74hQ
+
+{
+  "name":"Hello Room 4"
+}
+
+###
+POST {{baseUrl}}/chats/rooms/1/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxNWM1ZjFiLTZmOGEtNDc2ZS1iMDI4LThhNzkyNDcyZTAwZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMzNDc4NywiZXhwIjoxNzIxNTA3NTg3fQ.viFj-Hd9QR_Tig84kYT-dwsmWKNN9XqoIi-IsMqhfXE
+
+
+###
+POST {{baseUrl}}/chats/rooms/4/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3YTU2NTJmLTE5OTEtNGNiZS05ZGI5LTQ4YzJhMjg1ZDRhNiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTMzMDI5NCwiZXhwIjoxNzIxNTAzMDk0fQ.bSrOCViWPD4H8ABLMFpWCQD3BHXuA7swgd2zj1e74hQ
+
+
+###
+POST {{baseUrl}}/chats/rooms/5/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxNWM1ZjFiLTZmOGEtNDc2ZS1iMDI4LThhNzkyNDcyZTAwZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMzNDc4NywiZXhwIjoxNzIxNTA3NTg3fQ.viFj-Hd9QR_Tig84kYT-dwsmWKNN9XqoIi-IsMqhfXE
+
+###
+POST {{baseUrl}}/chats/rooms/1/messages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3YTU2NTJmLTE5OTEtNGNiZS05ZGI5LTQ4YzJhMjg1ZDRhNiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTMzMDI5NCwiZXhwIjoxNzIxNTAzMDk0fQ.bSrOCViWPD4H8ABLMFpWCQD3BHXuA7swgd2zj1e74hQ
+
+{
+  "content":"Hello product"
+}
+###
+GET {{baseUrl}}/chats/rooms/1/messages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3YTU2NTJmLTE5OTEtNGNiZS05ZGI5LTQ4YzJhMjg1ZDRhNiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTMzMDI5NCwiZXhwIjoxNzIxNTAzMDk0fQ.bSrOCViWPD4H8ABLMFpWCQD3BHXuA7swgd2zj1e74hQ
+
+{
+  "content":"Hello product"
+}
+###
+GET {{baseUrl}}/chats/users/rooms
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk3YTU2NTJmLTE5OTEtNGNiZS05ZGI5LTQ4YzJhMjg1ZDRhNiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTcyMTMzMDI5NCwiZXhwIjoxNzIxNTAzMDk0fQ.bSrOCViWPD4H8ABLMFpWCQD3BHXuA7swgd2zj1e74hQ
+
+###
+POST {{baseUrl}}/chats/room/admin/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxNWM1ZjFiLTZmOGEtNDc2ZS1iMDI4LThhNzkyNDcyZTAwZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTM2MjM1MCwiZXhwIjoxNzIxNTM1MTUwfQ.dtQaoMJu5Lwkz3A8d6nRNZlkE9Jzax70hx6cdtSlGwY
+
+{
+  "name":"Đơn hàng số 203s90231s2s",
+  "userId":[
+    {"userId":"8f95a704-6d76-4b51-ae8d-5c59ff9daf54"},{"userId":"920052cb-0086-4ad6-b108-1ce6420173ca"},
+    {"userId":"97a5652f-1991-4cbe-9db9-48c2a285d4a6"},{"userId":"d053c4bf-f223-4f77-9092-1d1bdc87736d"}
+    ]
+}

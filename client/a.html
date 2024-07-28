@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    .body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .btn_gradient {
+      position: relative;
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background: black; /* Màu nền đen */
+      border: none; /* Loại bỏ viền mặc định */
+      border-radius: 12px; /* Bo tròn góc */
+      cursor: pointer;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .btn_gradient::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 12px; /* Bo tròn góc */
+      padding: 2px; /* Độ dày của viền */
+      background: linear-gradient(45deg, #0bcd2c, #f06595); /* Viền gradient */
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      z-index: -1;
+    }
+  </style>
+
+  <body class="body">
+    <button class="btn_gradient">See more</button>
+  </body>
+</html>
