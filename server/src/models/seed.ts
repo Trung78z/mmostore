@@ -2,10 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import {
   post,
   postCategory,
-  content,
   user,
   service,
-  // profile,
   serviceSell,
   serviceCategories,
 } from "./data";
@@ -15,7 +13,6 @@ async function main() {
   await createUser();
   const result = await prisma.users.findFirst();
 
-  await prisma.homepages.create({ data: { content } });
   await prisma.postCategory.createMany({ data: postCategory() });
 
   await createServiceCategories();
@@ -77,7 +74,7 @@ async function createServiceCategories() {
   }
 }
 async function createUser() {
-  for (const item of user()) {
+  for (const item of user) {
     await prisma.users.create({
       data: {
         email: item.email,
@@ -87,8 +84,8 @@ async function createUser() {
         profiles: {
           create: {
             fullName: item.profiles.fullName,
-
             accountBalance: item.profiles.accountBalance,
+            referralCode: item.profiles.referralCode,
           },
         },
       },

@@ -83,9 +83,9 @@ export default function LoginPage() {
 
       if (user.data.success === false) {
         return Swal.fire({
-          title: "Success!",
+          title: "Đã có lỗi xảy ra!",
           text: user.data.msg,
-          icon: "success",
+          icon: "error",
         });
       }
 

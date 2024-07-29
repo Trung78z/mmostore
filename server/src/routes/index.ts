@@ -1,7 +1,7 @@
 import express from "express";
 import authRoutes from "./user";
 import postRoutes from "./post";
-import homePageRoutes from "./homePage";
+
 import categoryRoutes from "./category";
 import serviceRoutes from "./service";
 import imageRoutes from "./image";
@@ -13,7 +13,6 @@ const RootRouter = express();
 
 RootRouter.use("/user", authRoutes);
 RootRouter.use("/posts", postRoutes);
-RootRouter.use("/home", homePageRoutes);
 RootRouter.use("/categories", categoryRoutes);
 RootRouter.use("/image", imageRoutes);
 RootRouter.use("/services", serviceRoutes);

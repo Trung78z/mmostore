@@ -1,4 +1,5 @@
-@baseUrl = http://localhost:8080/api
+@baseUrl = https://api.taphoazalo.com/api
+# @baseUrl = http://localhost:8080/api
 
 ### Register a new user
 POST {{baseUrl}}/user/register
@@ -17,7 +18,7 @@ POST {{baseUrl}}/user/login
 Content-Type: application/json
 
 {
-  "email":"trungpspy@gmail.com",
+  "email":"admin@gmail.com",
   "username": "trungpspy1",
   "password": "Trungpy78@",
   "role": "user"
@@ -42,7 +43,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6I
 ### Get user update
 GET {{baseUrl}}/user
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxNWM1ZjFiLTZmOGEtNDc2ZS1iMDI4LThhNzkyNDcyZTAwZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTM2MjM1MCwiZXhwIjoxNzIxNTM1MTUwfQ.dtQaoMJu5Lwkz3A8d6nRNZlkE9Jzax70hx6cdtSlGwY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhjZmJkNmI2LWY1NDgtNGU0YS1iOGYzLWZkMGZlZGFlN2RhYiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMjE4NzQ4OCwiZXhwIjoxNzIyMzYwMjg4fQ.kp7KKKs19QswQWx2qP2iTrq2GRzsTTKjHUULi4PDkH4
 
 {
   "username": "trungpspy",
@@ -52,15 +53,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxNWM1ZjFiL
 
 
 ### Get user update
-GET {{baseUrl}}/user
+GET {{baseUrl}}/user/vip
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTk3Mzc4NjksImV4cCI6MTcxOTczODc2OX0.f5OacIvCr74Y1emtmjRf0EX7aBHldpSUDskWXxQh8LQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMDJjM2VkLWUyOTctNGIxYy1hYTk1LWMxNzA2NDcwYTY0MiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMjE4NzUyOCwiZXhwIjoxNzIyMzYwMzI4fQ.4urKjMBR6xkJbqx3t4Q_hf8Vv7RMuqOs0T_0uBJPtuo
 
-{
-  "username": "trungpspy",
-  "password": "Trungpy78",
-  "role": "admin"
-}
+
 
 
 ### refrest Token a new user

@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -L src/index.ts",
     "build": " tsc",
-    "start": "npm run build && node dist/index",
+    "start": "npm run build && cp -r src/uploads dist/ && node dist/index",
     "db": "npx prisma migrate dev --name init --schema=src/models",
     "reset:db": "rm -r src/migrations && npx prisma migrate dev --name init --schema=src/models  && npm run drop:db",
     "seed": "npx prisma migrate reset --force"

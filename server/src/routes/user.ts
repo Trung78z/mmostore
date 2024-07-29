@@ -3,6 +3,7 @@ import {
   createForgetPassword,
   deleteUser,
   getAllUser,
+  getAllUserVip,
   getAuthorGoogle,
   getUser,
   getUserGlobal,
@@ -40,9 +41,8 @@ router.put("/", authMiddleware, updatePasswordUserById);
 router.delete("/:id", authMiddleware, roleMiddleware("ADMIN"), deleteUser);
 
 router.get("/", authMiddleware, roleMiddleware("ADMIN"), getAllUser);
-router.get("/admin", authMiddleware, roleMiddleware("ADMIN"), (req, res) => {
-  res.send("Welcome Admin!");
-});
+// Admin routes
+router.get("/vip", authMiddleware, roleMiddleware("ADMIN"), getAllUserVip);
 
 router.get("/google/login/:access_token", getAuthorGoogle);
 export default router;

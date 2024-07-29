@@ -73,6 +73,7 @@ export const loginUser = async (req: Request, res: Response) => {
         msg: "Tài khoản của bạn chưa được kích hoạt! Chúng tôi vừa gửi email xác nhận!",
       });
     }
+
     if (user && user.password && bcrypt.compareSync(password, user.password)) {
       const accessToken = generateAccessToken({
         id: user.id,
@@ -236,6 +237,15 @@ export const getAllUser = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+export const getAllUserVip = async (req: Request, res: Response) => {
+  try {
+    const data = await userService.getAllUserServicesVip();
+    return res.json(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getAuthorGoogle = async (req: Request, res: Response) => {
   const { access_token } = req.params;
   try {

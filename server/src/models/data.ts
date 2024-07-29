@@ -6,70 +6,216 @@ enum RoleUser {
   ADMIN = "ADMIN",
 }
 
-export function user() {
-  return [
-    {
-      email: "trungpspy@gmail.com",
-      username: "trungpspy",
-      password: bcrypt.hashSync("Trungpy78@", 10),
-      profiles: {
-        fullName: "Nguyen Thanh Trung",
-        accountBalance: 200000,
-      },
-    },
-    {
-      email: "trungpyy@gmail.com",
-      username: "trungpyy",
-      password: bcrypt.hashSync("Trungpy78@", 10),
-      role: "CUSTOMER" as RoleUser,
-      profiles: {
-        fullName: "Nguyen Thanh Trung",
+// export function user() {
+//   return [
+//     {
+//       email: "trungpspy@gmail.com",
+//       username: "trungpspy",
+//       password: bcrypt.hashSync("Trungpy78@", 10),
+//       profiles: {
+//         fullName: "Nguyen Thanh Trung",
+//         accountBalance: 200000,
+//       },
+//     },
+//     {
+//       email: "trungpyy@gmail.com",
+//       username: "trungpyy",
+//       password: bcrypt.hashSync("Trungpy78@", 10),
+//       role: "CUSTOMER as RoleUser" as RoleUser,
+//       profiles: {
+//         fullName: "Nguyen Thanh Trung",
 
-        accountBalance: 200,
-      },
+//         accountBalance: 200,
+//       },
+//     },
+//     {
+//       email: "admin@gmail.com",
+//       username: "admin",
+//       password: bcrypt.hashSync("Trungpy78@", 10),
+//       role: "ADMIN as RoleUser" as RoleUser,
+//       profiles: {
+//         fullName: "Tap hoa Trung",
+//         accountBalance: 20000000,
+//       },
+//     },
+//     {
+//       email: "admin1@gmail.com",
+//       username: "admin1",
+//       password: bcrypt.hashSync("Admin1@2024", 10),
+//       role: "ADMIN as RoleUser" as RoleUser,
+//       profiles: {
+//         fullName: "Tap hoa Trung",
+//         accountBalance: 20000000,
+//       },
+//     },
+//     {
+//       email: "customer@gmail.com",
+//       username: "customer",
+//       password: bcrypt.hashSync("Customer@2024", 10),
+//       role: "CUSTOMER as RoleUser" as RoleUser,
+//       profiles: {
+//         fullName: "ADMIN 2 Vip",
+//         accountBalance: 20000000,
+//       },
+//     },
+//     {
+//       email: "user2024@gmail.com",
+//       username: "user2024",
+//       password: bcrypt.hashSync("User2024@2024", 10),
+//       role: "USER as RoleUser" as RoleUser,
+//       profiles: {
+//         fullName: "ADMIN 2 Vip",
+//         accountBalance: 20000000,
+//       },
+//     },
+//   ];
+// }
+export const user = [
+  {
+    id: "0d36bfe9-4386-4f78-ae88-8d8d58f460e9",
+    email: "trungpyy@gmail.com",
+    username: "trungpyy",
+    password: "$2b$10$rlwwBGqNsLbcpXsyFxJLXOPPyYEwb2gkFX1NoCvD6XmdKVsglXWE2",
+    role: "CUSTOMER" as RoleUser,
+    createdAt: "2024-07-26T14:04:03.123Z",
+    updatedAt: "2024-07-26T14:04:03.123Z",
+    profiles: {
+      id: 2,
+      fullName: "Nguyen Thanh Trung",
+      referralCode: null,
+      accountBalance: 200,
+      userId: "0d36bfe9-4386-4f78-ae88-8d8d58f460e9",
     },
-    {
-      email: "admin@gmail.com",
-      username: "admin",
-      password: bcrypt.hashSync("Trungpy78@", 10),
-      role: "ADMIN" as RoleUser,
-      profiles: {
-        fullName: "Tap hoa Trung",
-        accountBalance: 20000000,
-      },
+  },
+  {
+    id: "140620ca-230f-4c56-bf06-26a1f7fe4937",
+    email: "admin1@gmail.com",
+    username: "admin1",
+    password: "$2b$10$t0mDFS8rW6Npz0Xh.KMR1u9Fl7/aUaCbMrmi9jH6kcHqQgSxgzXvi",
+    role: "ADMIN" as RoleUser,
+    createdAt: "2024-07-26T14:04:03.133Z",
+    updatedAt: "2024-07-26T14:04:03.133Z",
+    profiles: {
+      id: 4,
+      fullName: "Tap hoa Trung",
+      referralCode: null,
+      accountBalance: 20000000,
+      userId: "140620ca-230f-4c56-bf06-26a1f7fe4937",
     },
-    {
-      email: "admin1@gmail.com",
-      username: "admin1",
-      password: bcrypt.hashSync("Admin1@2024", 10),
-      role: "ADMIN" as RoleUser,
-      profiles: {
-        fullName: "Tap hoa Trung",
-        accountBalance: 20000000,
-      },
+  },
+  {
+    id: "306153e2-0927-4d86-8d27-b57770e14a67",
+    email: "phannhatduy888@gmail.com",
+    username: "phannhatduy888",
+    password: "$2b$10$goqF5hKcmsWpKBBcA7.Vh.i1a3.teVPKEgxUSWNE.k40PHA4CWjAy",
+    role: "USER" as RoleUser,
+    createdAt: "2024-07-26T18:12:17.541Z",
+    updatedAt: "2024-07-26T18:12:17.541Z",
+    profiles: {
+      id: 8,
+      fullName: "phannhatduy888",
+      referralCode: "",
+      accountBalance: 0,
+      userId: "306153e2-0927-4d86-8d27-b57770e14a67",
     },
-    {
-      email: "customer@gmail.com",
-      username: "customer",
-      password: bcrypt.hashSync("Customer@2024", 10),
-      role: "CUSTOMER" as RoleUser,
-      profiles: {
-        fullName: "ADMIN 2 Vip",
-        accountBalance: 20000000,
-      },
+  },
+  {
+    id: "4d5fef9f-6fa7-43e8-990f-ffe968ba140c",
+    email: "chhc29058@gmail.com",
+    username: "chhc29058",
+    password: "$2b$10$Frs85sHZXm7hRXbi.ZfrquNQEX3FLH5qS4kR2t3n3h71XUsZGC.0q",
+    role: "USER" as RoleUser,
+    createdAt: "2024-07-28T11:54:25.667Z",
+    updatedAt: "2024-07-28T11:54:25.667Z",
+    profiles: {
+      id: 10,
+      fullName: "chhc29058",
+      referralCode: "",
+      accountBalance: 0,
+      userId: "4d5fef9f-6fa7-43e8-990f-ffe968ba140c",
     },
-    {
-      email: "user2024@gmail.com",
-      username: "user2024",
-      password: bcrypt.hashSync("User2024@2024", 10),
-      role: "USER" as RoleUser,
-      profiles: {
-        fullName: "ADMIN 2 Vip",
-        accountBalance: 20000000,
-      },
+  },
+  {
+    id: "524360ca-afc6-4ec1-bd37-fe135c98a08f",
+    email: "namisaidgirl@gmail.com",
+    username: "namisaidgirl",
+    password: "$2b$10$Lsewk0hejVLeZnGabobQieKf.qk4smRkFb8FDVKBV82QIwXVqRo0e",
+    role: "USER" as RoleUser,
+    createdAt: "2024-07-28T08:27:46.118Z",
+    updatedAt: "2024-07-28T08:27:46.118Z",
+    profiles: {
+      id: 9,
+      fullName: "namisaidgirl",
+      referralCode: "",
+      accountBalance: 0,
+      userId: "524360ca-afc6-4ec1-bd37-fe135c98a08f",
     },
-  ];
-}
+  },
+  {
+    id: "94fee105-c6a4-461f-b59f-03e2c770febd",
+    email: "trungnguyen@gmail.com",
+    username: "trungnguyen",
+    password: "$2b$10$cbiV8Sv1Lz7vQ5kYCPrnxOdD9dxDz0CDjgbgQHgCMJZAvTlZzVG4G",
+    role: "USER" as RoleUser,
+    createdAt: "2024-07-26T14:47:00.874Z",
+    updatedAt: "2024-07-26T14:47:00.874Z",
+    profiles: {
+      id: 7,
+      fullName: "trungnguyen",
+      referralCode: "321321321",
+      accountBalance: 0,
+      userId: "94fee105-c6a4-461f-b59f-03e2c770febd",
+    },
+  },
+  {
+    id: "9792b01f-2e7d-4b97-bddf-11a9fd74878f",
+    email: "customer@gmail.com",
+    username: "customer",
+    password: "$2b$10$nC61jLt.kC3/04iAoRDFgOy7YY3As9gBmwdHyKpff9S2vvKaR/PMC",
+    role: "CUSTOMER" as RoleUser,
+    createdAt: "2024-07-26T14:04:03.137Z",
+    updatedAt: "2024-07-26T14:04:03.137Z",
+    profiles: {
+      id: 5,
+      fullName: "ADMIN 2 Vip",
+      referralCode: null,
+      accountBalance: 20000000,
+      userId: "9792b01f-2e7d-4b97-bddf-11a9fd74878f",
+    },
+  },
+  {
+    id: "b8bdcff8-2430-4b16-b4f5-8f8fcb2f647c",
+    email: "user2024@gmail.com",
+    username: "user2024",
+    password: "$2b$10$Fu2EfzwncyTohzO6It29IOJHqZmRKMrRjP.QLiTzFTYwzUWcsWfCG",
+    role: "USER" as RoleUser,
+    createdAt: "2024-07-26T14:04:03.141Z",
+    updatedAt: "2024-07-26T14:04:03.141Z",
+    profiles: {
+      id: 6,
+      fullName: "ADMIN 2 Vip",
+      referralCode: null,
+      accountBalance: 20000000,
+      userId: "b8bdcff8-2430-4b16-b4f5-8f8fcb2f647c",
+    },
+  },
+  {
+    id: "c002c3ed-e297-4b1c-aa95-c1706470a642",
+    email: "admin@gmail.com",
+    username: "admin",
+    password: "$2b$10$MWudg/OZCTGxWkzEwbWrh.rFmWhdIIQwBoE32Q5.v6dKKki6OPWda",
+    role: "ADMIN" as RoleUser,
+    createdAt: "2024-07-26T14:04:03.129Z",
+    updatedAt: "2024-07-26T14:04:03.129Z",
+    profiles: {
+      id: 3,
+      fullName: "Tap hoa Trung",
+      referralCode: null,
+      accountBalance: 20000000,
+      userId: "c002c3ed-e297-4b1c-aa95-c1706470a642",
+    },
+  },
+];
 
 export function post(userId: string) {
   return [

@@ -224,3 +224,8 @@ export const getAllUserServices = async () => {
     },
   });
 };
+export const getAllUserServicesVip = async () => {
+  return await prisma.users.findMany({
+    include: { profiles: true },
+  });
+};

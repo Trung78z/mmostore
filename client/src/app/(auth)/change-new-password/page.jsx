@@ -9,48 +9,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "@/configs/api";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Button } from "@headlessui/react";
 import { BiHide, BiShow } from "react-icons/bi";
 import Swal from "sweetalert2";
-const schema = z
-  .object({
-    passwordNew: z
-      .string()
-      .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
-      .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" })
-      .regex(/[a-z]/, {
-        message: "Vui lòng nhập ít nhất 1 chữ số viết thường!",
-      })
-      .regex(/[A-Z]/, {
-        message: "Vui lòng nhập ít nhất 1 chữ số viết hoa!",
-      })
-      .regex(/[0-9]/, { message: "Vui lòng nhập ít nhất 1 chữ số!" })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: "Vui lòng nhập ít nhất 1 kí tự đặc biệt!",
-      }),
-
-    confirmPassword: z
-      .string()
-      .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
-      .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" })
-      .regex(/[a-z]/, {
-        message: "Vui lòng nhập ít nhất 1 chữ số viết thường!",
-      })
-      .regex(/[A-Z]/, {
-        message: "Vui lòng nhập ít nhất 1 chữ số viết hoa!",
-      })
-      .regex(/[0-9]/, { message: "Vui lòng nhập ít nhất 1 chữ số!" })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: "Vui lòng nhập ít nhất 1 kí tự đặc biệt!",
-      }),
-  })
-  .refine((data) => data.passwordNew === data.confirmPassword, {
-    message: "Mật khẩu không trùng khớp!",
-    path: ["confirmPassword"],
-  });
-
-export default function ChangNewPasswordWhenForget() {
+export default function PageChange() {
+  return (
+    <Suspense>
+      <ChangNewPasswordWhenForget />
+    </Suspense>
+  );
+}
+function ChangNewPasswordWhenForget() {
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -210,3 +180,39 @@ export default function ChangNewPasswordWhenForget() {
     </>
   );
 }
+const schema = z
+  .object({
+    passwordNew: z
+      .string()
+      .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
+      .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" })
+      .regex(/[a-z]/, {
+        message: "Vui lòng nhập ít nhất 1 chữ số viết thường!",
+      })
+      .regex(/[A-Z]/, {
+        message: "Vui lòng nhập ít nhất 1 chữ số viết hoa!",
+      })
+      .regex(/[0-9]/, { message: "Vui lòng nhập ít nhất 1 chữ số!" })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Vui lòng nhập ít nhất 1 kí tự đặc biệt!",
+      }),
+
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Vui lòng nhập ít nhất 8 kí tự!" })
+      .max(20, { message: "Vui lòng nhập nhiều nhất 20 kí tự!" })
+      .regex(/[a-z]/, {
+        message: "Vui lòng nhập ít nhất 1 chữ số viết thường!",
+      })
+      .regex(/[A-Z]/, {
+        message: "Vui lòng nhập ít nhất 1 chữ số viết hoa!",
+      })
+      .regex(/[0-9]/, { message: "Vui lòng nhập ít nhất 1 chữ số!" })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Vui lòng nhập ít nhất 1 kí tự đặc biệt!",
+      }),
+  })
+  .refine((data) => data.passwordNew === data.confirmPassword, {
+    message: "Mật khẩu không trùng khớp!",
+    path: ["confirmPassword"],
+  });
