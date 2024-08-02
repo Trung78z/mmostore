@@ -1,0 +1,29 @@
+@baseUrl = http://localhost:8080/api
+
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"admin@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+###
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"trungpspy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+### Login user
+GET {{baseUrl}}/payment/withdraw/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlkOWE4N2NiLWIyYzAtNGU5MC04ODhkLTQxYThjNGQzYzUxYSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwODQ4MjIwLCJleHAiOjE3MjEwMjEwMjB9.veqR0x7BSqfUBmZAyqSLQDxeISwvPWb7_tzT51LL8hs
+
+

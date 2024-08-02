@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:8080/api
+
+GET {{baseUrl}}/products
+Content-Type: application/json
+
+### get all post
+GET {{baseUrl}}/products/user/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlZmI0MTU1LTA3MzItNGRkYi05ZDIzLWVlNTMzYjNiNDAxNCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwMzc1ODU4LCJleHAiOjE3MjA1NDg2NTh9.R0I7P620Fey0baTc8xrBzXTtBoxFcgmcqr_ZaqXk6DY
