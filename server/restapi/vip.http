@@ -1,0 +1,19 @@
+@baseUrl = http://localhost:8080/api
+
+
+### GetAll user+ profiles
+GET {{baseUrl}}/vips/users
+Content-Type: application/json
+### GetAll product+ productSale
+GET {{baseUrl}}/vips/products
+Content-Type: application/json
+### GetAll services+ serviceSale
+GET {{baseUrl}}/vips/services
+Content-Type: application/json
+### GetAll clear-redis
+GET {{baseUrl}}/vips/clear-redis
+Content-Type: application/json
+
+####
+GET http://localhost:3001/download
+Content-Type: application/json

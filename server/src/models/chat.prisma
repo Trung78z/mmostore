@@ -1,0 +1,36 @@
+model room {
+  id              String         @id @default(uuid())
+  name            String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  members         roomMember[]
+  messages        message[]
+  serviceOrders   serviceOrders? @relation(fields: [serviceOrdersId], references: [id])
+  serviceOrdersId String?
+}
+
+model message {
+  id        Int      @id @default(autoincrement())
+  content   String?
+  image     String?
+  createdAt DateTime @default(now())
+  userId    String
+  roomId    String
+
+  user users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room room  @relation(fields: [roomId], references: [id])
+
+  @@unique([content, image])
+}
+
+model roomMember {
+  id       Int      @id @default(autoincrement())
+  userId   String
+  roomId   String
+  joinedAt DateTime @default(now())
+
+  user users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room room  @relation(fields: [roomId], references: [id])
+
+  @@unique([userId, roomId])
+}

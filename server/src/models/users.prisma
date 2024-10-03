@@ -1,0 +1,77 @@
+model users {
+  id                              String               @id @default(uuid())
+  email                           String               @unique
+  username                        String               @unique
+  password                        String?
+  active                          Boolean              @default(false)
+  emailVerificationToken          String?
+  emailVerificationTokenExpiresAt DateTime?
+  qrCode                          String?
+  idBank                          String?              @unique
+  role                            Role                 @default(USER)
+  createdAt                       DateTime             @default(now())
+  updatedAt                       DateTime             @updatedAt
+  profiles                        profiles?
+  posts                           posts[]
+  postLikes                       postLikes[]
+  postViews                       postViews[]
+  postPomments                    postPomments[]
+  postDonates                     postDonates[]
+  services                        services[]
+  serviceViews                    serviceViews[]
+  serviceOrders                   serviceOrders[]
+  serviceReviews                  serviceReviews[]
+  payments                        payments[]
+  withdraws                       withdraws[]
+  contacts                        contact[]
+  status                          UserStatus?
+  passwordResetToken              passwordResetToken[]
+  products                        products[]
+  productViews                    productViews[]
+  productReviews                  productReviews[]
+  message                         message[]
+  roomMember                      roomMember[]
+  productOrders                   productOrders[]
+  productFile                     productFile[]
+}
+
+model profiles {
+  id             Int     @id @default(autoincrement())
+  fullName       String
+  referralCode   String?
+  phone          String? @db.VarChar(11)
+  nameBank       String?
+  facebook       String?
+  bankId         String?
+  accountBalance Int
+  user           users   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String  @unique
+}
+
+model UserStatus {
+  id         Int      @id @default(autoincrement())
+  isOnline   Boolean
+  lastOnline DateTime
+  user       users?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @unique
+
+  @@index([isOnline])
+}
+
+model passwordResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    String
+  user      users?   @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserTransaction {
+  id          Int      @id
+  tid         String   @unique
+  description String
+  amount      Int
+  when        DateTime
+}

@@ -1,0 +1,121 @@
+model productCategory {
+  id            Int                  @id @default(autoincrement())
+  category      String
+  categoryCover String
+  products      products[]
+  subCategory   productSubCategory[]
+}
+
+model productSubCategory {
+  id          Int              @id @default(autoincrement())
+  subCategory String
+  products    products[]
+  category    productCategory? @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+}
+
+model products {
+  id             Int                 @id @default(autoincrement())
+  title          String
+  content        String              @db.Text
+  description    String?             @db.Text
+  image          String?
+  duplicate      Boolean             @default(false)
+  slug           String              @unique
+  status         RoleStatusproduct   @default(ide)
+  reseller       Boolean             @default(false)
+  sponsor        Boolean             @default(false)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  user           users               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  receiving      String?             @db.VarChar(10)
+  productReviews productReviews[]
+  productViews   productViews[]
+  productSales   productSales[]
+  category       productCategory?    @relation(fields: [categoryId], references: [id])
+  categoryId     Int?
+  subCategory    productSubCategory? @relation(fields: [subCategoryId], references: [id])
+  subCategoryId  Int?
+  productOrders  productOrders[]
+}
+
+model productViews {
+  id        Int       @id @default(autoincrement())
+  user      users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  products  products? @relation(fields: [productId], references: [id])
+  productId Int?
+}
+
+model productReviews {
+  id        Int       @id @default(autoincrement())
+  content   String?
+  level     Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  products  products? @relation(fields: [productId], references: [id])
+  productId Int?
+}
+
+model productSales {
+  id             Int              @id @default(autoincrement())
+  title          String
+  price          Int
+  poached        String           @unique @db.VarChar(10)
+  products       products?        @relation(fields: [productId], references: [id])
+  productId      Int?
+  productOrders  productOrders[]
+  productAccount productAccount[]
+}
+
+model productAccount {
+  id           Int           @id @default(autoincrement())
+  account      String        @db.VarChar(70)
+  password     String        @db.VarChar(70)
+  sold         Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  productSales productSales? @relation(fields: [poachedId], references: [poached])
+  poachedId    String?
+}
+
+model productAccountSold {
+  id              Int            @id @default(autoincrement())
+  username        String
+  password        String
+  productOrders   productOrders? @relation(fields: [productOrdersId], references: [id])
+  productOrdersId String?
+}
+
+model productOrders {
+  id                 String               @id
+  amount             Int
+  unitPrice          Int
+  sale               Int
+  total              Int
+  refund             Int
+  status             serviceStatus        @default(create)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  users              users?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             String?
+  products           products?            @relation(fields: [productId], references: [id])
+  productId          Int?
+  productSales       productSales?        @relation(fields: [productSaleId], references: [id])
+  productSaleId      Int?
+  productFile        productFile[]
+  productAccountSold productAccountSold[]
+}
+
+model productFile {
+  id              Int            @id @default(autoincrement())
+  name            String
+  createdAt       DateTime       @default(now())
+  productOrders   productOrders? @relation(fields: [productOrdersId], references: [id])
+  productOrdersId String?
+  users           users?         @relation(fields: [userId], references: [id])
+  userId          String?
+}

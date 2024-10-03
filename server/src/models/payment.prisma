@@ -1,0 +1,23 @@
+model payments {
+  id        String      @id
+  total     Int?
+  image     String?
+  status    RolePayment @default(ide)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  users     users?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+}
+
+model withdraws {
+  id          String      @id
+  total       Int
+  banking     String      @db.VarChar(40)
+  accountBank String      @db.VarChar(40)
+  status      RolePayment @default(ide)
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  users       users?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?
+}

@@ -1,0 +1,63 @@
+enum Role {
+  USER
+  CUSTOMER
+  ADMIN
+}
+
+enum RoleService {
+  service
+  product
+}
+
+enum serviceStatus {
+  create
+  success
+  refund
+  cancel
+}
+
+enum RoleStatusService {
+  cancel
+  success
+  ide
+  error
+}
+
+enum productStatus {
+  create
+  success
+  refund
+  cancel
+}
+
+enum RoleStatusproduct {
+  cancel
+  success
+  ide
+  error
+}
+
+enum RolePost {
+  cancel
+  success
+  ide
+  error
+}
+
+enum RolePayment {
+  success
+  cancel
+  ide
+  error
+}
+
+enum RoleContact {
+  success
+  ide
+  cancel
+}
+
+enum RoleContactCus {
+  USER
+  CUSTOMER
+}

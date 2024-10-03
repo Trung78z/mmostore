@@ -1,0 +1,14 @@
+model contact {
+  id        Int            @id @default(autoincrement())
+  email     String         @db.VarChar(100)
+  phone     String         @db.VarChar(12)
+  title     String         @db.VarChar(100)
+  content   String         @db.Text()
+  role      RoleContactCus @default(USER)
+  status    RoleContact    @default(ide)
+  response  String?        @db.Text()
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  users     users?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+}

@@ -1,0 +1,91 @@
+model serviceCategory {
+  id            Int                  @id @default(autoincrement())
+  category      String
+  categoryCover String
+  services      services[]
+  subCategory   serviceSubCategory[]
+}
+
+model serviceSubCategory {
+  id          Int              @id @default(autoincrement())
+  subCategory String
+  services    services[]
+  category    serviceCategory? @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+}
+
+model services {
+  id             Int                 @id @default(autoincrement())
+  title          String
+  content        String              @db.Text
+  description    String?             @db.Text
+  image          String?
+  slug           String              @unique
+  status         RoleStatusService   @default(ide)
+  reseller       Boolean             @default(false)
+  sponsor        Boolean             @default(false)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  user           users               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  receiving      String?             @db.VarChar(10)
+  serviceReviews serviceReviews[]
+  serviceViews   serviceViews[]
+  serviceSales   serviceSales[]
+  serviceOrders  serviceOrders[]
+  category       serviceCategory?    @relation(fields: [categoryId], references: [id])
+  categoryId     Int?
+  subCategory    serviceSubCategory? @relation(fields: [subCategoryId], references: [id])
+  subCategoryId  Int?
+}
+
+model serviceSales {
+  id            Int             @id @default(autoincrement())
+  title         String
+  price         Int
+  services      services?       @relation(fields: [serviceId], references: [id])
+  serviceId     Int?
+  serviceOrders serviceOrders[]
+}
+
+model serviceViews {
+  id        Int       @id @default(autoincrement())
+  user      users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  services  services? @relation(fields: [serviceId], references: [id])
+  serviceId Int?
+}
+
+model serviceReviews {
+  id        Int       @id @default(autoincrement())
+  content   String?
+  level     Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  services  services? @relation(fields: [serviceId], references: [id])
+  serviceId Int?
+}
+
+model serviceOrders {
+  id            String        @id
+  amount        Int
+  unitPrice     Int
+  content       String?
+  sale          Int
+  total         Int
+  refund        Int
+  confirmSeller Boolean       @default(false)
+  buyerConfirm  Boolean       @default(false)
+  status        serviceStatus @default(create)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  users         users?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String?
+  services      services?     @relation(fields: [serviceId], references: [id])
+  serviceId     Int?
+  serviceSales  serviceSales? @relation(fields: [serviceSaleId], references: [id])
+  serviceSaleId Int?
+  room          room[]
+}

@@ -1,0 +1,28 @@
+
+@baseUrl = http://localhost:8080/api
+
+### Register a new user
+POST {{baseUrl}}/user/register
+Content-Type: application/json
+
+{
+  "email":"trungpspy@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+
+### Login user
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email":"admin@gmail.com",
+  "username": "trungpspy1",
+  "password": "Trungpy78@",
+  "role": "user"
+}
+
+### Get user profile
+GET {{baseUrl}}/admin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NzM3NTcxLCJleHAiOjE3MTk3Mzg0NzF9.GnBLu7vAH7LF0noW9mayWSCQmLe5nfZ3MQjaAJp1rxw
