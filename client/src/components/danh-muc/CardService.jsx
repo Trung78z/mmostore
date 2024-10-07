@@ -71,7 +71,10 @@ export default function CardService({ props, id }) {
             </p>
           </div>
           <div>
-            Sản phẩm: <span className="text-primary">Gmail</span>
+            Dịch vụ:{" "}
+            <span className="text-primary">
+              {props?.subCategory?.subCategory}
+            </span>
           </div>
           {renderContentWithLineBreaks(props.content)}
         </div>

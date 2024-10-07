@@ -85,7 +85,11 @@ export default function CardProduct({ props, id }) {
             </p>
           </div>
           <div>
-            Sản phẩm: <span className="text-primary">Gmail</span>
+            Sản phẩm:{" "}
+            <span className="text-primary">
+              {" "}
+              {props?.subCategory?.subCategory}
+            </span>
           </div>
           {renderContentWithLineBreaks(props.content)}
         </div>
