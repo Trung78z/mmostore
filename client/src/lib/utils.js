@@ -124,17 +124,20 @@ export function formatDatePost(date) {
   );
 }
 
-export const renderContentWithLineBreaks = (contents, length = 70) => {
+export const renderContentWithLineBreaks = (contents, length = 145) => {
   return (
     <ul className="mb-0">
       {contents &&
-        contents.split("\n").map((line, index) => {
-          return (
-            <Fragment key={index}>
-              <li className="ml-2 list-disc"> {formatContent(line, length)}</li>
-            </Fragment>
-          );
-        })}
+        formatContent(contents, length)
+          .split("\n")
+          .filter((line) => line.trim()) // Lọc bỏ các dòng chỉ chứa khoảng trắng
+          .map((line, index) => {
+            return (
+              <Fragment key={index}>
+                <li className="ml-2 list-disc">{line}</li>
+              </Fragment>
+            );
+          })}
     </ul>
   );
 };
